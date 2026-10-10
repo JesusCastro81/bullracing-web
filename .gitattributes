@@ -1,0 +1,9 @@
+# Finales de línea consistentes entre Windows y el servidor (Linux)
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.woff2 binary
+*.docx binary
+*.pdf binary

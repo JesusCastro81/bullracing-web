@@ -1,0 +1,39 @@
+# =====================================================================
+# Motos Bull Racing - .gitignore en modo LISTA BLANCA
+# La raíz del repo es una instalación completa de WordPress.
+# Se ignora TODO y solo se permite el código propio del proyecto.
+# =====================================================================
+
+# 1) Ignorar todo lo que está en la raíz...
+/*
+
+# 2) ...menos estos archivos y carpetas del proyecto
+!/.gitignore
+!/.gitattributes
+!/.editorconfig
+!/README.md
+!/docs/
+!/dev/
+!/wp-content/
+
+# 3) Dentro de wp-content, solo nuestro tema y nuestros plugins
+/wp-content/*
+!/wp-content/themes/
+/wp-content/themes/*
+!/wp-content/themes/bullracing/
+!/wp-content/plugins/
+/wp-content/plugins/*
+!/wp-content/plugins/bullracing-*/
+
+# 4) Nunca, aunque esté dentro de lo permitido
+wp-config.php
+*.sql
+*.sql.gz
+*.gz
+*.zip
+*.log
+*.bak
+node_modules/
+.DS_Store
+Thumbs.db
+desktop.ini

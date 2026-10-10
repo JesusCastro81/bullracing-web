@@ -1,0 +1,46 @@
+/* =========================================================
+   Bull Racing · Estilos base
+   Colores de marca: rojo, negro y blanco.
+   ========================================================= */
+
+:root {
+  --br-rojo: #d91e18;
+  --br-rojo-oscuro: #b3140f;
+  --br-negro: #09090b;
+  --br-gris-900: #18181b;
+  --br-gris-800: #27272a;
+  --br-gris-100: #f4f4f5;
+  --br-blanco: #ffffff;
+  --br-fuente: "Poppins", system-ui, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--br-fuente);
+  color: var(--br-gris-900);
+  background: var(--br-blanco);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.br-whatsapp {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 50;
+  padding: 14px 18px;
+  border-radius: 999px;
+  background: #25d366;
+  color: var(--br-blanco);
+  font-weight: 700;
+  text-decoration: none;
+}
