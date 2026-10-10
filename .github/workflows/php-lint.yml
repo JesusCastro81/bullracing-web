@@ -1,0 +1,32 @@
+name: Revisión de sintaxis PHP
+
+on:
+  pull_request:
+    branches: [develop, main]
+  push:
+    branches: [develop, main]
+
+permissions:
+  contents: read
+
+jobs:
+  php-lint:
+    name: php -l (PHP 8.1)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      - name: Instalar PHP 8.1
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          coverage: none
+
+      - name: Revisar sintaxis de todos los archivos PHP
+        run: |
+          errores=0
+          while IFS= read -r -d '' archivo; do
+            php -l "$archivo" > /dev/null || errores=1
+          done < <(find . -name '*.php' -not -path './vendor/*' -print0)
+          exit $errores
