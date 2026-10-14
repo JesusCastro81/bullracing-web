@@ -1,0 +1,73 @@
+/* =========================================================
+   Bull Racing · Tokens de diseño
+   Nivel 1: paleta de marca (no cambia entre diseños).
+   Nivel 2: tokens semánticos (cada skin los redefine).
+   Regla: en el resto del CSS solo se usan tokens del nivel 2,
+   nunca colores escritos a mano.
+   ========================================================= */
+
+:root {
+  /* ---- Nivel 1: paleta ---- */
+  --paleta-rojo: #d91e18;
+  --paleta-rojo-oscuro: #b3140f;
+  --paleta-negro: #09090b;
+  --paleta-gris-900: #18181b;
+  --paleta-gris-800: #27272a;
+  --paleta-gris-500: #71717a;
+  --paleta-gris-400: #a1a1aa;
+  --paleta-gris-200: #e4e4e7;
+  --paleta-gris-100: #f4f4f5;
+  --paleta-blanco: #ffffff;
+  --paleta-amarillo: #facc15;
+  --paleta-whatsapp: #25d366;
+
+  /* ---- Nivel 2: semánticos (valores por defecto) ---- */
+  --color-fondo: var(--paleta-blanco);
+  --color-superficie: var(--paleta-gris-100);
+  --color-texto: var(--paleta-gris-900);
+  --color-texto-suave: var(--paleta-gris-500);
+  --color-borde: var(--paleta-gris-200);
+  --color-acento: var(--paleta-rojo);
+  --color-acento-hover: var(--paleta-rojo-oscuro);
+  --color-sobre-acento: var(--paleta-blanco);
+  --color-estrellas: var(--paleta-amarillo);
+  --color-whatsapp: var(--paleta-whatsapp);
+
+  --color-header-fondo: var(--paleta-negro);
+  --color-header-texto: var(--paleta-blanco);
+  --color-footer-fondo: var(--paleta-negro);
+  --color-footer-texto: var(--paleta-gris-400);
+
+  /* Tipografía */
+  --fuente-base: "Poppins", system-ui, sans-serif;
+  --fuente-titulos: var(--fuente-base);
+  --texto-s: 0.875rem;
+  --texto-m: 1rem;
+  --texto-l: 1.25rem;
+  --texto-xl: 2rem;
+  --texto-xxl: clamp(2.5rem, 6vw, 4.5rem);
+
+  /* Espacios */
+  --espacio-xs: 4px;
+  --espacio-s: 8px;
+  --espacio-m: 16px;
+  --espacio-l: 32px;
+  --espacio-xl: 64px;
+  --ancho-contenido: 1200px;
+
+  /* Bordes y sombras */
+  --radio-s: 6px;
+  --radio-m: 12px;
+  --radio-l: 24px;
+  --radio-boton: 999px;
+  --sombra-tarjeta: 0 4px 16px rgb(0 0 0 / 0.08);
+
+  /* Movimiento */
+  --transicion: 180ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transicion: 0ms;
+  }
+}
