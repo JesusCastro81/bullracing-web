@@ -1,0 +1,10 @@
+/* =========================================================
+   Skin BASE (neutra)
+   Se usa mientras no se active la piel del diseño escogido.
+   Una skin SOLO redefine tokens del nivel 2 y, si hace falta,
+   detalles visuales propios. No cambia la estructura.
+   ========================================================= */
+
+:root {
+  /* La base usa los valores por defecto de tokens.css. */
+}
