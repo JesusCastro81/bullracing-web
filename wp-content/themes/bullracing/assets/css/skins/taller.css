@@ -263,11 +263,13 @@ h2 {
 }
 
 .br-hero__cotizar {
+  --taller-verde-cotizar: #15803d; /* Verde WhatsApp oscuro: texto blanco legible (contraste AA) */
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 12px 22px;
-  border: 2px solid var(--paleta-blanco);
+  border: 2px solid var(--taller-verde-cotizar);
+  background: var(--taller-verde-cotizar);
   color: var(--paleta-blanco);
   font-size: 15px;
   font-weight: 600;
@@ -276,11 +278,29 @@ h2 {
 }
 
 .br-hero__cotizar:hover {
-  border-color: var(--color-acento);
+  border-color: var(--paleta-blanco);
   color: var(--paleta-blanco);
 }
 
 /* Barra blanca: ver el precio antes de agendar */
+/* Marco "de taller": punteado alrededor + esquinas rojas.
+   Lo usan la barra de agendar y el botón de cotizar por WhatsApp. */
+.br-cotizador,
+.br-hero__cotizar {
+  --marco-rojo: var(--color-acento);
+  --marco-largo: 22px;
+  --marco-grosor: 3px;
+  --marco-separacion: 8px;
+  position: relative;
+  outline: 2px dashed var(--paleta-gris-400);
+  outline-offset: var(--marco-separacion);
+}
+
+.br-hero__cotizar {
+  --marco-largo: 14px;
+  --marco-separacion: 6px;
+}
+
 .br-cotizador {
   display: grid;
   grid-template-columns: 1.1fr 1.1fr 1fr auto;
@@ -289,6 +309,24 @@ h2 {
   background: var(--paleta-gris-100);
   color: var(--paleta-negro);
   box-shadow: 0 30px 60px rgb(0 0 0 / 0.5);
+}
+
+.br-cotizador::before,
+.br-hero__cotizar::before {
+  content: "";
+  position: absolute;
+  inset: calc(-2px - var(--marco-separacion) - 2px); /* sobre la línea punteada (borde + separación + grosor) */
+  pointer-events: none;
+  background:
+    linear-gradient(var(--marco-rojo), var(--marco-rojo)) top left / var(--marco-largo) var(--marco-grosor),
+    linear-gradient(var(--marco-rojo), var(--marco-rojo)) top left / var(--marco-grosor) var(--marco-largo),
+    linear-gradient(var(--marco-rojo), var(--marco-rojo)) top right / var(--marco-largo) var(--marco-grosor),
+    linear-gradient(var(--marco-rojo), var(--marco-rojo)) top right / var(--marco-grosor) var(--marco-largo),
+    linear-gradient(var(--marco-rojo), var(--marco-rojo)) bottom left / var(--marco-largo) var(--marco-grosor),
+    linear-gradient(var(--marco-rojo), var(--marco-rojo)) bottom left / var(--marco-grosor) var(--marco-largo),
+    linear-gradient(var(--marco-rojo), var(--marco-rojo)) bottom right / var(--marco-largo) var(--marco-grosor),
+    linear-gradient(var(--marco-rojo), var(--marco-rojo)) bottom right / var(--marco-grosor) var(--marco-largo);
+  background-repeat: no-repeat;
 }
 
 .br-cotizador__campo {
@@ -307,8 +345,10 @@ h2 {
 .br-cotizador__campo select,
 .br-cotizador__fecha span {
   width: 100%;
-  padding: 0;
+  margin-top: 6px;
+  padding: 8px 0 0;
   border: 0;
+  border-top: 2px dashed var(--paleta-gris-400); /* Línea punteada como en las fichas de planes */
   background: transparent;
   font: 600 17px var(--fuente-base);
   letter-spacing: 0;

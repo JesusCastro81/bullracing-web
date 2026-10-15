@@ -20,6 +20,7 @@ Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 - Script `dev/verificar.ps1` para revisar el proyecto antes de cada Pull Request.
 
 ### Cambiado
+- Hero: botón "Cotizar por WhatsApp" en verde, línea punteada en los campos de la barra y marco punteado con esquinas rojas en la barra y en el botón de cotizar.
 - Footer: el asesor técnico se nombra completo, TecnoParque Nodo Bogotá · SENA.
 - Orden de carga de estilos: la skin carga después de `main.css` para que sus ajustes apliquen.
 - Se quitó el botón Agendar del header (en el diseño 1 el agendar está en el hero).
