@@ -1,0 +1,106 @@
+/* =========================================================
+   Skin TALLER INDUSTRIAL (Diseño 1)
+   Negro dominante, rojo de acento, letras tipo esténcil y
+   detalles "de taller" (rejilla, rayas, datos en mono).
+   Solo redefine tokens del nivel 2 y detalles visuales.
+   Los colores salen de la paleta de marca (tokens.css).
+   ========================================================= */
+
+/* Fuentes de esta piel, alojadas en el tema (licencia SIL OFL 1.1, sin internet).
+   Son fuentes variables: un solo archivo cubre varios grosores. */
+@font-face {
+  font-family: "Big Shoulders Stencil Display";
+  font-style: normal;
+  font-weight: 700 900;
+  font-display: swap;
+  src: url("../../fonts/big-shoulders-stencil.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("../../fonts/jetbrains-mono.woff2") format("woff2");
+}
+
+:root {
+  /* Colores: misma marca, más proporción de negro */
+  --color-fondo: var(--paleta-negro);
+  --color-superficie: var(--paleta-gris-900);
+  --color-texto: var(--paleta-gris-100);
+  --color-texto-suave: var(--paleta-gris-400);
+  --color-borde: var(--paleta-gris-800);
+  --color-acento: var(--paleta-rojo);
+  --color-acento-hover: var(--paleta-rojo-oscuro);
+  --color-sobre-acento: var(--paleta-blanco);
+
+  --color-header-fondo: var(--paleta-negro);
+  --color-header-texto: var(--paleta-blanco);
+  --color-footer-fondo: var(--paleta-negro);
+  --color-footer-texto: var(--paleta-gris-400);
+
+  /* Tipografía: títulos esténcil, datos en mono */
+  --fuente-titulos: "Big Shoulders Stencil Display", var(--fuente-base);
+  --fuente-mono: "JetBrains Mono", ui-monospace, monospace;
+  --texto-xl: clamp(2.5rem, 5vw, 4.75rem);
+  --texto-xxl: clamp(3.5rem, 9vw, 7rem);
+
+  /* Bordes rectos, estilo industrial */
+  --radio-s: 0;
+  --radio-m: 0;
+  --radio-l: 0;
+  --radio-boton: 0;
+  --sombra-tarjeta: 0 20px 40px rgb(0 0 0 / 0.45);
+}
+
+/* ---------- Detalles propios de esta piel ---------- */
+
+/* Títulos grandes en mayúscula, como placas del taller */
+h1,
+h2 {
+  font-weight: 900;
+  line-height: 0.9;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Botones: letra esténcil en mayúscula */
+.br-boton {
+  font-family: var(--fuente-titulos);
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* Menú en mayúscula con espaciado */
+.br-header .br-menu a {
+  font-size: var(--texto-s);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.br-header {
+  border-bottom: 1px solid var(--color-borde);
+}
+
+/* Fondo con rayas diagonales para secciones "de taller" */
+.br-skin-rayas {
+  background-color: var(--color-superficie);
+  background-image: repeating-linear-gradient(45deg, rgb(255 255 255 / 0.018) 0 2px, transparent 2px 14px);
+  border-block: 1px solid var(--color-borde);
+}
+
+/* Etiqueta tipo código: // PLANES DE MANTENIMIENTO */
+.br-skin-etiqueta {
+  font-family: var(--fuente-mono);
+  font-size: var(--texto-s);
+  letter-spacing: 2px;
+  color: var(--color-acento);
+  text-transform: uppercase;
+}
+
+.br-skin-etiqueta::before {
+  content: "// ";
+}

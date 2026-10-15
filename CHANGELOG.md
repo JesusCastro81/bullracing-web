@@ -6,6 +6,7 @@ Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 ## [Sin publicar]
 
 ### Agregado
+- Piel "Taller industrial" (Diseño 1): colores, letras esténcil y mono locales.
 - Tokens de diseño (`tokens.css`) en dos niveles: paleta de marca y tokens semánticos.
 - Sistema de skins (`assets/css/skins/`) con la skin `base` neutra.
 - Fuente Poppins local: el tema funciona sin internet.

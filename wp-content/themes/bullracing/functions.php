@@ -14,7 +14,7 @@ define( 'BULLRACING_TEMA_VERSION', '0.2.0' );
  * Skin activa: el diseño visual escogido. Cambiar de diseño = cambiar este valor
  * (y tener su archivo en assets/css/skins/).
  */
-define( 'BULLRACING_SKIN', 'base' );
+define( 'BULLRACING_SKIN', 'taller' );
 
 require_once get_template_directory() . '/inc/datos-taller.php';
 
