@@ -6,6 +6,7 @@ Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 ## [Sin publicar]
 
 ### Agregado
+- Sección "Así entra y así sale tu moto" (4 pasos del taller), enlazada desde "El taller" en el menú.
 - Header del inicio sobre la foto (igual al diseño), enlace "El taller" en el menú y botón flotante de WhatsApp en círculo.
 - Hero del inicio (Diseño 1): imagen actual, título, estrellas, cotizar por WhatsApp, aviso de taller abierto/cerrado (horario, domingos y festivos) y barra con el precio según las tarifas del agendamiento.
 - Piel "Taller industrial" (Diseño 1): colores, letras esténcil y mono locales.

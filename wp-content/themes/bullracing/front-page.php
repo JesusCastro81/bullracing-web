@@ -12,6 +12,7 @@ get_header();
 
 $secciones = array(
 	'hero',        // Imagen actual + agendar + cotizar por WhatsApp.
+	'taller',      // Así entra y así sale tu moto (4 pasos).
 	'planes',      // Planes de mantenimiento (precios desde bullracing-core).
 	'motolavado',  // Paquetes de motolavado (solo motos a gasolina).
 	'valoracion',  // Estrellas y reseñas de clientes.
