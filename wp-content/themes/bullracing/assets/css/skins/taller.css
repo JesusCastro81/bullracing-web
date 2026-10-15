@@ -85,6 +85,64 @@ h2 {
   border-bottom: 1px solid var(--color-borde);
 }
 
+/* =========================================================
+   HEADER del inicio: va encima de la foto del hero (igual al PDF).
+   En las páginas internas se queda con su fondo negro.
+   ========================================================= */
+.home .br-header {
+  position: absolute;
+  inset: 0 0 auto;
+  border-bottom: 0;
+  background: transparent;
+}
+
+.br-header__fila {
+  justify-content: flex-start;
+}
+
+.br-header__logo img,
+.br-header__logo .custom-logo {
+  height: 68px;
+  max-height: 68px;
+}
+
+.br-header__nav {
+  margin-left: var(--espacio-l);
+}
+
+.br-header .br-menu {
+  gap: 32px;
+}
+
+.br-header .br-menu a {
+  color: var(--paleta-gris-200);
+}
+
+.br-header .br-menu li:first-child a {
+  color: var(--paleta-blanco);
+}
+
+.br-header .br-menu a:hover {
+  color: var(--color-acento);
+}
+
+/* Botón flotante de WhatsApp: círculo verde con el ícono */
+.br-whatsapp {
+  --taller-verde-whatsapp: #16a34a; /* Verde del botón en el diseño */
+  right: 28px;
+  bottom: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  border-radius: 50%;
+  background: var(--taller-verde-whatsapp);
+  color: var(--paleta-blanco);
+  box-shadow: 0 10px 30px rgb(0 0 0 / 0.4);
+}
+
 /* Fondo con rayas diagonales para secciones "de taller" */
 .br-skin-rayas {
   background-color: var(--color-superficie);
@@ -115,8 +173,8 @@ h2 {
   flex-direction: column;
   justify-content: space-between;
   gap: var(--espacio-xl);
-  min-height: 820px;
-  padding-block: 36px 40px;
+  min-height: min(900px, 100svh);
+  padding-block: 148px 40px; /* 112px del header encima + 36px del diseño */
   overflow: hidden;
   isolation: isolate;
 }
@@ -151,9 +209,7 @@ h2 {
 }
 
 .br-hero__estado {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
+  display: inline-block;
   margin: 0;
   padding: 8px 14px;
   border: 1px solid rgb(255 255 255 / 0.25);
@@ -163,6 +219,9 @@ h2 {
 }
 
 .br-hero__punto {
+  display: inline-block;
+  margin-right: 10px;
+  vertical-align: 1px;
   width: 9px;
   height: 9px;
   border-radius: 50%;
@@ -304,6 +363,16 @@ h2 {
 @media (max-width: 860px) {
   .br-hero {
     min-height: 0;
+    padding-top: 112px;
+  }
+
+  .br-header__nav {
+    margin-left: 0;
+  }
+
+  .br-header__logo img,
+  .br-header__logo .custom-logo {
+    height: 48px;
   }
 
   .br-cotizador {

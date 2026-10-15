@@ -6,6 +6,7 @@ Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 ## [Sin publicar]
 
 ### Agregado
+- Header del inicio sobre la foto (igual al diseño), enlace "El taller" en el menú y botón flotante de WhatsApp en círculo.
 - Hero del inicio (Diseño 1): imagen actual, título, estrellas, cotizar por WhatsApp, aviso de taller abierto/cerrado (horario, domingos y festivos) y barra con el precio según las tarifas del agendamiento.
 - Piel "Taller industrial" (Diseño 1): colores, letras esténcil y mono locales.
 - Tokens de diseño (`tokens.css`) en dos niveles: paleta de marca y tokens semánticos.
@@ -18,6 +19,9 @@ Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 - Script `dev/verificar.ps1` para revisar el proyecto antes de cada Pull Request.
 
 ### Cambiado
+- Footer: el asesor técnico se nombra completo, TecnoParque Nodo Bogotá · SENA.
+- Orden de carga de estilos: la skin carga después de `main.css` para que sus ajustes apliquen.
+- Se quitó el botón Agendar del header (en el diseño 1 el agendar está en el hero).
 - `main.css` usa solo tokens; se quitaron los colores escritos a mano.
 - Se quitó la carga de Google Fonts.
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * Pie de página: datos del taller, redes, menú del pie y TecnoParque como asesor técnico.
+ * Pie de página: datos del taller, redes, menú del pie y TecnoParque Nodo Bogotá (SENA) como asesor técnico.
  *
  * @package BullRacing
  */
@@ -51,7 +51,7 @@ $redes  = array_filter( $taller['redes'] );
 	</div>
 
 	<div class="br-contenedor br-footer__base">
-		<p class="br-footer__asesor"><?php esc_html_e( 'Asesor técnico: TecnoParque SENA', 'bullracing' ); ?></p>
+		<p class="br-footer__asesor"><?php esc_html_e( 'Asesor técnico: TecnoParque Nodo Bogotá · SENA', 'bullracing' ); ?></p>
 		<p class="br-footer__copy">&copy; <?php echo esc_html( gmdate( 'Y' ) ); ?> <?php echo esc_html( $taller['nombre'] ); ?></p>
 	</div>
 </footer>

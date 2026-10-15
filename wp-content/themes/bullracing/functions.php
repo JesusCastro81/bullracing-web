@@ -37,7 +37,9 @@ function bullracing_setup(): void {
 add_action( 'after_setup_theme', 'bullracing_setup' );
 
 /**
- * Estilos y scripts. Orden de carga: fuentes → tokens → skin → main.
+ * Estilos y scripts. Orden de carga: fuentes → tokens → main → skin.
+ * La skin va de última para que sus ajustes visuales ganen sobre la estructura de main.css
+ * (los tokens del nivel 2 que redefine aplican igual en cualquier orden).
  * Todo es local: el sitio funciona sin conexión a servicios externos.
  */
 function bullracing_recursos(): void {
@@ -45,8 +47,8 @@ function bullracing_recursos(): void {
 
 	wp_enqueue_style( 'bullracing-fuentes', $uri . '/assets/fonts/fonts.css', array(), BULLRACING_TEMA_VERSION );
 	wp_enqueue_style( 'bullracing-tokens', $uri . '/assets/css/tokens.css', array( 'bullracing-fuentes' ), BULLRACING_TEMA_VERSION );
-	wp_enqueue_style( 'bullracing-skin', $uri . '/assets/css/skins/' . BULLRACING_SKIN . '.css', array( 'bullracing-tokens' ), BULLRACING_TEMA_VERSION );
-	wp_enqueue_style( 'bullracing-main', $uri . '/assets/css/main.css', array( 'bullracing-skin' ), BULLRACING_TEMA_VERSION );
+	wp_enqueue_style( 'bullracing-main', $uri . '/assets/css/main.css', array( 'bullracing-tokens' ), BULLRACING_TEMA_VERSION );
+	wp_enqueue_style( 'bullracing-skin', $uri . '/assets/css/skins/' . BULLRACING_SKIN . '.css', array( 'bullracing-main' ), BULLRACING_TEMA_VERSION );
 
 	wp_enqueue_script(
 		'bullracing-main',
@@ -85,6 +87,7 @@ function bullracing_menu_respaldo(): void {
 	$enlaces = array(
 		__( 'Planes', 'bullracing' )        => home_url( '/#planes' ),
 		__( 'Motolavado', 'bullracing' )    => home_url( '/#motolavado' ),
+		__( 'El taller', 'bullracing' )     => home_url( '/#taller' ),
 		__( 'Quiénes somos', 'bullracing' ) => bullracing_url_pagina( 'quienes-somos', '#nosotros' ),
 		__( 'Contacto', 'bullracing' )      => bullracing_url_pagina( 'contacto', '#contacto' ),
 	);

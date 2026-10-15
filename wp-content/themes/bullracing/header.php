@@ -51,17 +51,6 @@ $taller = bullracing_datos_taller();
 			);
 			?>
 		</nav>
-
-		<?php
-		bullracing_componente(
-			'boton',
-			array(
-				'texto' => __( 'Agendar', 'bullracing' ),
-				'url'   => bullracing_url_pagina( 'agendamiento', '#planes' ),
-				'clase' => 'br-header__agendar',
-			)
-		);
-		?>
 	</div>
 </header>
 
