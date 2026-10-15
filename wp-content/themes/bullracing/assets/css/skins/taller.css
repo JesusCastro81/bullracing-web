@@ -985,3 +985,96 @@ h2 {
     height: 380px;
   }
 }
+
+/* =========================================================
+   Sección: QUIÉNES SOMOS
+   ========================================================= */
+.br-nosotros {
+  background: #141416; /* Banda un poco más clara, como en el diseño */
+  border-block: 1px solid var(--paleta-gris-800);
+}
+
+.br-nosotros__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: center;
+  padding-block: 100px;
+}
+
+.br-nosotros__video {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  height: 420px;
+  padding: 20px;
+  border: 2px solid var(--paleta-gris-800);
+  background: #1c1c1f;
+  color: var(--paleta-gris-400);
+  font-size: 14px;
+  text-align: center;
+  text-decoration: none;
+}
+
+a.br-nosotros__video:hover {
+  color: var(--paleta-blanco);
+}
+
+.br-nosotros__play {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--color-acento);
+  color: var(--paleta-blanco);
+}
+
+.br-nosotros__texto {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.br-nosotros__texto .br-skin-etiqueta {
+  margin: 0;
+}
+
+.br-nosotros__titulo {
+  margin: 0;
+  font-size: clamp(3rem, 6vw, 4.75rem);
+}
+
+.br-nosotros__titulo span {
+  color: var(--color-acento);
+}
+
+.br-nosotros__historia {
+  margin: 0;
+  color: var(--color-texto-suave);
+  line-height: 1.7;
+}
+
+.br-nosotros__datos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 32px;
+  margin: 0;
+  font: 13px var(--fuente-mono);
+  color: var(--paleta-gris-200);
+}
+
+@media (max-width: 960px) {
+  .br-nosotros__grid {
+    grid-template-columns: 1fr;
+    gap: var(--espacio-l);
+    padding-block: var(--espacio-xl);
+  }
+
+  .br-nosotros__video {
+    height: 300px;
+  }
+}

@@ -6,6 +6,7 @@ Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 ## [Sin publicar]
 
 ### Agregado
+- Sección Quiénes somos (Diseño 1): años calculados desde el año de apertura, historia y video (pendientes de don Franz, se muestran los corchetes del diseño mientras tanto). Datos del taller: correo y enlaces reales de TikTok, Instagram y Facebook.
 - Sección de motolavado (Diseño 1): antes y después con deslizador (mouse, dedo y teclado) y los 4 paquetes con su precio "desde" según las tarifas del agendamiento. Fotos reales pendientes (filtro `bullracing_motolavado_fotos`).
 - Sección de planes (Diseño 1): fichas tipo orden de servicio, selector gasolina/eléctrica y tacómetro con el precio "desde" de cada plan según las tarifas del agendamiento. Lo que incluye cada plan está en `inc/datos-planes.php`, tal cual la página actual.
 - Sección "Así entra y así sale tu moto" (4 pasos del taller), enlazada desde "El taller" en el menú.

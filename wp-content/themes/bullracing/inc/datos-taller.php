@@ -18,15 +18,19 @@ function bullracing_datos_taller(): array {
 		'lema'         => 'Rueda libre, rueda seguro',
 		'whatsapp'     => '573115495983',
 		'telefono'     => '(57) 311 549 5983',
+		'correo'       => 'tienda@motosbullracing.com',
 		'direccion'    => 'Cra. 84 # 78-58, Bogotá', // Pendiente: confirmar con el taller.
 		'horario'      => 'Lunes a sábado · 8:00 a. m. – 6:00 p. m.', // Pendiente: confirmar con el taller.
 		'clientes'     => 166,
 		'calificacion' => 5,
+		'desde'        => 0,  // Pendiente: año en que abrió el taller (lo da don Franz).
+		'historia'     => '', // Pendiente: historia del taller contada por don Franz.
+		'video'        => '', // Pendiente: enlace del video corto (TikTok o Instagram).
 		'redes'        => array(
-			// Pendiente: enlaces reales del taller.
-			'Instagram' => '',
-			'TikTok'    => '',
-			'Facebook'  => '',
+			// Tomados de la página actual del taller.
+			'TikTok'    => 'https://www.tiktok.com/@motos.bull.racing',
+			'Instagram' => 'https://www.instagram.com/bullracing_motos/',
+			'Facebook'  => 'https://www.facebook.com/Bullracingmotos/',
 		),
 	);
 
