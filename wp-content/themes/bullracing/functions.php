@@ -17,6 +17,7 @@ define( 'BULLRACING_TEMA_VERSION', '0.2.0' );
 define( 'BULLRACING_SKIN', 'taller' );
 
 require_once get_template_directory() . '/inc/datos-taller.php';
+require_once get_template_directory() . '/inc/datos-planes.php';
 
 /**
  * Soportes del tema.

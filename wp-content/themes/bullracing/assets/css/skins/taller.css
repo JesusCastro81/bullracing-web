@@ -152,10 +152,12 @@ h2 {
 
 /* Etiqueta tipo código: // PLANES DE MANTENIMIENTO */
 .br-skin-etiqueta {
+  --taller-rojo-claro: #ff4d45; /* Rojo del diseño para texto pequeño sobre negro (se lee mejor) */
+  margin: 0 0 10px;
   font-family: var(--fuente-mono);
-  font-size: var(--texto-s);
+  font-size: 13px;
   letter-spacing: 2px;
-  color: var(--color-acento);
+  color: var(--taller-rojo-claro);
   text-transform: uppercase;
 }
 
@@ -522,5 +524,269 @@ h2 {
 @media (max-width: 520px) {
   .br-taller__pasos {
     grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================================
+   Sección: PLANES (fichas de orden de servicio + tacómetro)
+   ========================================================= */
+.br-planes {
+  padding-block: 100px;
+}
+
+.br-planes__cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 32px;
+  margin-bottom: 40px;
+}
+
+.br-planes__titulo {
+  margin: 0;
+  font-size: clamp(3rem, 6vw, 4.75rem);
+}
+
+.br-planes__motores {
+  display: inline-flex;
+  border: 2px solid var(--paleta-gris-800);
+}
+
+.br-planes__motor {
+  min-height: 44px;
+  padding: 12px 22px;
+  border: 0;
+  background: transparent;
+  color: var(--paleta-gris-400);
+  font: 700 14px var(--fuente-base);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.br-planes__motor[aria-pressed="true"] {
+  background: var(--color-acento);
+  color: var(--paleta-blanco);
+}
+
+.br-planes__cuerpo {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 28px;
+  align-items: start;
+}
+
+.br-planes__fichas {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+  padding-top: 10px; /* espacio para la ficha elegida que sube */
+}
+
+/* Ficha tipo orden de servicio, con el borde de abajo "rasgado" */
+.br-ficha {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 360px;
+  padding: 18px 16px 16px;
+  border: 0;
+  background: var(--paleta-gris-100);
+  color: var(--paleta-negro);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  opacity: 0.92;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), 92% 100%, 84% calc(100% - 10px), 76% 100%, 68% calc(100% - 10px), 60% 100%, 52% calc(100% - 10px), 44% 100%, 36% calc(100% - 10px), 28% 100%, 20% calc(100% - 10px), 12% 100%, 4% calc(100% - 10px), 0 100%);
+  transition: transform var(--transicion), opacity var(--transicion);
+}
+
+.br-ficha:hover {
+  opacity: 1;
+}
+
+.br-ficha[aria-pressed="true"] {
+  opacity: 1;
+  outline: 4px solid var(--color-acento);
+  outline-offset: -4px;
+  transform: translateY(-10px);
+}
+
+.br-ficha:focus-visible {
+  outline: 4px solid var(--paleta-negro);
+  outline-offset: -4px;
+}
+
+.br-ficha__codigo {
+  display: flex;
+  justify-content: space-between;
+  font: 11px var(--fuente-mono);
+  color: var(--paleta-gris-500);
+}
+
+.br-ficha__nombre {
+  font: 900 27px/1 var(--fuente-titulos);
+  text-transform: uppercase;
+}
+
+.br-ficha__lista {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 2px dashed var(--paleta-gris-400);
+}
+
+.br-ficha__lista[hidden] {
+  display: none;
+}
+
+.br-ficha__item {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  font-size: 12px;
+  line-height: 1.35;
+  color: var(--paleta-gris-800);
+}
+
+.br-ficha__check {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 13px;
+  height: 13px;
+  border: 2px solid var(--paleta-negro);
+  color: var(--color-acento);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.br-ficha__precio {
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 2px solid var(--paleta-negro);
+  font: 700 17px var(--fuente-mono);
+}
+
+.br-ficha[aria-pressed="true"] .br-ficha__precio {
+  color: var(--color-acento);
+}
+
+.br-ficha.is-no-aplica .br-ficha__precio {
+  color: var(--paleta-gris-500);
+}
+
+/* Tacómetro */
+.br-tacometro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 28px;
+  border: 2px solid var(--paleta-gris-800);
+  background: var(--paleta-negro);
+  text-align: center;
+}
+
+.br-tacometro p {
+  margin: 0;
+}
+
+.br-tacometro__etiqueta {
+  font: 12px var(--fuente-mono);
+  letter-spacing: 2px;
+  color: var(--paleta-gris-400);
+  text-transform: uppercase;
+}
+
+.br-tacometro__svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.br-tacometro__fondo { stroke: var(--paleta-gris-800); }
+.br-tacometro__zona { stroke: var(--color-acento); }
+.br-tacometro__marcas { stroke: var(--paleta-gris-500); }
+.br-tacometro__aguja { stroke: var(--paleta-blanco); }
+.br-tacometro__centro { fill: var(--color-acento); }
+
+.br-tacometro__aguja {
+  transform-origin: 150px 160px;
+  transform: rotate(-90deg);
+  transition: transform 0.6s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+
+.br-tacometro__precio {
+  font: 900 64px/1 var(--fuente-titulos);
+  color: var(--paleta-blanco);
+}
+
+.br-tacometro__detalle {
+  font-size: 14px;
+  color: var(--paleta-gris-400);
+}
+
+.br-tacometro__agendar {
+  width: 100%;
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--color-acento);
+  color: var(--paleta-blanco);
+  font: 800 24px var(--fuente-titulos);
+  letter-spacing: 1px;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background var(--transicion);
+}
+
+.br-tacometro__agendar:hover {
+  background: var(--color-acento-hover);
+  color: var(--paleta-blanco);
+}
+
+.br-tacometro__nota {
+  margin-top: 4px !important;
+  font-size: 12px;
+  color: var(--paleta-gris-500);
+}
+
+@media (max-width: 1100px) {
+  .br-planes__cuerpo {
+    grid-template-columns: 1fr;
+  }
+
+  .br-tacometro {
+    max-width: 420px;
+    width: 100%;
+    margin-inline: auto;
+  }
+}
+
+@media (max-width: 860px) {
+  .br-planes {
+    padding-block: var(--espacio-xl);
+  }
+
+  /* En celular las fichas se deslizan de lado */
+  .br-planes__fichas {
+    grid-template-columns: repeat(5, minmax(200px, 1fr));
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: var(--espacio-s);
+  }
+
+  .br-ficha {
+    scroll-snap-align: start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .br-tacometro__aguja,
+  .br-ficha {
+    transition: none;
   }
 }

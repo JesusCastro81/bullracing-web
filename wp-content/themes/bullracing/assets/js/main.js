@@ -118,6 +118,71 @@
 
   document.querySelectorAll('[data-br-cotizador]').forEach(iniciarCotizador);
 
+  /* ---------- Planes: fichas + tacómetro ---------- */
+
+  const NOMBRE_MOTOR = { gasolina: 'moto a gasolina', electrica: 'moto eléctrica' };
+
+  const iniciarPlanes = (seccion) => {
+    const botonesMotor = [...seccion.querySelectorAll('[data-br-motor]')];
+    const fichas = [...seccion.querySelectorAll('[data-br-plan]')];
+    const aguja = seccion.querySelector('[data-br-aguja]');
+    const precioGrande = seccion.querySelector('[data-br-precio-grande]');
+    const planNombre = seccion.querySelector('[data-br-plan-nombre]');
+    const motorNombre = seccion.querySelector('[data-br-motor-nombre]');
+
+    const precioDe = (ficha, motor) => Number(ficha.dataset[`precio${motor[0].toUpperCase()}${motor.slice(1)}`] || 0);
+    const texto = (valor) => (valor ? formatoPrecio.format(valor) : 'No aplica');
+
+    // Escala del tacómetro: el plan más caro queda casi al tope (como en el diseño).
+    const todos = fichas.flatMap((f) => ['gasolina', 'electrica'].map((m) => precioDe(f, m)));
+    const escala = Math.ceil((Math.max(...todos, 1) * 1.125) / 50000) * 50000;
+
+    let motor = 'gasolina';
+    let elegida = fichas.find((f) => f.getAttribute('aria-pressed') === 'true') || fichas[0];
+
+    const pintar = () => {
+      botonesMotor.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.brMotor === motor)));
+
+      fichas.forEach((f) => {
+        const valor = precioDe(f, motor);
+        f.setAttribute('aria-pressed', String(f === elegida));
+        f.classList.toggle('is-no-aplica', !valor);
+        f.querySelector('[data-br-ficha-precio]').textContent = texto(valor);
+        f.querySelectorAll('[data-br-lista]').forEach((l) => {
+          l.hidden = l.dataset.brLista !== motor;
+        });
+      });
+
+      const valor = precioDe(elegida, motor);
+      precioGrande.textContent = texto(valor);
+      planNombre.textContent = elegida.dataset.brPlan;
+      motorNombre.textContent = NOMBRE_MOTOR[motor];
+      aguja.style.transform = `rotate(${-90 + Math.min(valor / escala, 1) * 180}deg)`;
+    };
+
+    botonesMotor.forEach((b) =>
+      b.addEventListener('click', () => {
+        motor = b.dataset.brMotor;
+        // Si el plan elegido no aplica para este motor, se pasa al recomendado.
+        if (!precioDe(elegida, motor)) {
+          elegida = fichas.find((f) => precioDe(f, motor)) || elegida;
+        }
+        pintar();
+      })
+    );
+
+    fichas.forEach((f) =>
+      f.addEventListener('click', () => {
+        elegida = f;
+        pintar();
+      })
+    );
+
+    pintar();
+  };
+
+  document.querySelectorAll('[data-br-planes]').forEach(iniciarPlanes);
+
   /* ---------- Hero: taller abierto / cerrado ---------- */
 
   // Horario del taller: lunes a sábado de 8:00 a 18:00, hora de Bogotá. Cerrado domingos y festivos.
