@@ -790,3 +790,198 @@ h2 {
     transition: none;
   }
 }
+
+/* =========================================================
+   Sección: MOTOLAVADO (antes y después + paquetes)
+   ========================================================= */
+.br-lavado {
+  padding-block: 110px;
+}
+
+.br-lavado__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: center;
+}
+
+/* Antes / después con deslizador */
+.br-comparar {
+  position: relative;
+  height: 520px;
+  overflow: hidden;
+  border: 2px solid var(--paleta-gris-800);
+  user-select: none;
+}
+
+.br-comparar__capa {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  padding: 20px;
+}
+
+.br-comparar__capa img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.br-comparar__capa--antes {
+  background: #1c1c1f; /* Recuadro de foto pendiente, como en el diseño */
+  color: var(--paleta-gris-500);
+}
+
+.br-comparar__capa--despues {
+  justify-content: flex-end;
+  background: #26262a;
+  color: var(--paleta-gris-400);
+  clip-path: inset(0 0 0 var(--corte));
+}
+
+.br-comparar__pendiente {
+  position: relative;
+  font-size: 13px;
+}
+
+.br-comparar__linea {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--corte);
+  width: 4px;
+  margin-left: -2px;
+  background: var(--paleta-blanco);
+  pointer-events: none;
+}
+
+.br-comparar__manija {
+  position: absolute;
+  top: 50%;
+  left: var(--corte);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  margin: -26px 0 0 -26px;
+  border: 3px solid var(--paleta-blanco);
+  border-radius: 50%;
+  background: var(--color-acento);
+  color: var(--paleta-blanco);
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.br-comparar__marca {
+  position: absolute;
+  top: 16px;
+  padding: 6px 10px;
+  font: 12px var(--fuente-mono);
+  color: var(--paleta-blanco);
+  pointer-events: none;
+}
+
+.br-comparar__marca--antes {
+  left: 16px;
+  background: var(--paleta-negro);
+}
+
+.br-comparar__marca--despues {
+  right: 16px;
+  background: var(--color-acento);
+}
+
+/* El rango cubre toda la foto y es invisible: se arrastra en cualquier parte */
+.br-comparar__rango {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: ew-resize;
+}
+
+.br-comparar:has(.br-comparar__rango:focus-visible) {
+  outline: 3px solid var(--color-acento);
+  outline-offset: 4px;
+}
+
+/* Texto y paquetes */
+.br-lavado__texto {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.br-lavado__texto .br-skin-etiqueta {
+  margin: 0;
+}
+
+.br-lavado__titulo {
+  margin: 0;
+  font-size: clamp(3.5rem, 7vw, 5.75rem);
+  line-height: 0.85;
+}
+
+.br-lavado__intro {
+  margin: 0;
+  color: var(--color-texto-suave);
+  line-height: 1.7;
+}
+
+.br-lavado__intro strong {
+  color: var(--paleta-blanco);
+}
+
+.br-lavado__paquetes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Paquete con forma de etiqueta (punta a la izquierda) */
+.br-paquete {
+  display: flex;
+  flex-direction: column;
+  padding: 18px 20px 18px 28px;
+  background: var(--paleta-gris-100);
+  color: var(--paleta-negro);
+  clip-path: polygon(14px 0, 100% 0, 100% 100%, 14px 100%, 0 50%);
+}
+
+.br-paquete--destacado {
+  background: var(--color-acento);
+  color: var(--paleta-blanco);
+}
+
+.br-paquete__nombre {
+  font: 900 26px var(--fuente-titulos);
+  text-transform: uppercase;
+}
+
+.br-paquete__precio {
+  font: 14px var(--fuente-mono);
+}
+
+@media (max-width: 960px) {
+  .br-lavado {
+    padding-block: var(--espacio-xl);
+  }
+
+  .br-lavado__grid {
+    grid-template-columns: 1fr;
+    gap: var(--espacio-l);
+  }
+
+  .br-comparar {
+    height: 380px;
+  }
+}

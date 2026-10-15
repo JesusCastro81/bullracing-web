@@ -183,6 +183,16 @@
 
   document.querySelectorAll('[data-br-planes]').forEach(iniciarPlanes);
 
+  /* ---------- Motolavado: antes y después ---------- */
+
+  // El deslizador es un <input type="range">: funciona con mouse, dedo y teclado.
+  document.querySelectorAll('[data-br-comparar]').forEach((caja) => {
+    const rango = caja.querySelector('[data-br-comparar-rango]');
+    const mover = () => caja.style.setProperty('--corte', `${rango.value}%`);
+    rango.addEventListener('input', mover);
+    mover();
+  });
+
   /* ---------- Hero: taller abierto / cerrado ---------- */
 
   // Horario del taller: lunes a sábado de 8:00 a 18:00, hora de Bogotá. Cerrado domingos y festivos.

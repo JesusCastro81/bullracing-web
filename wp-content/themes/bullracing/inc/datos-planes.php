@@ -55,18 +55,19 @@ function bullracing_datos_planes(): array {
 }
 
 /**
- * Precio "desde" de cada plan (el menor según cilindraje o potencia), por tipo de motor.
+ * Precio "desde" de cada plan o paquete (el menor según cilindraje o potencia), por tipo de motor.
  * Lee la tabla de bullracing-core; si el plugin no está activo devuelve un arreglo vacío.
  *
+ * @param string $servicio 'mantenimiento' o 'motolavado' (igual que en la tabla de tarifas).
  * @return array<string, array<string, int>> [ motor => [ plan => precio ] ]
  */
-function bullracing_precios_desde(): array {
+function bullracing_precios_desde( string $servicio = 'mantenimiento' ): array {
 	if ( ! class_exists( 'BullRacing_Tarifas' ) ) {
 		return array();
 	}
 
 	$desde = array();
-	foreach ( BullRacing_Tarifas::listar( 'mantenimiento' ) as $tarifa ) {
+	foreach ( BullRacing_Tarifas::listar( $servicio ) as $tarifa ) {
 		$motor  = (string) $tarifa['tipo_motor'];
 		$plan   = (string) $tarifa['plan'];
 		$precio = (int) $tarifa['precio'];
