@@ -3,6 +3,9 @@
  * Sección "motolavado" de la landing (diseño 1, igual al PDF): antes y después con
  * deslizador, y los 4 paquetes con su precio "desde" (tarifas del agendamiento).
  *
+ * Cada paquete lleva al formulario de agendamiento de la fase anterior
+ * (el cliente escoge ahí el paquete; el agendamiento no se modifica).
+ *
  * Fotos: mientras el taller no entregue fotos reales de antes y después, se muestran
  * los recuadros de "foto pendiente" del diseño. Para ponerlas se usa el filtro
  * 'bullracing_motolavado_fotos' (o se reemplazan las URL aquí).
@@ -13,7 +16,8 @@
 defined( 'ABSPATH' ) || exit;
 
 $desde     = bullracing_precios_desde( 'motolavado' )['gasolina'] ?? array();
-$destacado = 'Full Shine'; // El paquete resaltado en rojo, como en el diseño.
+$destacado   = 'Full Shine'; // El paquete resaltado en rojo, como en el diseño.
+$url_agendar = bullracing_url_pagina( 'agendamiento', '#motolavado' );
 
 $fotos = apply_filters(
 	'bullracing_motolavado_fotos',
@@ -60,14 +64,17 @@ $fotos = apply_filters(
 
 			<ul class="br-lavado__paquetes">
 				<?php foreach ( $desde as $paquete => $precio ) : ?>
-					<li class="br-paquete<?php echo $paquete === $destacado ? ' br-paquete--destacado' : ''; ?>">
-						<span class="br-paquete__nombre"><?php echo esc_html( $paquete ); ?></span>
-						<span class="br-paquete__precio">
-							<?php
-							/* translators: %s: precio */
-							echo esc_html( sprintf( __( 'desde %s', 'bullracing' ), '$' . number_format( $precio, 0, ',', '.' ) ) );
-							?>
-						</span>
+					<li>
+						<a class="br-paquete<?php echo $paquete === $destacado ? ' br-paquete--destacado' : ''; ?>" href="<?php echo esc_url( $url_agendar ); ?>">
+							<span class="br-paquete__nombre"><?php echo esc_html( $paquete ); ?></span>
+							<span class="br-paquete__precio">
+								<?php
+								/* translators: %s: precio */
+								echo esc_html( sprintf( __( 'desde %s', 'bullracing' ), '$' . number_format( $precio, 0, ',', '.' ) ) );
+								?>
+							</span>
+							<span class="br-paquete__agendar" aria-hidden="true"><?php esc_html_e( 'Agendar →', 'bullracing' ); ?></span>
+						</a>
 					</li>
 				<?php endforeach; ?>
 			</ul>

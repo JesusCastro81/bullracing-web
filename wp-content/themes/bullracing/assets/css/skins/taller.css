@@ -947,19 +947,66 @@ h2 {
   list-style: none;
 }
 
-/* Paquete con forma de etiqueta (punta a la izquierda) */
+/* Paquete con forma de etiqueta (punta a la izquierda). Es un enlace al agendamiento. */
 .br-paquete {
+  position: relative;
   display: flex;
   flex-direction: column;
+  height: 100%;
+  text-decoration: none;
+  transition: transform var(--transicion), background var(--transicion);
   padding: 18px 20px 18px 28px;
   background: var(--paleta-gris-100);
   color: var(--paleta-negro);
   clip-path: polygon(14px 0, 100% 0, 100% 100%, 14px 100%, 0 50%);
 }
 
+/* Al pasar el mouse (o con teclado) el paquete se pone rojo y aparece "Agendar →".
+   Mientras se señala otro paquete, Full Shine vuelve a blanco: solo hay un rojo a la vez. */
+.br-paquete:hover,
+.br-paquete:focus-visible,
 .br-paquete--destacado {
   background: var(--color-acento);
   color: var(--paleta-blanco);
+}
+
+.br-paquete:hover,
+.br-paquete:focus-visible {
+  transform: translateX(4px);
+}
+
+.br-lavado__paquetes:has(.br-paquete:hover, .br-paquete:focus-visible) .br-paquete--destacado:not(:hover, :focus-visible) {
+  background: var(--paleta-gris-100);
+  color: var(--paleta-negro);
+}
+
+.br-paquete:focus-visible {
+  outline: 3px solid var(--paleta-blanco);
+  outline-offset: 2px;
+}
+
+/* "Agendar →" aparece al pasar el mouse */
+.br-paquete__agendar {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  font: 700 12px var(--fuente-mono);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity var(--transicion);
+}
+
+.br-paquete:hover .br-paquete__agendar,
+.br-paquete:focus-visible .br-paquete__agendar {
+  opacity: 1;
+}
+
+/* En pantallas táctiles (sin mouse) la flecha se ve siempre */
+@media (hover: none) {
+  .br-paquete__agendar {
+    opacity: 1;
+  }
 }
 
 .br-paquete__nombre {

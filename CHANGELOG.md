@@ -23,6 +23,7 @@ Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 - Script `dev/verificar.ps1` para revisar el proyecto antes de cada Pull Request.
 
 ### Cambiado
+- Motolavado: cada paquete lleva al agendamiento; al pasar el mouse se pone rojo y aparece "Agendar →" (Full Shine queda rojo por defecto).
 - Hero: el botón pasa a "Cotizar mecánica general" con ícono de burbuja y teléfono (el verde ya indica WhatsApp), para diferenciarlo de la burbuja flotante.
 - Hero: botón "Cotizar por WhatsApp" en verde, línea punteada en los campos de la barra y marco punteado con esquinas rojas en la barra y en el botón de cotizar.
 - Footer: el asesor técnico se nombra completo, TecnoParque Nodo Bogotá · SENA.
