@@ -6,6 +6,7 @@ Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 ## [Sin publicar]
 
 ### Agregado
+- Hero del inicio (Diseño 1): imagen actual, título, estrellas, cotizar por WhatsApp, aviso de taller abierto/cerrado (horario, domingos y festivos) y barra con el precio según las tarifas del agendamiento.
 - Piel "Taller industrial" (Diseño 1): colores, letras esténcil y mono locales.
 - Tokens de diseño (`tokens.css`) en dos niveles: paleta de marca y tokens semánticos.
 - Sistema de skins (`assets/css/skins/`) con la skin `base` neutra.
