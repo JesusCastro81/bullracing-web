@@ -1256,3 +1256,235 @@ a.br-valoracion__calificar:hover {
     grid-template-columns: 1fr;
   }
 }
+
+/* =========================================================
+   Sección: CONTACTO (mosaico)
+   ========================================================= */
+.br-contacto__mosaico {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-rows: 210px;
+  gap: 12px;
+  padding-block: 40px 110px;
+}
+
+.br-contacto__mosaico p {
+  margin: 0;
+}
+
+.br-contacto__etiqueta {
+  font: 12px var(--fuente-mono);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.br-contacto__grande {
+  font: 900 34px/1 var(--fuente-titulos);
+  text-transform: uppercase;
+}
+
+/* Fotos (o recuadros de foto pendiente, como en el diseño) */
+.br-contacto__foto {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  margin: 0;
+  padding: 18px;
+  overflow: hidden;
+  border: 1px dashed var(--paleta-gris-800);
+  background: #1c1c1f;
+  color: var(--paleta-gris-400);
+  font-size: 13px;
+}
+
+.br-contacto__foto img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.br-contacto__foto--rampa {
+  grid-column: span 2;
+  grid-row: span 2;
+  padding: 22px;
+  font-size: 14px;
+}
+
+.br-contacto__clientes {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px;
+  background: var(--color-acento);
+  color: var(--paleta-blanco);
+}
+
+.br-contacto__estrellas {
+  font-size: 22px;
+  letter-spacing: 3px;
+}
+
+.br-contacto__clientes strong {
+  display: block;
+  font: 900 84px/0.85 var(--fuente-titulos);
+}
+
+.br-contacto__clientes p span {
+  display: block;
+  margin-top: 6px;
+  font: 12px var(--fuente-mono);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.br-contacto__redes {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px;
+  background: var(--paleta-gris-100);
+  color: var(--paleta-negro);
+}
+
+.br-contacto__redes ul {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.br-contacto__redes a {
+  color: var(--paleta-negro);
+  font: 800 26px var(--fuente-titulos);
+  text-decoration: none;
+}
+
+.br-contacto__redes a:hover {
+  color: var(--color-acento);
+}
+
+.br-contacto__horario {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px;
+  border: 2px solid var(--paleta-gris-800);
+  background: #1c1c1f;
+}
+
+.br-contacto__horario .br-contacto__etiqueta,
+.br-contacto__direccion .br-contacto__etiqueta {
+  color: var(--paleta-gris-400);
+}
+
+/* Mapa: recuadro con botón; el mapa real se carga al tocarlo */
+.br-contacto__mapa {
+  grid-column: span 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  overflow: hidden;
+  border: 1px dashed var(--paleta-gris-800);
+  background: #1c1c1f;
+  text-align: center;
+}
+
+.br-contacto__ver-mapa {
+  padding: 12px 26px;
+  border: 0;
+  background: var(--color-acento);
+  color: var(--paleta-blanco);
+  font: 800 20px var(--fuente-titulos);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background var(--transicion);
+}
+
+.br-contacto__ver-mapa:hover {
+  background: var(--color-acento-hover);
+}
+
+.br-contacto__mapa-nota {
+  color: var(--paleta-gris-500);
+  font-size: 13px;
+}
+
+.br-contacto__mapa-nota a {
+  color: var(--paleta-gris-200);
+}
+
+.br-contacto__iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.br-contacto__direccion {
+  grid-column: span 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  padding: 24px;
+  border: 2px solid var(--paleta-gris-800);
+  background: var(--paleta-negro);
+}
+
+.br-contacto__horario .br-contacto__grande {
+  font-size: clamp(20px, 1.8vw, 26px);
+}
+
+/* Cada parte del horario en su línea, sin partirse por la mitad */
+.br-contacto__horario .br-contacto__grande span {
+  display: block;
+  white-space: nowrap;
+}
+
+.br-contacto__direccion .br-contacto__grande {
+  font-size: clamp(28px, 3vw, 40px);
+}
+
+.br-contacto__datos {
+  color: var(--paleta-gris-400);
+  font-size: 14px;
+}
+
+.br-contacto__datos a {
+  color: inherit;
+}
+
+.br-contacto__datos a:hover {
+  color: var(--paleta-blanco);
+}
+
+@media (max-width: 960px) {
+  .br-contacto__mosaico {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: minmax(180px, auto);
+    padding-block: var(--espacio-l) var(--espacio-xl);
+  }
+}
+
+@media (max-width: 560px) {
+  .br-contacto__mosaico {
+    grid-template-columns: 1fr;
+  }
+
+  .br-contacto__foto--rampa,
+  .br-contacto__mapa,
+  .br-contacto__direccion {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .br-contacto__foto--rampa {
+    min-height: 260px;
+  }
+}

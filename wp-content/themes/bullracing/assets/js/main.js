@@ -213,6 +213,23 @@
     mover();
   });
 
+  /* ---------- Contacto: mapa que se carga al tocarlo ---------- */
+
+  // El mapa de Google no se carga con la página: solo cuando el cliente toca "Ver mapa".
+  document.querySelectorAll('[data-br-mapa]').forEach((caja) => {
+    const boton = caja.querySelector('[data-br-mapa-cargar]');
+    if (!boton) return;
+    boton.addEventListener('click', () => {
+      const mapa = document.createElement('iframe');
+      mapa.src = caja.dataset.brMapa;
+      mapa.title = 'Mapa con la dirección del taller';
+      mapa.loading = 'lazy';
+      mapa.referrerPolicy = 'no-referrer-when-downgrade';
+      mapa.className = 'br-contacto__iframe';
+      caja.replaceChildren(mapa);
+    });
+  });
+
   /* ---------- Hero: taller abierto / cerrado ---------- */
 
   // Horario del taller: lunes a sábado de 8:00 a 18:00, hora de Bogotá. Cerrado domingos y festivos.

@@ -6,6 +6,7 @@ Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 ## [Sin publicar]
 
 ### Agregado
+- Sección de contacto (Diseño 1): mosaico con fotos (pendientes), clientes satisfechos, redes reales, horario, dirección, teléfono (WhatsApp, sin correo: el contacto es solo por WhatsApp) y mapa de Google que se carga solo al tocar "Ver mapa".
 - Precarga del agendamiento: la barra del hero, "Agendar este plan" y los paquetes de motolavado mandan lo escogido y `precarga-agendamiento.js` lo marca en el formulario, sin modificar el agendamiento. Documentado en el README ("Conexión landing ↔ agendamiento").
 - Sección de valoración (Diseño 1): calificación y 3 reseñas. Sin nombres ni reseñas inventadas: se muestran corchetes hasta tener reseñas reales en `inc/datos-taller.php`.
 - Sección Quiénes somos (Diseño 1): años calculados desde el año de apertura, historia y video (pendientes de don Franz, se muestran los corchetes del diseño mientras tanto). Datos del taller: correo y enlaces reales de TikTok, Instagram y Facebook.
