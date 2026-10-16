@@ -27,6 +27,7 @@ Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 - Script `dev/verificar.ps1` para revisar el proyecto antes de cada Pull Request.
 
 ### Cambiado
+- Footer del Diseño 1 (tal cual el Word): logo, "Rueda libre, rueda seguro" y "Asesoría técnica: TecnoParque Nodo Bogotá · SENA" en recuadro punteado, sin enlace ni contacto. El logo de TecnoParque aparece solo al guardar `assets/img/tecnoparque-nodo-bogota.png` (o .svg). Segunda línea con © y enlace a Términos y condiciones.
 - `bullracing_url_pagina()` acepta el filtro `bullracing_url_pagina` (permite apuntar a otra página sin tocar el tema).
 - Versión del tema 0.3.0 para que los navegadores descarguen el CSS y JS nuevos.
 - Motolavado: cada paquete lleva al agendamiento; al pasar el mouse se pone rojo y aparece "Agendar →" (Full Shine queda rojo por defecto).

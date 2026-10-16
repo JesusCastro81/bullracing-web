@@ -1969,3 +1969,97 @@ a.br-valoracion__calificar:hover {
     padding-top: 110px;
   }
 }
+
+/* =========================================================
+   FOOTER (diseño 1, tal cual el Word)
+   ========================================================= */
+.br-footer {
+  margin-top: 0;
+  padding-block: 36px 20px;
+  border-top: 2px solid var(--color-acento);
+  background: #070708;
+  color: var(--paleta-gris-400);
+}
+
+.br-footer p {
+  margin: 0;
+}
+
+.br-footer__fila {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+
+.br-footer .br-footer__marca {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--paleta-blanco);
+  text-decoration: none;
+}
+
+.br-footer .br-footer__marca:hover {
+  color: var(--paleta-blanco);
+}
+
+.br-footer__marca img {
+  width: 52px;
+  height: 52px;
+}
+
+.br-footer__lema {
+  font: 900 26px var(--fuente-titulos);
+  text-transform: uppercase;
+}
+
+.br-footer__asesor {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+}
+
+/* Recuadro punteado: aquí va el logo de TecnoParque (sin enlace) */
+.br-footer__tecnoparque {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 10px 14px;
+  border: 1px dashed #52525b;
+  color: var(--paleta-gris-200);
+}
+
+.br-footer__tecnoparque img {
+  display: block;
+  width: auto;
+  height: 36px;
+}
+
+.br-footer__base {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 24px;
+  margin-top: 24px;
+  padding-top: 14px;
+  border-top: 1px solid var(--paleta-gris-800);
+  font-size: 12px;
+  color: var(--paleta-gris-500);
+}
+
+.br-footer__base a {
+  color: var(--paleta-gris-400);
+}
+
+.br-footer__base a:hover {
+  color: var(--paleta-blanco);
+}
+
+@media (max-width: 640px) {
+  .br-footer__lema {
+    font-size: 22px;
+  }
+}
