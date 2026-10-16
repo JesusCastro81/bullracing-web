@@ -27,6 +27,16 @@
 
   const unicos = (lista) => [...new Set(lista)];
 
+  /** Pone en un enlace de "Agendar" lo que escogió el cliente, para precargar el formulario. */
+  const enlaceConEleccion = (enlace, eleccion) => {
+    const url = new URL(enlace.getAttribute('href'), window.location.href);
+    ['servicio', 'motor', 'plan', 'referencia'].forEach((dato) => url.searchParams.delete(dato));
+    Object.entries(eleccion).forEach(([dato, valor]) => {
+      if (valor) url.searchParams.set(dato, valor);
+    });
+    enlace.setAttribute('href', url.toString());
+  };
+
   /* ---------- Hero: barra para ver el precio antes de agendar ---------- */
 
   // Grupos en el mismo orden del agendamiento.
@@ -92,6 +102,11 @@
               t.referencia === selReferencia.value
           );
           salidaPrecio.textContent = tarifa ? formatoPrecio.format(Number(tarifa.precio)) : '';
+
+          // "Escoge día y hora" y "Agendar" llevan lo escogido al formulario de agendamiento.
+          form.querySelectorAll('[data-br-agendar]').forEach((enlace) =>
+            enlaceConEleccion(enlace, { servicio, motor, plan, referencia: selReferencia.value })
+          );
         };
 
         llenarServicios();
@@ -129,6 +144,7 @@
     const precioGrande = seccion.querySelector('[data-br-precio-grande]');
     const planNombre = seccion.querySelector('[data-br-plan-nombre]');
     const motorNombre = seccion.querySelector('[data-br-motor-nombre]');
+    const agendar = seccion.querySelector('[data-br-agendar-plan]');
 
     const precioDe = (ficha, motor) => Number(ficha.dataset[`precio${motor[0].toUpperCase()}${motor.slice(1)}`] || 0);
     const texto = (valor) => (valor ? formatoPrecio.format(valor) : 'No aplica');
@@ -158,6 +174,10 @@
       planNombre.textContent = elegida.dataset.brPlan;
       motorNombre.textContent = NOMBRE_MOTOR[motor];
       aguja.style.transform = `rotate(${-90 + Math.min(valor / escala, 1) * 180}deg)`;
+
+      if (agendar) {
+        enlaceConEleccion(agendar, { servicio: 'mantenimiento', motor, plan: elegida.dataset.brPlan });
+      }
     };
 
     botonesMotor.forEach((b) =>

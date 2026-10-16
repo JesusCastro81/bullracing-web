@@ -6,6 +6,7 @@ Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 ## [Sin publicar]
 
 ### Agregado
+- Precarga del agendamiento: la barra del hero, "Agendar este plan" y los paquetes de motolavado mandan lo escogido y `precarga-agendamiento.js` lo marca en el formulario, sin modificar el agendamiento. Documentado en el README ("Conexión landing ↔ agendamiento").
 - Sección de valoración (Diseño 1): calificación y 3 reseñas. Sin nombres ni reseñas inventadas: se muestran corchetes hasta tener reseñas reales en `inc/datos-taller.php`.
 - Sección Quiénes somos (Diseño 1): años calculados desde el año de apertura, historia y video (pendientes de don Franz, se muestran los corchetes del diseño mientras tanto). Datos del taller: correo y enlaces reales de TikTok, Instagram y Facebook.
 - Sección de motolavado (Diseño 1): antes y después con deslizador (mouse, dedo y teclado) y los 4 paquetes con su precio "desde" según las tarifas del agendamiento. Fotos reales pendientes (filtro `bullracing_motolavado_fotos`).
@@ -24,6 +25,8 @@ Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 - Script `dev/verificar.ps1` para revisar el proyecto antes de cada Pull Request.
 
 ### Cambiado
+- `bullracing_url_pagina()` acepta el filtro `bullracing_url_pagina` (permite apuntar a otra página sin tocar el tema).
+- Versión del tema 0.3.0 para que los navegadores descarguen el CSS y JS nuevos.
 - Motolavado: cada paquete lleva al agendamiento; al pasar el mouse se pone rojo y aparece "Agendar →" (Full Shine queda rojo por defecto).
 - Hero: el botón pasa a "Cotizar mecánica general" con ícono de burbuja y teléfono (el verde ya indica WhatsApp), para diferenciarlo de la burbuja flotante.
 - Hero: botón "Cotizar por WhatsApp" en verde, línea punteada en los campos de la barra y marco punteado con esquinas rojas en la barra y en el botón de cotizar.

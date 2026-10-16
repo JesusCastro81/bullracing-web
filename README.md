@@ -89,6 +89,39 @@ En VS Code se abren tres terminales (Terminal → New Terminal) en la carpeta de
 
 **Vista previa:** http://localhost/bullracing-real (funciona sin internet).
 
+## Conexión landing ↔ agendamiento
+
+Los botones de agendar de la landing (barra del hero, "Agendar este plan" del tacómetro y los
+paquetes de motolavado) llevan al formulario de agendamiento **con lo escogido ya marcado**.
+Lo hace `assets/js/precarga-agendamiento.js`, que se carga solo en la página de agendamiento:
+lee los datos del enlace (`?servicio=…&motor=…&plan=…&referencia=…`) y escoge las mismas
+opciones en el formulario. **No modifica el agendamiento.**
+
+**Regla:** al cambiar la apariencia del agendamiento se puede cambiar todo menos el `id` de
+estas listas, porque la precarga las busca por ese nombre:
+
+| Lista del formulario | `id` |
+|---|---|
+| Tipo de servicio | `tipo_servicio` |
+| Tipo de vehículo | `engine_type` |
+| Combo de mantenimiento | `service_type` |
+| Referencia / cilindraje / potencia | `cyl_select` |
+| Paquete de motolavado | `motolavado_paquete` |
+| Cilindraje de motolavado | `motolavado_cc` |
+
+**Pruebas cada vez que se toque el agendamiento o la landing:**
+
+1. Barra del hero: Mantenimiento pro + 750W → Agendar → formulario con Eléctrica · Pro · 750W · $390.000.
+2. Barra del hero: Motolavado Cero KM + 151 cc - 250 cc → "Escoge día y hora" → formulario con Motolavado · Cero KM · 151 cc - 250 cc.
+3. Tacómetro: Eléctrica + General → Agendar este plan → formulario con Eléctrica · General.
+4. Paquete de motolavado Black Revive → formulario con Motolavado · Black Revive.
+5. Entrar a la página de agendamiento sin datos → abre normal.
+
+**En local**, mientras el agendamiento definitivo no esté instalado, el mu-plugin
+`wp-content/mu-plugins/local-agendamiento-prueba.php` (no está en el repo) hace que los botones
+lleven a `/prueba-agendamiento/`: el formulario definitivo de la fase TecnoParque sin cambios.
+Se borran los dos cuando el agendamiento quede instalado.
+
 ## Checklist antes de un Pull Request
 
 1. `.\dev\verificar.ps1 -ConServidor` termina en **TODO BIEN**.

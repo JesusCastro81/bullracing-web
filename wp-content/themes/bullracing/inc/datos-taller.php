@@ -58,8 +58,14 @@ function bullracing_url_pagina( string $slug, string $ancla_respaldo = '' ): str
 	$pagina = get_page_by_path( $slug );
 
 	if ( $pagina instanceof WP_Post && 'publish' === $pagina->post_status ) {
-		return get_permalink( $pagina );
+		$url = get_permalink( $pagina );
+	} else {
+		$url = home_url( '/' . $ancla_respaldo );
 	}
 
-	return home_url( '/' . $ancla_respaldo );
+	/**
+	 * Permite cambiar la dirección de una página sin tocar el tema.
+	 * Ej.: en local, 'agendamiento' apunta a la página de prueba (mu-plugin local, fuera del repo).
+	 */
+	return (string) apply_filters( 'bullracing_url_pagina', $url, $slug );
 }

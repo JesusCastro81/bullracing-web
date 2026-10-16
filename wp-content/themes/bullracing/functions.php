@@ -8,7 +8,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'BULLRACING_TEMA_VERSION', '0.2.0' );
+define( 'BULLRACING_TEMA_VERSION', '0.3.0' );
 
 /**
  * Skin activa: el diseño visual escogido. Cambiar de diseño = cambiar este valor
@@ -58,6 +58,18 @@ function bullracing_recursos(): void {
 		BULLRACING_TEMA_VERSION,
 		array( 'in_footer' => true, 'strategy' => 'defer' )
 	);
+
+	// En la página de agendamiento: precarga lo que el cliente escogió en la landing.
+	// No modifica el agendamiento, solo escoge sus opciones (ver el archivo).
+	if ( is_page( 'agendamiento' ) ) {
+		wp_enqueue_script(
+			'bullracing-precarga-agendamiento',
+			$uri . '/assets/js/precarga-agendamiento.js',
+			array(),
+			BULLRACING_TEMA_VERSION,
+			array( 'in_footer' => true )
+		);
+	}
 
 	// Datos que el JS necesita. Las tarifas las entrega la API de bullracing-core.
 	wp_localize_script(

@@ -3,8 +3,9 @@
  * Sección "hero" de la landing (piel Taller industrial), igual al diseño aprobado en el PDF.
  *
  * La barra blanca NO agrega funciones: usa las mismas opciones y tarifas del agendamiento
- * (API de bullracing-core) solo para mostrar el precio, y lleva al formulario de
- * agendamiento de la fase anterior, que es donde se escogen fecha y hora.
+ * (API de bullracing-core) para mostrar el precio, y lleva al formulario de agendamiento
+ * con lo escogido ya marcado (ver assets/js/precarga-agendamiento.js). Fecha y hora se
+ * escogen en el formulario.
  *
  * @package BullRacing
  */
@@ -74,11 +75,11 @@ $url_cotizar = bullracing_whatsapp_url( __( 'Hola, quiero cotizar un servicio de
 				<option><?php esc_html_e( 'Naked < 200', 'bullracing' ); ?></option>
 			</select>
 		</label>
-		<a class="br-cotizador__campo br-cotizador__fecha" href="<?php echo esc_url( $url_agendar ); ?>">
+		<a class="br-cotizador__campo br-cotizador__fecha" data-br-agendar href="<?php echo esc_url( $url_agendar ); ?>">
 			<?php esc_html_e( 'Fecha', 'bullracing' ); ?>
 			<span><?php esc_html_e( 'Escoge día y hora', 'bullracing' ); ?></span>
 		</a>
-		<a class="br-cotizador__agendar" href="<?php echo esc_url( $url_agendar ); ?>">
+		<a class="br-cotizador__agendar" data-br-agendar href="<?php echo esc_url( $url_agendar ); ?>">
 			<?php esc_html_e( 'Agendar', 'bullracing' ); ?>
 			<output class="br-cotizador__precio" data-br-precio aria-live="polite"></output>
 		</a>

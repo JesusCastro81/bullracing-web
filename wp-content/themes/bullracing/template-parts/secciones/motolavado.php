@@ -3,8 +3,8 @@
  * Sección "motolavado" de la landing (diseño 1, igual al PDF): antes y después con
  * deslizador, y los 4 paquetes con su precio "desde" (tarifas del agendamiento).
  *
- * Cada paquete lleva al formulario de agendamiento de la fase anterior
- * (el cliente escoge ahí el paquete; el agendamiento no se modifica).
+ * Cada paquete lleva al formulario de agendamiento con ese paquete ya escogido
+ * (ver assets/js/precarga-agendamiento.js; el agendamiento no se modifica).
  *
  * Fotos: mientras el taller no entregue fotos reales de antes y después, se muestran
  * los recuadros de "foto pendiente" del diseño. Para ponerlas se usa el filtro
@@ -65,7 +65,7 @@ $fotos = apply_filters(
 			<ul class="br-lavado__paquetes">
 				<?php foreach ( $desde as $paquete => $precio ) : ?>
 					<li>
-						<a class="br-paquete<?php echo $paquete === $destacado ? ' br-paquete--destacado' : ''; ?>" href="<?php echo esc_url( $url_agendar ); ?>">
+						<a class="br-paquete<?php echo $paquete === $destacado ? ' br-paquete--destacado' : ''; ?>" href="<?php echo esc_url( add_query_arg( array( 'servicio' => 'motolavado', 'plan' => rawurlencode( $paquete ) ), $url_agendar ) ); ?>">
 							<span class="br-paquete__nombre"><?php echo esc_html( $paquete ); ?></span>
 							<span class="br-paquete__precio">
 								<?php

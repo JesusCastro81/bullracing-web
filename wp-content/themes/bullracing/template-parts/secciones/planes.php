@@ -100,7 +100,7 @@ $valor_0 = $desde['gasolina'][ $plan_0 ] ?? null;
 					<?php esc_html_e( 'Plan', 'bullracing' ); ?> <span data-br-plan-nombre><?php echo esc_html( $plan_0 ); ?></span>
 					· <span data-br-motor-nombre><?php esc_html_e( 'moto a gasolina', 'bullracing' ); ?></span>
 				</p>
-				<a class="br-tacometro__agendar" href="<?php echo esc_url( $url_agendar ); ?>"><?php esc_html_e( 'Agendar este plan', 'bullracing' ); ?></a>
+				<a class="br-tacometro__agendar" data-br-agendar-plan href="<?php echo esc_url( $url_agendar ); ?>"><?php esc_html_e( 'Agendar este plan', 'bullracing' ); ?></a>
 				<p class="br-tacometro__nota"><?php esc_html_e( 'El valor final depende del cilindraje o potencia.', 'bullracing' ); ?></p>
 			</div>
 		</div>
