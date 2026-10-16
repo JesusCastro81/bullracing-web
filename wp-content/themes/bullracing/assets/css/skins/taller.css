@@ -1125,3 +1125,134 @@ a.br-nosotros__video:hover {
     height: 300px;
   }
 }
+
+/* =========================================================
+   Sección: VALORACIÓN
+   ========================================================= */
+.br-valoracion__grid {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 24px;
+  align-items: stretch;
+  padding-block: 100px 60px;
+}
+
+.br-valoracion__nota {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 32px;
+  background: var(--paleta-gris-100);
+  color: var(--paleta-negro);
+}
+
+.br-valoracion__nota p {
+  margin: 0;
+}
+
+.br-valoracion__etiqueta {
+  font: 12px var(--fuente-mono);
+  letter-spacing: 2px;
+  color: #52525b;
+  text-transform: uppercase;
+}
+
+.br-valoracion__promedio {
+  font: 900 96px/0.85 var(--fuente-titulos);
+}
+
+.br-valoracion__estrellas {
+  color: #b45309; /* Ámbar oscuro: se lee sobre fondo claro */
+  font-size: 26px;
+  letter-spacing: 4px;
+}
+
+.br-valoracion__total {
+  font-size: 14px;
+  color: #3f3f46;
+}
+
+.br-valoracion__calificar {
+  margin-top: auto;
+  color: var(--paleta-negro);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+a.br-valoracion__calificar:hover {
+  color: var(--color-acento);
+}
+
+.br-valoracion__resenas {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.br-resena {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 24px;
+  border: 1px solid var(--paleta-gris-800);
+  background: var(--paleta-gris-900);
+}
+
+.br-resena p {
+  margin: 0;
+}
+
+.br-resena__cabecera {
+  display: flex;
+  justify-content: space-between;
+}
+
+.br-resena__estrellas {
+  color: var(--color-estrellas);
+  letter-spacing: 2px;
+}
+
+.br-resena__fuente {
+  font: 11px var(--fuente-mono);
+  color: var(--paleta-gris-400);
+}
+
+.br-resena__texto {
+  margin: 0;
+  color: var(--paleta-gris-200);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.br-resena__cliente {
+  display: flex;
+  flex-direction: column;
+  margin-top: auto !important;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.br-resena__cliente span {
+  color: var(--paleta-gris-400);
+  font-size: 13px;
+  font-weight: 400;
+}
+
+@media (max-width: 1100px) {
+  .br-valoracion__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 860px) {
+  .br-valoracion__grid {
+    padding-block: var(--espacio-xl) var(--espacio-l);
+  }
+
+  .br-valoracion__resenas {
+    grid-template-columns: 1fr;
+  }
+}

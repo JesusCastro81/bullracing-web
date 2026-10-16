@@ -26,6 +26,9 @@ function bullracing_datos_taller(): array {
 		'desde'        => 0,  // Pendiente: año en que abrió el taller (lo da don Franz).
 		'historia'     => '', // Pendiente: historia del taller contada por don Franz.
 		'video'        => '', // Pendiente: enlace del video corto (TikTok o Instagram).
+		'promedio'      => '',      // Pendiente: calificación real en Google (ej. '4,9').
+		'url_calificar' => '',      // Pendiente: enlace para dejar reseña en Google.
+		'resenas'       => array(), // Pendiente: hasta 3 reseñas REALES: array( 'texto', 'nombre', 'moto', 'fuente' => 'Google' | 'TikTok' ).
 		'redes'        => array(
 			// Tomados de la página actual del taller.
 			'TikTok'    => 'https://www.tiktok.com/@motos.bull.racing',
