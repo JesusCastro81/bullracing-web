@@ -21,6 +21,7 @@ function bullracing_datos_taller(): array {
 		'correo'       => 'tienda@motosbullracing.com',
 		'direccion'    => 'Cra. 84 # 78-58, Bogotá', // Pendiente: confirmar con el taller.
 		'horario'      => 'Lunes a sábado · 8:00 a. m. – 6:00 p. m.', // Pendiente: confirmar con el taller.
+		'por_confirmar' => array( 'direccion', 'horario' ), // Datos que muestran [CONFIRMAR] en la página de Contacto. Vaciar cuando el taller los confirme.
 		'clientes'     => 166,
 		'calificacion' => 5,
 		'desde'        => 0,  // Pendiente: año en que abrió el taller (lo da don Franz).

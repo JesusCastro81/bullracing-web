@@ -230,6 +230,31 @@
     });
   });
 
+  /* ---------- Contacto: copiar número ---------- */
+
+  document.querySelectorAll('[data-br-copiar]').forEach((boton) => {
+    const textoOriginal = boton.textContent.trim();
+    boton.addEventListener('click', async () => {
+      const numero = boton.dataset.brCopiar;
+      try {
+        await navigator.clipboard.writeText(numero);
+      } catch (e) {
+        // Navegadores sin permiso de portapapeles: se copia con una caja de texto temporal.
+        const caja = Object.assign(document.createElement('textarea'), { value: numero });
+        document.body.append(caja);
+        caja.select();
+        document.execCommand('copy');
+        caja.remove();
+      }
+      boton.textContent = boton.dataset.copiado;
+      boton.classList.add('is-copiado');
+      setTimeout(() => {
+        boton.textContent = textoOriginal;
+        boton.classList.remove('is-copiado');
+      }, 2500);
+    });
+  });
+
   /* ---------- Hero: taller abierto / cerrado ---------- */
 
   // Horario del taller: lunes a sábado de 8:00 a 18:00, hora de Bogotá. Cerrado domingos y festivos.

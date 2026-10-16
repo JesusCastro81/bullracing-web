@@ -105,9 +105,18 @@ function bullracing_menu_respaldo(): void {
 		__( 'Contacto', 'bullracing' )      => bullracing_url_pagina( 'contacto', '#contacto' ),
 	);
 
+	// Página actual (para marcarla en el menú). Los enlaces con # son secciones del inicio.
+	$actual = is_singular() ? untrailingslashit( (string) get_permalink() ) : '';
+
 	echo '<ul class="br-menu">';
 	foreach ( $enlaces as $texto => $url ) {
-		printf( '<li><a href="%s">%s</a></li>', esc_url( $url ), esc_html( $texto ) );
+		$es_actual = $actual && false === strpos( $url, '#' ) && untrailingslashit( $url ) === $actual;
+		printf(
+			'<li><a href="%s"%s>%s</a></li>',
+			esc_url( $url ),
+			$es_actual ? ' aria-current="page"' : '',
+			esc_html( $texto )
+		);
 	}
 	echo '</ul>';
 }

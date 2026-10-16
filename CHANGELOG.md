@@ -6,6 +6,7 @@ Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 ## [Sin publicar]
 
 ### Agregado
+- Página de Contacto (Diseño 1, tal cual el Word): banda con foto, recuadro verde "Escríbenos al chat" con Abrir chat y Copiar número, dirección/teléfono/horario con [CONFIRMAR], plano con pin que late (mapa real al tocar), Cómo llegar y redes. Componente `banner-pagina` para las páginas internas. El menú marca la página actual.
 - Sección de contacto (Diseño 1): mosaico con fotos (pendientes), clientes satisfechos, redes reales, horario, dirección, teléfono (WhatsApp, sin correo: el contacto es solo por WhatsApp) y mapa de Google que se carga solo al tocar "Ver mapa".
 - Precarga del agendamiento: la barra del hero, "Agendar este plan" y los paquetes de motolavado mandan lo escogido y `precarga-agendamiento.js` lo marca en el formulario, sin modificar el agendamiento. Documentado en el README ("Conexión landing ↔ agendamiento").
 - Sección de valoración (Diseño 1): calificación y 3 reseñas. Sin nombres ni reseñas inventadas: se muestran corchetes hasta tener reseñas reales en `inc/datos-taller.php`.
