@@ -119,8 +119,9 @@ estas listas, porque la precarga las busca por ese nombre:
 
 **En local**, mientras el agendamiento definitivo no esté instalado, el mu-plugin
 `wp-content/mu-plugins/local-agendamiento-prueba.php` (no está en el repo) hace que los botones
-lleven a `/prueba-agendamiento/`: el formulario definitivo de la fase TecnoParque sin cambios.
-Se borran los dos cuando el agendamiento quede instalado.
+lleven a `http://localhost/prueba-agendamiento/`: el formulario definitivo de la fase TecnoParque sin cambios.
+Esa página de prueba vive **fuera** de la carpeta del proyecto (`htdocs/prueba-agendamiento`), para no mezclar
+archivos ajenos con el repositorio. Se borran los dos cuando el agendamiento quede instalado.
 
 ## Checklist antes de un Pull Request
 
