@@ -255,6 +255,32 @@
     });
   });
 
+  /* ---------- Quiénes somos: video del taller ---------- */
+
+  // Play/pausa, etiqueta "Reproduciendo" y barra de progreso (lo que describe el Word).
+  document.querySelectorAll('[data-br-video]').forEach((caja) => {
+    const video = caja.querySelector('video');
+    const boton = caja.querySelector('[data-br-video-boton]');
+    const etiqueta = caja.querySelector('[data-br-video-etiqueta]');
+    const barra = caja.querySelector('[data-br-video-barra]');
+    const textoEtiqueta = etiqueta.textContent;
+    const textoBoton = boton.getAttribute('aria-label');
+
+    const pintar = () => {
+      const sonando = !video.paused && !video.ended;
+      caja.classList.toggle('is-reproduciendo', sonando);
+      etiqueta.textContent = sonando ? etiqueta.dataset.reproduciendo : textoEtiqueta;
+      boton.setAttribute('aria-label', sonando ? boton.dataset.pausar : textoBoton);
+    };
+
+    boton.addEventListener('click', () => (video.paused ? video.play() : video.pause()));
+    video.addEventListener('click', () => (video.paused ? video.play() : video.pause()));
+    ['play', 'pause', 'ended'].forEach((evento) => video.addEventListener(evento, pintar));
+    video.addEventListener('timeupdate', () => {
+      barra.style.width = video.duration ? `${(video.currentTime / video.duration) * 100}%` : '0';
+    });
+  });
+
   /* ---------- Hero: taller abierto / cerrado ---------- */
 
   // Horario del taller: lunes a sábado de 8:00 a 18:00, hora de Bogotá. Cerrado domingos y festivos.
