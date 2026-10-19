@@ -255,6 +255,63 @@
     });
   });
 
+  /* ---------- Términos: índice, sección activa y avance de lectura ---------- */
+
+  document.querySelectorAll('[data-br-legal]').forEach((legal) => {
+    const enlaces = [...legal.querySelectorAll('[data-br-legal-enlace]')];
+    const secciones = [...legal.querySelectorAll('[data-br-legal-seccion]')];
+    const barra = legal.querySelector('[data-br-legal-barra]');
+    const estado = legal.querySelector('[data-br-legal-estado]');
+    const texto = legal.querySelector('.br-legal__texto');
+    const plantilla = estado.dataset.plantilla;
+    let marcada = -1;
+
+    const marcar = (indice) => {
+      if (indice === marcada) return;
+      marcada = indice;
+      enlaces.forEach((enlace, i) => {
+        enlace.classList.toggle('is-activo', i === indice);
+        if (i === indice) enlace.setAttribute('aria-current', 'location');
+        else enlace.removeAttribute('aria-current');
+      });
+    };
+
+    const actualizar = () => {
+      // Sección activa: la última cuyo título ya pasó la parte de arriba de la pantalla.
+      const linea = window.innerHeight * 0.3;
+      let activa = 0;
+      secciones.forEach((seccion, i) => {
+        if (seccion.getBoundingClientRect().top <= linea) activa = i;
+      });
+
+      // Avance: cuánto del texto legal ya se leyó (100 % al llegar al final del texto).
+      const caja = texto.getBoundingClientRect();
+      const recorrido = caja.height - window.innerHeight;
+      const leido = recorrido > 0 ? Math.min(1, Math.max(0, -caja.top / recorrido)) : 1;
+      if (leido >= 0.995) activa = secciones.length - 1;
+
+      marcar(activa);
+      const porcentaje = Math.round(leido * 100);
+      barra.style.width = `${porcentaje}%`;
+      estado.textContent = plantilla.replace('{n}', activa + 1).replace('{p}', porcentaje);
+    };
+
+    // Al tocar una sección del índice se marca de una vez (el scroll suave lo hace el CSS).
+    enlaces.forEach((enlace, i) => enlace.addEventListener('click', () => marcar(i)));
+
+    let pendiente = false;
+    window.addEventListener('scroll', () => {
+      if (pendiente) return;
+      pendiente = true;
+      requestAnimationFrame(() => {
+        pendiente = false;
+        actualizar();
+      });
+    }, { passive: true });
+    window.addEventListener('resize', actualizar);
+    actualizar();
+  });
+
   /* ---------- Quiénes somos: video del taller ---------- */
 
   // Play/pausa, etiqueta "Reproduciendo" y barra de progreso (lo que describe el Word).

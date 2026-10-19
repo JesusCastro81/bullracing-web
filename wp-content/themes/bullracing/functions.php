@@ -8,7 +8,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'BULLRACING_TEMA_VERSION', '0.3.0' );
+define( 'BULLRACING_TEMA_VERSION', '0.4.0' );
 
 /**
  * Skin activa: el diseño visual escogido. Cambiar de diseño = cambiar este valor
@@ -18,6 +18,7 @@ define( 'BULLRACING_SKIN', 'taller' );
 
 require_once get_template_directory() . '/inc/datos-taller.php';
 require_once get_template_directory() . '/inc/datos-planes.php';
+require_once get_template_directory() . '/inc/datos-terminos.php';
 
 /**
  * Soportes del tema.
