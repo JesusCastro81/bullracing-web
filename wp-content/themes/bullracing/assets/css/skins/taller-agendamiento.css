@@ -1,0 +1,625 @@
+/* =========================================================
+   AGENDAMIENTO – Diseño 1 (Taller industrial)
+   Solo apariencia: se aplica sobre el formulario original del agendamiento
+   cuando la capa visual (agendamiento-capa.js) marca el contenedor con .is-capa.
+   No cambia campos, precios ni funcionamiento.
+   ========================================================= */
+
+/* ---------- Sellos del banner ---------- */
+.br-banner__sellos {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  margin: 0 0 6px;
+}
+
+.br-banner__sello {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  border: 1px solid rgb(255 255 255 / 0.25);
+  background: rgb(8 8 10 / 0.55);
+  font: 13px var(--fuente-mono);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.br-banner__sello::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--paleta-whatsapp);
+}
+
+.br-banner__clientes {
+  font: 700 14px var(--fuente-mono);
+}
+
+.br-banner__clientes span {
+  margin-right: 10px;
+  color: var(--paleta-amarillo);
+  letter-spacing: 3px;
+}
+
+/* ---------- Distribución: formulario + resumen ---------- */
+.br-agenda {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 380px;
+  gap: 32px;
+  align-items: start;
+  padding-block: 52px 80px;
+}
+
+.br-agenda.is-capa .ba-booking-system {
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  font-family: var(--fuente-base);
+  color: var(--color-texto);
+}
+
+.br-agenda.is-capa .ba-booking-card {
+  max-width: none;
+  margin: 0;
+  padding: 34px;
+  border: 2px solid var(--paleta-gris-800);
+  border-radius: 0;
+  background: var(--color-superficie);
+  box-shadow: none;
+}
+
+/* El título del formulario lo reemplaza el banner de la página */
+.br-agenda.is-capa .ba-title,
+.br-agenda.is-capa .ba-subtitle {
+  display: none;
+}
+
+/* Listas originales: ocultas a la vista pero presentes (siguen siendo las que valen) */
+.br-agenda.is-capa .ba-form-group {
+  position: relative;
+  margin-bottom: 22px;
+}
+
+.br-agenda.is-capa .br-oculto {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 1px !important;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* En el paso 01 cada grupo ocupa todo el ancho, como la propuesta */
+.br-agenda.is-capa #bloque-mantenimiento .ba-form-row {
+  display: block;
+}
+
+/* ---------- Pasos 01 y 02 ---------- */
+.br-agenda__paso {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: 0 0 26px;
+  padding-top: 24px;
+  border-top: 2px dashed var(--paleta-gris-800);
+}
+
+.br-agenda__paso:not(:first-child) {
+  margin-top: 12px;
+}
+
+.br-agenda__paso-numero {
+  font: 900 60px/0.8 var(--fuente-titulos);
+  color: transparent;
+  -webkit-text-stroke: 2px var(--color-acento);
+}
+
+.br-agenda__paso-titulo {
+  margin: 0 0 6px;
+  font: 700 22px/1.1 var(--fuente-base);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.br-agenda__paso-texto {
+  margin: 0;
+  color: var(--color-texto-suave);
+  font-size: 14px;
+}
+
+/* ---------- Etiquetas ---------- */
+.br-agenda.is-capa .ba-booking-system label {
+  margin-bottom: 10px;
+  color: var(--paleta-gris-200);
+  font: 700 11px var(--fuente-base);
+  letter-spacing: 3px;
+}
+
+.br-agenda__ayuda {
+  color: var(--color-texto-suave);
+  font-weight: 400;
+  letter-spacing: 1px;
+  text-transform: none;
+}
+
+/* ---------- Botones de opción ---------- */
+.br-opciones {
+  display: grid;
+  gap: 10px;
+}
+
+.br-opciones--servicio,
+.br-opciones--vehiculo {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.br-opciones--combo {
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+}
+
+.br-opcion {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  min-height: 52px;
+  padding: 12px;
+  border: 2px solid #3f3f46;
+  background: var(--paleta-negro);
+  color: var(--paleta-gris-100);
+  font: 700 15px var(--fuente-base);
+  cursor: pointer;
+  transition: border-color var(--transicion), background-color var(--transicion), color var(--transicion);
+}
+
+.br-opcion:hover:not(:disabled) {
+  border-color: var(--color-acento);
+}
+
+.br-opcion:focus-visible {
+  outline: 2px solid var(--paleta-blanco);
+  outline-offset: 2px;
+}
+
+.br-opcion.is-activa {
+  border-color: var(--color-acento);
+  background: var(--color-acento);
+  color: var(--paleta-blanco);
+}
+
+.br-opcion:disabled {
+  border-style: dashed;
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.br-opcion__detalle {
+  font: 10px var(--fuente-mono);
+  letter-spacing: 1px;
+  opacity: 0.85;
+  text-transform: uppercase;
+}
+
+.br-opciones--combo .br-opcion {
+  min-height: 68px;
+  font-size: 17px;
+}
+
+.br-opciones--servicio .br-opcion {
+  align-items: flex-start;
+  min-height: 90px;
+  padding: 18px 22px;
+}
+
+.br-opciones--servicio .br-opcion__titulo {
+  font: 900 34px/1 var(--fuente-titulos);
+  text-transform: uppercase;
+}
+
+.br-opciones--servicio .br-opcion:not(.is-activa) .br-opcion__titulo {
+  color: var(--paleta-gris-200);
+}
+
+/* ---------- Listas y campos de texto ---------- */
+.br-agenda.is-capa .ba-booking-system select,
+.br-agenda.is-capa .ba-booking-system input {
+  height: 50px;
+  padding: 0 16px;
+  border: 2px solid #3f3f46;
+  border-radius: 0;
+  background-color: var(--paleta-negro);
+  color: var(--paleta-blanco);
+  font: 15px var(--fuente-base);
+}
+
+.br-agenda.is-capa .ba-booking-system select:not(.br-oculto) {
+  padding-right: 44px;
+  font-weight: 700;
+  font-size: 16px;
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--color-acento) 50%), linear-gradient(135deg, var(--color-acento) 50%, transparent 50%);
+  background-position: calc(100% - 22px) 50%, calc(100% - 16px) 50%;
+  background-size: 6px 6px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.br-agenda.is-capa .ba-booking-system select:focus,
+.br-agenda.is-capa .ba-booking-system input:focus {
+  border-color: var(--color-acento);
+}
+
+.br-agenda.is-capa .ba-booking-system input::placeholder {
+  color: #71717a;
+}
+
+.br-agenda.is-capa #user_plate {
+  font-family: var(--fuente-mono);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.br-agenda.is-capa input[type="date"] {
+  color-scheme: dark;
+}
+
+/* ---------- Valor estimado ---------- */
+.br-agenda.is-capa .ba-price-display {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 4px 24px;
+  margin: 8px 0 34px;
+  padding: 22px 24px;
+  border: 0;
+  border-radius: 0;
+  background: var(--paleta-gris-100);
+  color: var(--paleta-negro);
+  text-align: left;
+}
+
+.br-agenda.is-capa .ba-price-display > span:first-child {
+  font: 12px var(--fuente-mono);
+  letter-spacing: 3px;
+  color: #3f3f46;
+  text-transform: uppercase;
+}
+
+.br-precio__detalle {
+  grid-column: 1;
+  color: #3f3f46;
+  font-size: 15px;
+}
+
+.br-agenda.is-capa .ba-total-price {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  font: 900 clamp(2.5rem, 5vw, 4rem)/1 var(--fuente-titulos);
+  color: var(--color-acento);
+}
+
+/* ---------- Paso 02 en rejilla ---------- */
+.br-agenda__datos {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 0 16px;
+  align-items: end;
+}
+
+.br-agenda__datos .ba-form-row {
+  display: contents;
+}
+
+.br-agenda__datos [data-campo="user_name"] { grid-column: 1 / span 5; }
+.br-agenda__datos [data-campo="user_phone"] { grid-column: 6 / span 4; }
+.br-agenda__datos [data-campo="user_plate"] { grid-column: 10 / span 3; }
+.br-agenda__datos [data-campo="booking_date"] { grid-column: 1 / span 3; align-self: start; }
+.br-agenda__datos [data-campo="booking_time"] { grid-column: 4 / span 9; }
+.br-agenda__datos [data-campo="user_email"] { grid-column: 1 / span 6; }
+
+.br-agenda.is-capa .br-agenda__datos .ba-btn-submit {
+  grid-column: 7 / span 6;
+  height: 52px;
+  margin-bottom: 22px;
+  padding: 0 16px;
+  border-radius: 0;
+  font: 900 28px/1 var(--fuente-titulos);
+  letter-spacing: 1px;
+}
+
+.br-agenda.is-capa .br-agenda__datos .ba-btn-submit:hover {
+  transform: none;
+  background: var(--color-acento-hover);
+}
+
+.br-agenda.is-capa .ba-btn-submit:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.br-agenda__aviso,
+.br-agenda__datos .ba-status-msg {
+  grid-column: 1 / -1;
+  margin: 0;
+  text-align: center;
+}
+
+.br-agenda__aviso {
+  color: var(--color-texto-suave);
+  font-size: 14px;
+}
+
+.br-agenda__datos .ba-status-msg:not(:empty) {
+  margin-top: 16px;
+  font-size: 15px;
+}
+
+/* ---------- Horas como casillas ---------- */
+.br-horas {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
+  gap: 8px;
+}
+
+.br-horas.is-error {
+  outline: 2px dashed var(--color-acento);
+  outline-offset: 4px;
+}
+
+.br-hora {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 52px;
+  padding: 6px 4px;
+  border: 2px solid #3f3f46;
+  background: var(--paleta-negro);
+  color: var(--paleta-blanco);
+  cursor: pointer;
+  transition: border-color var(--transicion), background-color var(--transicion);
+}
+
+.br-hora__valor {
+  font: 700 14px var(--fuente-mono);
+}
+
+.br-hora__estado {
+  font: 9px var(--fuente-mono);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.br-hora:hover:not(:disabled) {
+  border-color: var(--color-acento);
+}
+
+.br-hora:focus-visible {
+  outline: 2px solid var(--paleta-blanco);
+  outline-offset: 2px;
+}
+
+.br-hora.is-activa {
+  border-color: var(--color-acento);
+  background: var(--color-acento);
+}
+
+.br-hora:disabled {
+  border-style: dashed;
+  background-image: repeating-linear-gradient(45deg, rgb(255 255 255 / 0.04) 0 2px, transparent 2px 8px);
+  color: #52525b;
+  cursor: not-allowed;
+}
+
+/* ---------- Resumen (acompaña el scroll) ---------- */
+.br-agenda__lateral {
+  position: sticky;
+  top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.br-ticket {
+  position: relative;
+  padding: 24px 24px 22px;
+  background: var(--paleta-gris-100);
+  color: var(--paleta-negro);
+}
+
+/* Borde de papel cortado */
+.br-ticket::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -12px;
+  left: 0;
+  height: 12px;
+  background:
+    linear-gradient(135deg, var(--paleta-gris-100) 50%, transparent 50%) 0 0 / 24px 12px repeat-x,
+    linear-gradient(-135deg, var(--paleta-gris-100) 50%, transparent 50%) 0 0 / 24px 12px repeat-x;
+}
+
+.br-ticket__cabecera {
+  display: flex;
+  justify-content: space-between;
+  font: 10px var(--fuente-mono);
+  letter-spacing: 1.5px;
+  color: #52525b;
+  text-transform: uppercase;
+}
+
+.br-ticket__titulo {
+  margin: 10px 0 16px;
+  padding-bottom: 16px;
+  border-bottom: 2px dashed #a1a1aa;
+  font-size: 34px;
+  color: var(--paleta-negro);
+}
+
+.br-ticket__lista {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0 0 18px;
+}
+
+.br-ticket__fila {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 13px;
+}
+
+.br-ticket__fila dt {
+  color: #52525b;
+}
+
+.br-ticket__fila dd {
+  margin: 0;
+  font-weight: 700;
+  text-align: right;
+}
+
+.br-ticket__fila dd.is-vacio {
+  color: #a1a1aa;
+  font-weight: 600;
+}
+
+.br-ticket__total {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-top: 16px;
+  border-top: 2px solid var(--paleta-negro);
+  font: 12px var(--fuente-mono);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.br-ticket__total strong {
+  color: var(--color-acento);
+  font: 700 22px var(--fuente-mono);
+  letter-spacing: 0;
+}
+
+.br-antes {
+  padding: 22px 24px;
+  border: 2px solid var(--paleta-gris-800);
+  background: var(--color-superficie);
+}
+
+.br-antes__titulo {
+  margin: 0 0 14px;
+  font: 12px var(--fuente-mono);
+  letter-spacing: 3px;
+  color: var(--paleta-gris-400);
+  text-transform: uppercase;
+}
+
+.br-antes__lista {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0 0 16px;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  color: var(--paleta-gris-200);
+}
+
+.br-antes__lista li {
+  display: flex;
+  gap: 10px;
+}
+
+.br-antes__lista li::before {
+  content: "✓";
+  color: var(--color-acento);
+  font-weight: 700;
+}
+
+.br-antes__whatsapp {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--paleta-blanco);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.br-antes__whatsapp::before {
+  content: "";
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--paleta-whatsapp);
+  border-radius: 50% 50% 50% 0;
+}
+
+.br-antes__whatsapp:hover {
+  color: var(--paleta-whatsapp);
+}
+
+/* ---------- Pantallas medianas y celular ---------- */
+@media (max-width: 1100px) {
+  .br-agenda {
+    grid-template-columns: 1fr;
+  }
+
+  .br-agenda__lateral {
+    position: static;
+  }
+}
+
+@media (max-width: 700px) {
+  .br-agenda.is-capa .ba-booking-card {
+    padding: 22px 16px;
+  }
+
+  .br-banner__sellos {
+    align-items: flex-start;
+  }
+
+  .br-agenda__datos {
+    grid-template-columns: 1fr;
+  }
+
+  .br-agenda__datos [data-campo],
+  .br-agenda.is-capa .br-agenda__datos .ba-btn-submit {
+    grid-column: 1 / -1;
+  }
+
+  .br-opciones--servicio .br-opcion__titulo {
+    font-size: 26px;
+  }
+
+  .br-opciones--combo {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .br-agenda.is-capa .br-agenda__datos .ba-btn-submit {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 520px) {
+  .br-opciones--servicio {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .br-opcion,
+  .br-hora {
+    transition: none;
+  }
+}
