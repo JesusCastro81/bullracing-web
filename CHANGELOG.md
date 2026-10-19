@@ -6,6 +6,7 @@ Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 ## [Sin publicar]
 
 ### Agregado
+- Video del taller que se reproduce al hacer clic también en el inicio (propuesta): componente `video-reproductor` compartido con la página Quiénes somos. Se activa al poner el archivo .mp4/.webm en `video` de `inc/datos-taller.php`; mientras no haya video, el recuadro queda igual.
 - Página Términos y condiciones (Diseño 1, según la propuesta): índice fijo que salta a cada sección, marca la activa y llena la barra de avance de lectura; datos de la empresa. Texto legal copiado tal cual del sitio actual (7 secciones) en `inc/datos-terminos.php`; fecha de actualización pendiente.
 - Página Quiénes somos (Diseño 1, tal cual el Word): banda con cifras (año, clientes, Bogotá), historia, video del taller que se reproduce ahí mismo (play/pausa, etiqueta "Reproduciendo" y barra de progreso), "Lo que hacemos" con tarjetas que se elevan y se marcan en rojo, foto del taller, equipo y valoración. Año, historia, video, fotos y nombres pendientes del taller (se muestran corchetes, nada inventado).
 - Página de Contacto (Diseño 1, tal cual el Word): banda con foto, recuadro verde "Escríbenos al chat" con Abrir chat y Copiar número, dirección/teléfono/horario con [CONFIRMAR], plano con pin que late (mapa real al tocar), Cómo llegar y redes. Componente `banner-pagina` para las páginas internas. El menú marca la página actual.

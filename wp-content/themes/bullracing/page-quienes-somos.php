@@ -74,17 +74,7 @@ bullracing_componente(
 	</div>
 
 	<?php if ( $es_mp4 ) : ?>
-		<div class="br-video" data-br-video>
-			<video class="br-video__archivo" src="<?php echo esc_url( $video ); ?>" preload="metadata" playsinline
-				poster="<?php echo esc_url( get_template_directory_uri() . '/assets/img/hero.jpg' ); ?>"></video>
-			<span class="br-video__etiqueta" data-br-video-etiqueta data-reproduciendo="<?php esc_attr_e( '● REPRODUCIENDO', 'bullracing' ); ?>"><?php esc_html_e( 'VIDEO', 'bullracing' ); ?></span>
-			<button type="button" class="br-video__boton" data-br-video-boton
-				aria-label="<?php esc_attr_e( 'Reproducir video del taller', 'bullracing' ); ?>"
-				data-pausar="<?php esc_attr_e( 'Pausar video del taller', 'bullracing' ); ?>">
-				<span class="br-video__icono" aria-hidden="true"></span>
-			</button>
-			<span class="br-video__progreso" aria-hidden="true"><span data-br-video-barra></span></span>
-		</div>
+		<?php bullracing_componente( 'video-reproductor', array( 'url' => $video ) ); ?>
 	<?php else : ?>
 		<?php
 		$etiqueta  = $video ? 'a' : 'div';

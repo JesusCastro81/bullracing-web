@@ -2727,3 +2727,15 @@ a.br-valoracion__calificar:hover {
     scroll-behavior: smooth;
   }
 }
+
+/* Inicio: el reproductor del video ocupa el mismo recuadro del diseño */
+.br-video.br-nosotros__video {
+  height: 420px;
+  padding: 0;
+}
+
+@media (max-width: 860px) {
+  .br-video.br-nosotros__video {
+    height: 300px;
+  }
+}
