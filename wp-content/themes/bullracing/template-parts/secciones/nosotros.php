@@ -38,7 +38,7 @@ $video  = (string) $taller['video'];
 					<?php
 					echo $video
 						? esc_html__( 'Ver video del taller', 'bullracing' )
-						: esc_html__( 'Video corto del taller', 'bullracing' ) . '<br>' . esc_html__( '(tomado de su TikTok o Instagram)', 'bullracing' );
+						: esc_html__( 'Video del taller', 'bullracing' );
 					?>
 				</span>
 			</<?php echo $etiqueta; // phpcs:ignore WordPress.Security.EscapeOutput -- 'a' o 'div'. ?>>
@@ -63,7 +63,7 @@ $video  = (string) $taller['video'];
 				echo esc_html(
 					$taller['historia']
 						? $taller['historia']
-						: __( '[Historia del taller contada por Franz: cómo empezó, desde qué año, qué lo hace distinto.]', 'bullracing' )
+						: __( '[Historia del taller: cómo empezó, desde qué año y qué lo hace distinto.]', 'bullracing' )
 				);
 				?>
 			</p>

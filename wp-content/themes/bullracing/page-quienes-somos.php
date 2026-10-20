@@ -63,7 +63,7 @@ bullracing_componente(
 		<?php if ( $historia ) : ?>
 			<?php echo wp_kses_post( wpautop( $historia ) ); ?>
 		<?php else : ?>
-			<p class="br-historia__parrafo"><?php esc_html_e( '[Historia del taller contada por Franz: cómo empezó, desde qué año, qué lo hace distinto.]', 'bullracing' ); ?></p>
+			<p class="br-historia__parrafo"><?php esc_html_e( '[Historia del taller: cómo empezó, desde qué año y qué lo hace distinto.]', 'bullracing' ); ?></p>
 			<p class="br-historia__parrafo br-historia__parrafo--suave"><?php esc_html_e( '[Cómo pasó de un taller de barrio a un centro técnico con mantenimiento, diagnóstico y motolavado. Qué tipo de motos atienden y qué lo hace volver a sus clientes.]', 'bullracing' ); ?></p>
 		<?php endif; ?>
 		<p class="br-historia__datos">
@@ -85,8 +85,7 @@ bullracing_componente(
 			<span class="br-video__etiqueta"><?php echo $video ? esc_html__( 'VIDEO', 'bullracing' ) : esc_html__( 'VIDEO PENDIENTE', 'bullracing' ); ?></span>
 			<span class="br-video__centro">
 				<span class="br-video__boton" aria-hidden="true"><span class="br-video__icono"></span></span>
-				<?php echo $video ? esc_html__( 'Ver video del taller', 'bullracing' ) : esc_html__( 'Video corto del taller', 'bullracing' ); ?>
-				<small><?php esc_html_e( '(tomado de su TikTok o Instagram)', 'bullracing' ); ?></small>
+				<?php echo $video ? esc_html__( 'Ver video del taller', 'bullracing' ) : esc_html__( 'Video del taller', 'bullracing' ); ?>
 			</span>
 		</<?php echo $etiqueta; // phpcs:ignore WordPress.Security.EscapeOutput -- 'a' o 'div'. ?>>
 	<?php endif; ?>
