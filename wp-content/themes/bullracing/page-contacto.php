@@ -26,7 +26,8 @@ $calle      = $partes[0];
 $ciudad     = ( $partes[1] ?? 'Bogotá' ) . ', Colombia';
 $horario    = array_map( 'trim', explode( '·', (string) $taller['horario'], 2 ) );
 $como_ir    = 'https://www.google.com/maps/dir/?api=1&destination=' . rawurlencode( $direccion );
-$mapa_url   = 'https://www.google.com/maps?q=' . rawurlencode( $direccion ) . '&output=embed';
+// Por nombre + dirección para que Google marque el perfil del taller.
+$mapa_url   = 'https://www.google.com/maps?q=' . rawurlencode( $taller['nombre'] . ', ' . $direccion ) . '&z=16&output=embed';
 $url_chat   = bullracing_whatsapp_url( __( 'Hola, quiero comunicarme con el taller.', 'bullracing' ) );
 $instagram  = (string) ( $redes['Instagram'] ?? '' );
 $usuario    = $instagram ? '@' . trim( (string) wp_parse_url( $instagram, PHP_URL_PATH ), '/' ) : '';
@@ -98,18 +99,14 @@ bullracing_componente(
 	</div>
 
 	<div class="br-pcontacto__fila br-pcontacto__fila--baja">
-		<div class="br-plano" data-br-mapa="<?php echo esc_url( $mapa_url ); ?>">
-			<span class="br-plano__calle br-plano__calle--a" aria-hidden="true"></span>
-			<span class="br-plano__calle br-plano__calle--b" aria-hidden="true"></span>
-			<span class="br-plano__pin" aria-hidden="true">
-				<span class="br-plano__onda"></span>
-				<svg width="36" height="46" viewBox="0 0 24 30"><path d="M12 0C5.4 0 0 5.2 0 11.6 0 20.3 12 30 12 30s12-9.7 12-18.4C24 5.2 18.6 0 12 0z" fill="currentColor"></path><circle cx="12" cy="11.5" r="4.5" fill="#fff"></circle></svg>
-			</span>
+		<div class="br-plano br-plano--vivo">
+			<iframe class="br-plano__mapa" src="<?php echo esc_url( $mapa_url ); ?>"
+				title="<?php esc_attr_e( 'Mapa con la ubicación del taller', 'bullracing' ); ?>"
+				loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 			<p class="br-plano__etiqueta">
 				<strong><?php echo esc_html( $taller['nombre'] ); ?></strong>
 				<span><?php echo esc_html( $calle . ' · ' . ( $partes[1] ?? 'Bogotá' ) ); ?></span>
 			</p>
-			<button type="button" class="br-plano__ver" data-br-mapa-cargar><?php esc_html_e( 'Ver mapa de Google', 'bullracing' ); ?></button>
 			<a class="br-plano__llegar" href="<?php echo esc_url( $como_ir ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Cómo llegar ↗', 'bullracing' ); ?></a>
 		</div>
 

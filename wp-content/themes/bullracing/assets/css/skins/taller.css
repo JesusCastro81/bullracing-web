@@ -2757,3 +2757,60 @@ a.br-valoracion__calificar:hover {
     height: 300px;
   }
 }
+
+/* =========================================================
+   Mapa de Google visible (inicio y página Contacto).
+   El iframe tiene loading="lazy": solo se carga al llegar a esta parte.
+   ========================================================= */
+.br-contacto__mapa--vivo {
+  position: relative;
+  min-height: 260px;
+  padding: 0;
+  border-style: solid;
+}
+
+.br-contacto__mapa--vivo .br-contacto__iframe {
+  position: absolute;
+  inset: 0;
+}
+
+.br-contacto__abrir-mapa {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  z-index: 1;
+  padding: 6px 10px;
+  background: var(--paleta-negro);
+  color: var(--paleta-gris-200);
+  font: 12px var(--fuente-mono);
+  text-decoration: none;
+}
+
+.br-contacto__abrir-mapa:hover {
+  color: var(--paleta-blanco);
+}
+
+.br-plano--vivo {
+  background: #1c1c1f;
+  border-style: solid;
+}
+
+.br-plano__mapa {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* Sobre el mapa real, la etiqueta va arriba a la izquierda para no tapar el marcador de Google */
+.br-plano--vivo .br-plano__etiqueta {
+  top: 16px;
+  left: 16px;
+  z-index: 1;
+  transform: none;
+}
+
+.br-plano--vivo .br-plano__llegar {
+  z-index: 1;
+}

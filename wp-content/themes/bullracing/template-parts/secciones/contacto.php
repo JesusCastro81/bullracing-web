@@ -5,8 +5,8 @@
  *
  * - Fotos: mientras el taller no las entregue, se muestran los recuadros del diseño
  *   (filtro 'bullracing_contacto_fotos').
- * - Mapa: NO se carga solo. Se carga cuando el cliente toca "Ver mapa" (página más rápida,
- *   funciona sin internet y no le avisa a Google cada vez que alguien abre la página).
+ * - Mapa: se ve de una vez, pero el navegador lo carga solo cuando el cliente baja hasta
+ *   esta parte (loading="lazy"), para que la página abra rápido.
  *
  * @package BullRacing
  */
@@ -28,7 +28,8 @@ $fotos = apply_filters(
 $horario = array_map( 'trim', explode( '·', (string) $taller['horario'] ) );
 
 $direccion = (string) $taller['direccion'];
-$mapa_url  = 'https://www.google.com/maps?q=' . rawurlencode( $direccion ) . '&output=embed';
+// Se busca por nombre + dirección para que Google marque el perfil del taller, no solo la calle.
+$mapa_url  = 'https://www.google.com/maps?q=' . rawurlencode( $taller['nombre'] . ', ' . $direccion ) . '&z=16&output=embed';
 $mapa_ver  = 'https://www.google.com/maps/search/?api=1&query=' . rawurlencode( $direccion );
 ?>
 <section class="br-seccion br-seccion--contacto br-contacto" id="contacto">
@@ -75,14 +76,11 @@ $mapa_ver  = 'https://www.google.com/maps/search/?api=1&query=' . rawurlencode( 
 			</p>
 		</div>
 
-		<div class="br-contacto__mapa" data-br-mapa="<?php echo esc_url( $mapa_url ); ?>">
-			<button type="button" class="br-contacto__ver-mapa" data-br-mapa-cargar>
-				<?php esc_html_e( 'Ver mapa', 'bullracing' ); ?>
-			</button>
-			<p class="br-contacto__mapa-nota">
-				<?php esc_html_e( 'El mapa de Google se carga al tocar el botón.', 'bullracing' ); ?>
-				<a href="<?php echo esc_url( $mapa_ver ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Abrir en Google Maps ↗', 'bullracing' ); ?></a>
-			</p>
+		<div class="br-contacto__mapa br-contacto__mapa--vivo">
+			<iframe class="br-contacto__iframe" src="<?php echo esc_url( $mapa_url ); ?>"
+				title="<?php esc_attr_e( 'Mapa con la ubicación del taller', 'bullracing' ); ?>"
+				loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+			<a class="br-contacto__abrir-mapa" href="<?php echo esc_url( $mapa_ver ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Abrir en Google Maps ↗', 'bullracing' ); ?></a>
 		</div>
 
 		<div class="br-contacto__direccion">
