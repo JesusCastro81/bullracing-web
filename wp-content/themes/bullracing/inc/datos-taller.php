@@ -27,9 +27,32 @@ function bullracing_datos_taller(): array {
 		'desde'        => 0,  // Pendiente: año en que abrió el taller (lo da don Franz).
 		'historia'     => '', // Pendiente: historia del taller contada por don Franz.
 		'video'        => '', // Pendiente: enlace del video corto (TikTok o Instagram).
-		'promedio'      => '',      // Pendiente: calificación real en Google (ej. '4,9').
-		'url_calificar' => '',      // Pendiente: enlace para dejar reseña en Google.
-		'resenas'       => array(), // Pendiente: hasta 3 reseñas REALES: array( 'texto', 'nombre', 'moto', 'fuente' => 'Google' | 'TikTok' ).
+		// Valoración REAL del perfil de Google Maps del taller (consultado el 20-oct-2026). Actualizar a mano.
+		'promedio'      => '4,2',
+		'total_resenas' => 29,
+		'url_calificar' => 'https://search.google.com/local/writereview?placeid=ChIJxUc6jg2bP44RoRKKHa7fvko',
+		'url_resenas'   => 'https://search.google.com/local/reviews?placeid=ChIJxUc6jg2bP44RoRKKHa7fvko',
+		// 3 reseñas reales de 5 estrellas, con el texto exacto de Google. Nombre + inicial para cuidar los datos de los clientes.
+		'resenas'       => array(
+			array(
+				'texto'  => 'Recomiendo el trabajo de motos bull racing, buen servicio, mantenimiento seguros, pruebas de satisfacción, cumplimiento con el horario. Y muy buen atención del servicio.',
+				'nombre' => 'Sergio C.',
+				'moto'   => '',
+				'fuente' => 'Google',
+			),
+			array(
+				'texto'  => 'Excelente atención, recibí asesoramiento completo y claro. Resalto sobre todo puntualidad en la entrega del servicio.',
+				'nombre' => 'Juan R.',
+				'moto'   => '',
+				'fuente' => 'Google',
+			),
+			array(
+				'texto'  => 'Honestos con el trabajo y cuando hacen las cosas le van mostrando el proceso.',
+				'nombre' => 'Thiago R.',
+				'moto'   => '',
+				'fuente' => 'Google',
+			),
+		),
 		'redes'        => array(
 			// Tomados de la página actual del taller.
 			'TikTok'    => 'https://www.tiktok.com/@motos.bull.racing',

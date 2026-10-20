@@ -6,6 +6,7 @@ Formato: [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 ## [Sin publicar]
 
 ### Agregado
+- Valoración con datos reales de Google: calificación 4,2 con estrellas proporcionales, "29 reseñas en Google", 3 reseñas reales de 5 estrellas (texto exacto, nombre e inicial), "Califica tu servicio" y "Ver todas en Google".
 - Apariencia del agendamiento (Diseño 1, según la propuesta): capa visual `agendamiento-capa.js` + `skins/taller-agendamiento.css`. Botones para servicio, vehículo, combo y paquete, horas en casillas (las completas no se pueden escoger), valor estimado con detalle y resumen de la cita que acompaña el scroll. El formulario original no cambia: mismos campos, precios, cupos, backend y EmailJS; los botones solo escogen en sus listas.
 - Video del taller que se reproduce al hacer clic también en el inicio (propuesta): componente `video-reproductor` compartido con la página Quiénes somos. Se activa al poner el archivo .mp4/.webm en `video` de `inc/datos-taller.php`; mientras no haya video, el recuadro queda igual.
 - Página Términos y condiciones (Diseño 1, según la propuesta): índice fijo que salta a cada sección, marca la activa y llena la barra de avance de lectura; datos de la empresa. Texto legal copiado tal cual del sitio actual (7 secciones) en `inc/datos-terminos.php`; fecha de actualización pendiente.

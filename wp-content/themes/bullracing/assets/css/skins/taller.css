@@ -1174,9 +1174,18 @@ a.br-nosotros__video:hover {
 }
 
 .br-valoracion__estrellas {
+  width: fit-content;
   color: #b45309; /* Ámbar oscuro: se lee sobre fondo claro */
   font-size: 26px;
   letter-spacing: 4px;
+}
+
+/* Estrellas proporcionales a la calificación real (--relleno lo pone la plantilla: 4,2 = 84 %). */
+.br-valoracion__estrellas[style] {
+  background: linear-gradient(90deg, #b45309 var(--relleno, 100%), #d4d4d8 var(--relleno, 100%));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .br-valoracion__total {
@@ -1192,6 +1201,15 @@ a.br-nosotros__video:hover {
 }
 
 a.br-valoracion__calificar:hover {
+  color: var(--color-acento);
+}
+
+.br-valoracion__ver {
+  color: #3f3f46;
+  font-size: 13px;
+}
+
+.br-valoracion__ver:hover {
   color: var(--color-acento);
 }
 
