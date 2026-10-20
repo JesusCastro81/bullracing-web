@@ -94,6 +94,13 @@ bullracing_componente(
 				<p class="br-dato__cabecera"><span><?php esc_html_e( 'Horario', 'bullracing' ); ?></span><?php $confirmar( 'horario' ); ?></p>
 				<p class="br-dato__valor"><?php echo esc_html( $horario[0] ); ?></p>
 				<p class="br-dato__nota"><?php echo esc_html( $horario[1] ?? '' ); ?></p>
+				<?php /* Mismo aviso del hero: verde si está abierto ahora, rojo si está cerrado (lo calcula main.js). */ ?>
+				<p class="br-estado" data-br-estado>
+					<span class="br-estado__punto" aria-hidden="true"></span>
+					<span data-br-estado-texto
+						data-abierto="<?php esc_attr_e( 'Abierto ahora', 'bullracing' ); ?>"
+						data-cerrado="<?php esc_attr_e( 'Cerrado ahora', 'bullracing' ); ?>"><?php esc_html_e( 'Abierto ahora', 'bullracing' ); ?></span>
+				</p>
 			</div>
 		</div>
 	</div>

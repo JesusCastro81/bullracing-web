@@ -19,10 +19,14 @@ $redes  = array_filter( (array) $taller['redes'] );
 $fotos = apply_filters(
 	'bullracing_contacto_fotos',
 	array(
-		'rampa'   => '', // URL de la foto real: mecánico trabajando en rampa.
-		'entrega' => '', // URL de la foto real: entrega de una moto.
+		'rampa'    => '', // URL de la foto real: mecánico trabajando en rampa.
+		'entrega'  => '', // URL de la foto real: entrega de una moto.
+		// Carrusel del recuadro grande: fotos reales del proceso, en orden. Se mueve al pasar el mouse
+		// (en celular, con cada toque). Cada foto: array( 'url' => '...', 'texto' => 'Recibo' ).
+		'carrusel' => array(),
 	)
 );
+$carrusel = array_values( array_filter( (array) $fotos['carrusel'], static fn( $f ) => ! empty( $f['url'] ) ) );
 
 // Horario en dos líneas, como en el diseño: "LUNES A SÁBADO" / "8:00 A. M. – 6:00 P. M.".
 $horario = array_map( 'trim', explode( '·', (string) $taller['horario'] ) );
@@ -34,13 +38,31 @@ $mapa_ver  = 'https://www.google.com/maps/search/?api=1&query=' . rawurlencode( 
 ?>
 <section class="br-seccion br-seccion--contacto br-contacto" id="contacto">
 	<div class="br-contenedor br-contacto__mosaico">
+		<?php if ( count( $carrusel ) > 1 ) : ?>
+			<figure class="br-contacto__foto br-contacto__foto--rampa br-carrusel" data-br-carrusel tabindex="0"
+				aria-label="<?php esc_attr_e( 'Fotos del taller. Pase el mouse o toque para ver la siguiente.', 'bullracing' ); ?>">
+				<?php foreach ( $carrusel as $i => $foto ) : ?>
+					<img class="br-carrusel__foto<?php echo 0 === $i ? ' is-activa' : ''; ?>" src="<?php echo esc_url( $foto['url'] ); ?>"
+						alt="<?php echo esc_attr( $foto['texto'] ?? '' ); ?>" loading="lazy" data-texto="<?php echo esc_attr( $foto['texto'] ?? '' ); ?>">
+				<?php endforeach; ?>
+				<figcaption class="br-carrusel__pie">
+					<span class="br-carrusel__texto" data-br-carrusel-texto><?php echo esc_html( $carrusel[0]['texto'] ?? '' ); ?></span>
+					<span class="br-carrusel__puntos" aria-hidden="true">
+						<?php foreach ( $carrusel as $i => $foto ) : ?>
+							<span class="<?php echo 0 === $i ? 'is-activo' : ''; ?>"></span>
+						<?php endforeach; ?>
+					</span>
+				</figcaption>
+			</figure>
+		<?php else : ?>
 		<figure class="br-contacto__foto br-contacto__foto--rampa">
 			<?php if ( $fotos['rampa'] ) : ?>
 				<img src="<?php echo esc_url( $fotos['rampa'] ); ?>" alt="<?php esc_attr_e( 'Mecánico trabajando en la rampa del taller', 'bullracing' ); ?>" loading="lazy">
 			<?php else : ?>
-				<figcaption><?php esc_html_e( 'Foto real: mecánico trabajando en rampa', 'bullracing' ); ?></figcaption>
+				<figcaption><?php esc_html_e( 'Fotos reales del taller: recibo, rampa, lavado y entrega (carrusel al pasar el mouse)', 'bullracing' ); ?></figcaption>
 			<?php endif; ?>
 		</figure>
+		<?php endif; ?>
 
 		<div class="br-contacto__clientes">
 			<span class="br-contacto__estrellas" aria-hidden="true">★★★★★</span>
@@ -69,11 +91,20 @@ $mapa_ver  = 'https://www.google.com/maps/search/?api=1&query=' . rawurlencode( 
 
 		<div class="br-contacto__horario">
 			<p class="br-contacto__etiqueta"><?php esc_html_e( 'Horario', 'bullracing' ); ?></p>
-			<p class="br-contacto__grande">
-				<?php foreach ( $horario as $linea ) : ?>
-					<span><?php echo esc_html( $linea ); ?></span>
-				<?php endforeach; ?>
-			</p>
+			<div>
+				<p class="br-contacto__grande">
+					<?php foreach ( $horario as $linea ) : ?>
+						<span><?php echo esc_html( $linea ); ?></span>
+					<?php endforeach; ?>
+				</p>
+				<?php /* Mismo aviso del hero: verde si está abierto ahora, rojo si está cerrado (lo calcula main.js). */ ?>
+				<p class="br-estado" data-br-estado>
+					<span class="br-estado__punto" aria-hidden="true"></span>
+					<span data-br-estado-texto
+						data-abierto="<?php esc_attr_e( 'Abierto ahora', 'bullracing' ); ?>"
+						data-cerrado="<?php esc_attr_e( 'Cerrado ahora', 'bullracing' ); ?>"><?php esc_html_e( 'Abierto ahora', 'bullracing' ); ?></span>
+				</p>
+			</div>
 		</div>
 
 		<div class="br-contacto__mapa br-contacto__mapa--vivo">

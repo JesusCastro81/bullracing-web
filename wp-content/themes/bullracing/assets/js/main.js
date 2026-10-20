@@ -230,6 +230,50 @@
     });
   });
 
+  /* ---------- Contacto: carrusel de fotos del taller ---------- */
+
+  // Al pasar el mouse las fotos se encadenan solas; al quitarlo se detiene.
+  // En celular (sin mouse) y con teclado, cada toque o Enter pasa a la siguiente.
+  document.querySelectorAll('[data-br-carrusel]').forEach((caja) => {
+    const fotos = [...caja.querySelectorAll('.br-carrusel__foto')];
+    const puntos = [...caja.querySelectorAll('.br-carrusel__puntos span')];
+    const texto = caja.querySelector('[data-br-carrusel-texto]');
+    const sinMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let actual = 0;
+    let reloj = null;
+
+    const mostrar = (indice) => {
+      actual = (indice + fotos.length) % fotos.length;
+      fotos.forEach((foto, i) => foto.classList.toggle('is-activa', i === actual));
+      puntos.forEach((punto, i) => punto.classList.toggle('is-activo', i === actual));
+      if (texto) texto.textContent = fotos[actual].dataset.texto || '';
+    };
+    const siguiente = () => mostrar(actual + 1);
+    const detener = () => {
+      clearInterval(reloj);
+      reloj = null;
+    };
+
+    // pointerenter + pointerType: solo un mouse real arranca el avance automático
+    // (un toque en el celular también "entra", pero ahí manda el click).
+    caja.addEventListener('pointerenter', (evento) => {
+      if (evento.pointerType !== 'mouse' || sinMovimiento || reloj) return;
+      siguiente();
+      reloj = setInterval(siguiente, 1500);
+    });
+    caja.addEventListener('pointerleave', detener);
+    caja.addEventListener('click', (evento) => {
+      if (evento.pointerType === 'mouse') return; // Con mouse ya avanza solo.
+      siguiente();
+    });
+    caja.addEventListener('keydown', (evento) => {
+      if (evento.key === 'Enter' || evento.key === ' ') {
+        evento.preventDefault();
+        siguiente();
+      }
+    });
+  });
+
   /* ---------- Contacto: copiar número ---------- */
 
   document.querySelectorAll('[data-br-copiar]').forEach((boton) => {

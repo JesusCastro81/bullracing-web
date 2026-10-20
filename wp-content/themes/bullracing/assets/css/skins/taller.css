@@ -2814,3 +2814,92 @@ a.br-valoracion__calificar:hover {
 .br-plano--vivo .br-plano__llegar {
   z-index: 1;
 }
+
+/* Aviso abierto / cerrado en el recuadro de horario (mismo cálculo del hero) */
+.br-estado {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 12px 0 0;
+  font: 12px var(--fuente-mono);
+  letter-spacing: 1px;
+  color: var(--paleta-gris-200);
+  text-transform: uppercase;
+}
+
+.br-estado__punto {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #22c55e; /* Mismo verde del punto "taller abierto" del hero */
+}
+
+.br-estado.is-cerrado .br-estado__punto {
+  background: var(--color-acento);
+}
+
+/* =========================================================
+   Carrusel de fotos del taller (recuadro grande de contacto en el inicio).
+   Las fotos se encadenan al pasar el mouse; en celular, con cada toque.
+   ========================================================= */
+.br-carrusel {
+  padding: 0;
+  border-style: solid;
+  cursor: pointer;
+}
+
+.br-carrusel__foto {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.br-carrusel__foto.is-activa {
+  opacity: 1;
+}
+
+.br-carrusel__pie {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 40px 18px 16px;
+  background: linear-gradient(transparent, rgb(8 8 10 / 0.85));
+  color: var(--paleta-blanco);
+}
+
+.br-carrusel__texto {
+  font: 12px var(--fuente-mono);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.br-carrusel__puntos {
+  display: flex;
+  gap: 6px;
+}
+
+.br-carrusel__puntos span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.35);
+}
+
+.br-carrusel__puntos span.is-activo {
+  background: var(--color-acento);
+}
+
+.br-carrusel:focus-visible {
+  outline: 2px solid var(--paleta-blanco);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .br-carrusel__foto {
+    transition: none;
+  }
+}
