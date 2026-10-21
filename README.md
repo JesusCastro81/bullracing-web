@@ -13,6 +13,7 @@ subidas y la base de datos **no** se versionan (ver `.gitignore`).
 │   ├── decisiones.md             Decisiones técnicas y por qué se tomaron
 │   ├── despliegue.md             Cómo subir los cambios al hosting
 │   └── propuestas/               Propuestas de diseño presentadas al taller
+├── ot/                           Orden de servicio (OT) del taller: la hizo John Garzón (ver sección OT)
 ├── dev/                          Solo para desarrollo local (no va a producción)
 │   └── verificar.ps1             Verificación del proyecto (el "build")
 ├── CHANGELOG.md                  Qué cambió en cada Pull Request
@@ -148,3 +149,16 @@ Ver [`docs/despliegue.md`](docs/despliegue.md).
 
 Repositorio creado durante el desarrollo y transferido al finalizar a la cuenta de GitHub
 de Motos Bull Racing.
+
+## Orden de servicio (OT)
+
+La carpeta `ot/` es la orden de servicio que el taller llena al recibir la moto.
+La programó **John Garzón** para el proyecto Motos Bull Racing, a partir del formato de orden que suministró don Franz.
+
+- Busca el agendamiento por placa y lo marca como atendido al guardar la orden.
+- `includes/config.php` tiene los datos de la base de datos y **no se sube a git**.
+  Para instalarla: copiar `includes/config.example.php` como `includes/config.php` y poner los datos del servidor.
+- `bullracing_bd.sql` trae solo la estructura de las tablas (sin datos de clientes).
+- Los `temp_*.png` los crea la OT al generar el PDF (firmas y croquis): no se suben (Ley 1581).
+- Necesita la extensión **GD** de PHP para el PDF.
+- En el servidor debe quedar protegida con usuario y contraseña (no tiene inicio de sesión propio).

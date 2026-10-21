@@ -17,6 +17,7 @@
 !/docs/
 !/dev/
 !/wp-content/
+!/ot/
 
 # 3) Dentro de wp-content, solo nuestro tema y nuestros plugins
 /wp-content/*
@@ -39,3 +40,8 @@ node_modules/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# 5) Orden de servicio (OT): se sube el código, nunca la configuración ni los temporales
+/ot/includes/config.php
+/ot/temp_*.png
+!/ot/bullracing_bd.sql
