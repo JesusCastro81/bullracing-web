@@ -134,12 +134,7 @@ if (empty($data['observaciones_generales'])) {
     $data['observaciones_generales'] = null;
 }
 
-// Si no se envió numero_orden o está vacío, calcular el siguiente
-if (empty($data['numero_orden'])) {
-    $stmt = $pdo->query("SELECT MAX(CAST(numero_orden AS UNSIGNED)) AS max FROM ordenes_servicio");
-    $max = $stmt->fetchColumn();
-    $data['numero_orden'] = $max ? $max + 1 : 250;
-}
+// El número de la orden NO se toma del navegador: se asigna más abajo, justo antes de guardar (ver GET_LOCK).
 
 // Construir consulta SQL
 $sql = "INSERT INTO ordenes_servicio SET 
@@ -232,70 +227,7 @@ $sql = "INSERT INTO ordenes_servicio SET
     marcas_croquis = :marcas_croquis,
     firma_cliente = :firma_cliente,
     firma_taller = :firma_taller,
-    doc_cliente_firma = :doc_cliente_firma
-    
-    ON DUPLICATE KEY UPDATE
-    nombre = VALUES(nombre),
-    tipo_documento = VALUES(tipo_documento),
-    documento = VALUES(documento),
-    telefono = VALUES(telefono),
-    correo = VALUES(correo),
-    placa = VALUES(placa),
-    marca = VALUES(marca),
-    modelo = VALUES(modelo),
-    linea = VALUES(linea),
-    km = VALUES(km),
-    cilindraje = VALUES(cilindraje),
-    tecnico = VALUES(tecnico),
-    vence_tecnico = VALUES(vence_tecnico),
-    vence_soat = VALUES(vence_soat),
-    fecha_ingreso = VALUES(fecha_ingreso),
-    hora_ingreso = VALUES(hora_ingreso),
-    fecha_salida = VALUES(fecha_salida),
-    hora_salida = VALUES(hora_salida),
-    clase_trabajo = VALUES(clase_trabajo),
-    tarjeta_propiedad = VALUES(tarjeta_propiedad),
-    llaves = VALUES(llaves),
-    herramienta = VALUES(herramienta),
-    casco = VALUES(casco),
-    guantes = VALUES(guantes),
-    alarma = VALUES(alarma),
-    maletero = VALUES(maletero),
-    parrilla = VALUES(parrilla),
-    combustible = VALUES(combustible),
-    stop_estado = VALUES(stop_estado), stop_obs = VALUES(stop_obs),
-    direccionales_estado = VALUES(direccionales_estado), direccionales_obs = VALUES(direccionales_obs),
-    exploradoras_estado = VALUES(exploradoras_estado), exploradoras_obs = VALUES(exploradoras_obs),
-    alta_estado = VALUES(alta_estado), alta_obs = VALUES(alta_obs),
-    baja_estado = VALUES(baja_estado), baja_obs = VALUES(baja_obs),
-    placa_luz_estado = VALUES(placa_luz_estado), placa_luz_obs = VALUES(placa_luz_obs),
-    lat_der_estado = VALUES(lat_der_estado), lat_der_obs = VALUES(lat_der_obs),
-    lat_izq_estado = VALUES(lat_izq_estado), lat_izq_obs = VALUES(lat_izq_obs),
-    carenaje_estado = VALUES(carenaje_estado), carenaje_obs = VALUES(carenaje_obs),
-    gb_del_estado = VALUES(gb_del_estado), gb_del_obs = VALUES(gb_del_obs),
-    gb_tras_estado = VALUES(gb_tras_estado), gb_tras_obs = VALUES(gb_tras_obs),
-    prot_pinon_estado = VALUES(prot_pinon_estado), prot_pinon_obs = VALUES(prot_pinon_obs),
-    cupula_estado = VALUES(cupula_estado), cupula_obs = VALUES(cupula_obs),
-    quilla_estado = VALUES(quilla_estado), quilla_obs = VALUES(quilla_obs),
-    guardacadena_estado = VALUES(guardacadena_estado), guardacadena_obs = VALUES(guardacadena_obs),
-    cola_der_estado = VALUES(cola_der_estado), cola_der_obs = VALUES(cola_der_obs),
-    cola_izq_estado = VALUES(cola_izq_estado), cola_izq_obs = VALUES(cola_izq_obs),
-    farola_estado = VALUES(farola_estado), farola_obs = VALUES(farola_obs),
-    esp_der_estado = VALUES(esp_der_estado), esp_der_obs = VALUES(esp_der_obs),
-    esp_izq_estado = VALUES(esp_izq_estado), esp_izq_obs = VALUES(esp_izq_obs),
-    calap_der_estado = VALUES(calap_der_estado), calap_der_obs = VALUES(calap_der_obs),
-    calap_izq_estado = VALUES(calap_izq_estado), calap_izq_obs = VALUES(calap_izq_obs),
-    pos_der_estado = VALUES(pos_der_estado), pos_der_obs = VALUES(pos_der_obs),
-    pos_izq_estado = VALUES(pos_izq_estado), pos_izq_obs = VALUES(pos_izq_obs),
-    tapa_tanque_estado = VALUES(tapa_tanque_estado), tapa_tanque_obs = VALUES(tapa_tanque_obs),
-    pito_estado = VALUES(pito_estado), pito_obs = VALUES(pito_obs),
-    bateria_estado = VALUES(bateria_estado), bateria_obs = VALUES(bateria_obs),
-    tacometro_estado = VALUES(tacometro_estado), tacometro_obs = VALUES(tacometro_obs),
-    observaciones_generales = VALUES(observaciones_generales),
-    marcas_croquis = VALUES(marcas_croquis),
-    firma_cliente = VALUES(firma_cliente),
-    firma_taller = VALUES(firma_taller),
-    doc_cliente_firma = VALUES(doc_cliente_firma)";
+    doc_cliente_firma = :doc_cliente_firma";
 
 
 // Extraer los placeholders de la consulta
@@ -321,9 +253,21 @@ if (!empty($sobrantes)) {
     // pero podemos ignorarlos
 }
 
+// NÚMERO DE ORDEN: lo asigna el servidor AL GUARDAR (no la página al abrirse).
+// Así, si dos OT se abren al mismo tiempo, cada una recibe su propio número y ninguna sobrescribe a la otra.
+// GET_LOCK da un turno: si dos OT se guardan en el mismo instante, la segunda espera (máximo 10 segundos).
+if ((int) $pdo->query("SELECT GET_LOCK('bullracing_numero_ot', 10)")->fetchColumn() !== 1) {
+    echo json_encode(['success' => false, 'msg' => 'Se está guardando otra orden en este momento. Intente de nuevo.']);
+    exit;
+}
+
 $stmt = $pdo->prepare($sql);
 
 try {
+    $max = $pdo->query("SELECT MAX(CAST(numero_orden AS UNSIGNED)) FROM ordenes_servicio")->fetchColumn();
+    $data['numero_orden'] = str_pad((string) max(250, $max ? $max + 1 : 250), 4, '0', STR_PAD_LEFT);
+    $dataFiltrada['numero_orden'] = $data['numero_orden'];
+
     $stmt->execute($dataFiltrada);
     
     // ACTUALIZAMOS EL AGENDAMIENTO A "USADO"
@@ -335,8 +279,10 @@ try {
     echo json_encode(['success' => true, 'msg' => 'Orden guardada correctamente', 'numero_orden' => $data['numero_orden']]);
 } catch (PDOException $e) {
     if ($e->errorInfo[1] == 1062) {
-        echo json_encode(['success' => false, 'msg' => 'El número de orden ya existe. Por favor, use otro.']);
+        echo json_encode(['success' => false, 'msg' => 'No se pudo asignar el número de orden. Intente guardar de nuevo.']);
     } else {
         echo json_encode(['success' => false, 'msg' => 'Error al guardar: ' . $e->getMessage()]);
     }
+} finally {
+    $pdo->query("SELECT RELEASE_LOCK('bullracing_numero_ot')");
 }
