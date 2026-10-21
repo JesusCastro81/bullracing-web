@@ -79,3 +79,27 @@ function bullracing_precios_desde( string $servicio = 'mantenimiento' ): array {
 
 	return $desde;
 }
+
+/**
+ * Precio de cada referencia (cilindraje o potencia) por plan y tipo de motor,
+ * en el mismo orden de la tabla de tarifas. Lo usan los desplegables de la sección de planes.
+ * Si el plugin no está activo devuelve un arreglo vacío.
+ *
+ * @param string $servicio 'mantenimiento' o 'motolavado' (igual que en la tabla de tarifas).
+ * @return array<string, array<string, array<int, array{referencia: string, precio: int}>>> [ motor => [ plan => filas ] ]
+ */
+function bullracing_precios_por_referencia( string $servicio = 'mantenimiento' ): array {
+	if ( ! class_exists( 'BullRacing_Tarifas' ) ) {
+		return array();
+	}
+
+	$precios = array();
+	foreach ( BullRacing_Tarifas::listar( $servicio ) as $tarifa ) {
+		$precios[ (string) $tarifa['tipo_motor'] ][ (string) $tarifa['plan'] ][] = array(
+			'referencia' => (string) $tarifa['referencia'],
+			'precio'     => (int) $tarifa['precio'],
+		);
+	}
+
+	return $precios;
+}

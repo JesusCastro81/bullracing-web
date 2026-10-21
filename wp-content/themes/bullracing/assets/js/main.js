@@ -133,70 +133,86 @@
 
   document.querySelectorAll('[data-br-cotizador]').forEach(iniciarCotizador);
 
-  /* ---------- Planes: fichas + tacómetro ---------- */
+  /* ---------- Planes: tarjetas con desplegable + tacómetro ---------- */
 
   const NOMBRE_MOTOR = { gasolina: 'moto a gasolina', electrica: 'moto eléctrica' };
 
   const iniciarPlanes = (seccion) => {
     const botonesMotor = [...seccion.querySelectorAll('[data-br-motor]')];
-    const fichas = [...seccion.querySelectorAll('[data-br-plan]')];
+    const grupos = [...seccion.querySelectorAll('[data-br-grupo]')];
+    const tarjetas = [...seccion.querySelectorAll('[data-br-plan]')];
     const aguja = seccion.querySelector('[data-br-aguja]');
     const precioGrande = seccion.querySelector('[data-br-precio-grande]');
     const planNombre = seccion.querySelector('[data-br-plan-nombre]');
     const motorNombre = seccion.querySelector('[data-br-motor-nombre]');
-    const agendar = seccion.querySelector('[data-br-agendar-plan]');
+    const refNombre = seccion.querySelector('[data-br-ref-nombre]');
+    if (!tarjetas.length) return;
 
-    const precioDe = (ficha, motor) => Number(ficha.dataset[`precio${motor[0].toUpperCase()}${motor.slice(1)}`] || 0);
-    const texto = (valor) => (valor ? formatoPrecio.format(valor) : 'No aplica');
+    const selectDe = (tarjeta) => tarjeta.querySelector('[data-br-referencia]');
+    const precioDe = (tarjeta) => Number(selectDe(tarjeta).selectedOptions[0]?.dataset.precio || 0);
 
-    // Escala del tacómetro: el plan más caro queda casi al tope (como en el diseño).
-    const todos = fichas.flatMap((f) => ['gasolina', 'electrica'].map((m) => precioDe(f, m)));
+    // Escala del tacómetro: el precio más alto de todos queda casi al tope.
+    const todos = tarjetas.flatMap((t) => [...selectDe(t).options].map((o) => Number(o.dataset.precio || 0)));
     const escala = Math.ceil((Math.max(...todos, 1) * 1.125) / 50000) * 50000;
 
     let motor = 'gasolina';
-    let elegida = fichas.find((f) => f.getAttribute('aria-pressed') === 'true') || fichas[0];
+    let elegida = tarjetas.find((t) => t.getAttribute('aria-current') === 'true') || tarjetas[0];
 
+    // Cada tarjeta: precio de la referencia escogida y el Agendar con esa elección.
+    const pintarTarjeta = (tarjeta) => {
+      const select = selectDe(tarjeta);
+      tarjeta.querySelector('[data-br-valor]').textContent = formatoPrecio.format(precioDe(tarjeta));
+      tarjeta.querySelector('[data-br-desde]').textContent = select.selectedIndex === 0 ? 'Desde' : 'Precio';
+      enlaceConEleccion(tarjeta.querySelector('[data-br-agendar]'), {
+        servicio: 'mantenimiento',
+        motor: tarjeta.dataset.motor,
+        plan: tarjeta.dataset.brPlan,
+        referencia: select.value,
+      });
+    };
+
+    // Pestañas, tarjeta elegida y tacómetro.
     const pintar = () => {
       botonesMotor.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.brMotor === motor)));
-
-      fichas.forEach((f) => {
-        const valor = precioDe(f, motor);
-        f.setAttribute('aria-pressed', String(f === elegida));
-        f.classList.toggle('is-no-aplica', !valor);
-        f.querySelector('[data-br-ficha-precio]').textContent = texto(valor);
-        f.querySelectorAll('[data-br-lista]').forEach((l) => {
-          l.hidden = l.dataset.brLista !== motor;
-        });
+      grupos.forEach((g) => {
+        g.hidden = g.dataset.brGrupo !== motor;
       });
+      tarjetas.forEach((t) => t.setAttribute('aria-current', String(t === elegida)));
 
-      const valor = precioDe(elegida, motor);
-      precioGrande.textContent = texto(valor);
+      const valor = precioDe(elegida);
+      precioGrande.textContent = formatoPrecio.format(valor);
       planNombre.textContent = elegida.dataset.brPlan;
       motorNombre.textContent = NOMBRE_MOTOR[motor];
+      refNombre.textContent = selectDe(elegida).value;
       aguja.style.transform = `rotate(${-90 + Math.min(valor / escala, 1) * 180}deg)`;
-
-      if (agendar) {
-        enlaceConEleccion(agendar, { servicio: 'mantenimiento', motor, plan: elegida.dataset.brPlan });
-      }
     };
 
     botonesMotor.forEach((b) =>
       b.addEventListener('click', () => {
         motor = b.dataset.brMotor;
-        // Si el plan elegido no aplica para este motor, se pasa al recomendado.
-        if (!precioDe(elegida, motor)) {
-          elegida = fichas.find((f) => precioDe(f, motor)) || elegida;
-        }
+        const delMotor = tarjetas.filter((t) => t.dataset.motor === motor);
+        // Mismo plan en el otro motor; si no existe (Viaje en eléctricas), el recomendado.
+        elegida =
+          delMotor.find((t) => t.dataset.brPlan === elegida.dataset.brPlan) ||
+          delMotor.find((t) => t.classList.contains('br-plan--recomendado')) ||
+          delMotor[0];
         pintar();
       })
     );
 
-    fichas.forEach((f) =>
-      f.addEventListener('click', () => {
-        elegida = f;
+    tarjetas.forEach((t) => {
+      t.addEventListener('click', (evento) => {
+        if (evento.target.closest('a, select')) return;
+        elegida = t;
         pintar();
-      })
-    );
+      });
+      selectDe(t).addEventListener('change', () => {
+        pintarTarjeta(t);
+        elegida = t;
+        pintar();
+      });
+      pintarTarjeta(t);
+    });
 
     pintar();
   };
