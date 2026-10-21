@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/../includes/acceso.php'; // Solo usuarios autorizados (Recepción de motos).
+bullracing_ot_exigir_acceso( true );
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
@@ -264,19 +266,34 @@ if ((int) $pdo->query("SELECT GET_LOCK('bullracing_numero_ot', 10)")->fetchColum
 $stmt = $pdo->prepare($sql);
 
 try {
-    $max = $pdo->query("SELECT MAX(CAST(numero_orden AS UNSIGNED)) FROM ordenes_servicio")->fetchColumn();
-    $data['numero_orden'] = str_pad((string) max(250, $max ? $max + 1 : 250), 4, '0', STR_PAD_LEFT);
-    $dataFiltrada['numero_orden'] = $data['numero_orden'];
+    // ORDEN REPETIDA (doble clic en Guardar o guardar dos veces el mismo formulario):
+    // si ya existe una orden con la misma placa, fecha y hora de ingreso, no se crea otra; se devuelve la que ya estaba.
+    $existente = $pdo->prepare("SELECT numero_orden FROM ordenes_servicio WHERE placa = ? AND fecha_ingreso = ? AND hora_ingreso = ? LIMIT 1");
+    $existente->execute([$data['placa'], $data['fecha_ingreso'], $data['hora_ingreso']]);
+    $repetida = $existente->fetchColumn();
 
-    $stmt->execute($dataFiltrada);
+    if ($repetida !== false) {
+        echo json_encode(['success' => true, 'msg' => 'Esta orden ya estaba guardada', 'numero_orden' => $repetida]);
+    } else {
+        $max = $pdo->query("SELECT MAX(CAST(numero_orden AS UNSIGNED)) FROM ordenes_servicio")->fetchColumn();
+        $data['numero_orden'] = str_pad((string) max(250, $max ? $max + 1 : 250), 4, '0', STR_PAD_LEFT);
+        $dataFiltrada['numero_orden'] = $data['numero_orden'];
+
+        $stmt->execute($dataFiltrada);
     
-    // ACTUALIZAMOS EL AGENDAMIENTO A "USADO"
-    if (isset($input['placa']) && !empty($input['placa'])) {
-        $stmtUpd = $pdo->prepare("UPDATE agendamientos SET estado = 1, numero_ot_generada = ? WHERE placa = ? AND estado = 0 ORDER BY id DESC LIMIT 1");
-        $stmtUpd->execute([$data['numero_orden'], $data['placa']]);
-    }
+        // ACTUALIZAMOS EL AGENDAMIENTO A "USADO"
+        if (isset($input['placa']) && !empty($input['placa'])) {
+            $stmtUpd = $pdo->prepare("UPDATE agendamientos SET estado = 1, numero_ot_generada = ? WHERE placa = ? AND estado = 0 ORDER BY id DESC LIMIT 1");
+            $stmtUpd->execute([$data['numero_orden'], $data['placa']]);
+        }
 
-    echo json_encode(['success' => true, 'msg' => 'Orden guardada correctamente', 'numero_orden' => $data['numero_orden']]);
+        // TRAZABILIDAD: quién recibió la moto = el usuario conectado (no lo que se escriba en el formulario).
+        if (class_exists('BullRacing_Acceso_OT')) {
+            BullRacing_Acceso_OT::registrar_recepcion($data['numero_orden'], (string) $data['placa']);
+        }
+
+        echo json_encode(['success' => true, 'msg' => 'Orden guardada correctamente', 'numero_orden' => $data['numero_orden']]);
+    }
 } catch (PDOException $e) {
     if ($e->errorInfo[1] == 1062) {
         echo json_encode(['success' => false, 'msg' => 'No se pudo asignar el número de orden. Intente guardar de nuevo.']);

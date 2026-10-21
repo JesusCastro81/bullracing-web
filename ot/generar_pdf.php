@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/includes/acceso.php'; // Solo usuarios autorizados (Recepción de motos).
+bullracing_ot_exigir_acceso();
 require_once './includes/config.php';
 require_once './includes/fpdf.php';
 

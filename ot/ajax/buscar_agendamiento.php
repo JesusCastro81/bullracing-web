@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/../includes/acceso.php'; // Solo usuarios autorizados (Recepción de motos).
+bullracing_ot_exigir_acceso( true );
 header('Content-Type: application/json');
 require_once __DIR__ . '/../includes/config.php';
 

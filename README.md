@@ -161,4 +161,17 @@ La programó **John Garzón** para el proyecto Motos Bull Racing, a partir del f
 - `bullracing_bd.sql` trae solo la estructura de las tablas (sin datos de clientes).
 - Los `temp_*.png` los crea la OT al generar el PDF (firmas y croquis): no se suben (Ley 1581).
 - Necesita la extensión **GD** de PHP para el PDF.
-- En el servidor debe quedar protegida con usuario y contraseña (no tiene inicio de sesión propio).
+- **Número de orden:** lo asigna el servidor al guardar (`ajax/guardarDatos.php`), no al abrir la página, y nunca sobrescribe una orden existente.
+
+### Acceso a la OT (agregado al proyecto)
+
+La OT original no tenía inicio de sesión. Se protege con el inicio de sesión de WordPress:
+
+- **Rol "Recepción de motos"** (plugin `bullracing-core`): para las personas que don Franz autoriza a recibir motos.
+  Ese rol **solo sirve para la OT**: no puede tocar la página ni los precios. Si entra a `wp-admin`, va a la OT (menos a su Perfil, para cambiar la contraseña).
+- **Un usuario por persona**, todos con el mismo rol. Don Franz los crea, edita o quita en **Usuarios** de WordPress.
+- **Contraseña:** cada uno la cambia en su Perfil o la recupera con "¿Has olvidado tu contraseña?" (el sitio debe poder enviar correos).
+- **Quitar el acceso:** cambiar el rol a "Sin rol en este sitio" (o borrar el usuario). El permiso se revisa en cada acción, así que pierde el acceso al instante.
+- **Trazabilidad:** cada orden guardada queda en la tabla `{prefijo}bullracing_ot_recepciones` de WordPress con quién la recibió y a qué hora.
+- El control está en `ot/includes/acceso.php`, incluido al principio de cada archivo PHP de la OT. `ot/.htaccess` no deja descargar el `.sql` ni `includes/`.
+- La OT debe estar en la carpeta `ot/` dentro de la raíz de WordPress (usa `wp-load.php`).

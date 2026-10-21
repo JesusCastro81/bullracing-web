@@ -1,0 +1,5 @@
+# Archivos internos de la OT: no se sirven por internet (se usan solo desde PHP).
+<FilesMatch "\.(sql|md)$">
+    Require all denied
+</FilesMatch>
+RedirectMatch 403 /ot/includes/

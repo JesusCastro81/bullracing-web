@@ -1,3 +1,9 @@
+<?php
+// Solo usuarios autorizados (Recepción de motos o administrador). Ver includes/acceso.php.
+require_once __DIR__ . '/includes/acceso.php';
+bullracing_ot_exigir_acceso();
+$usuario_ot = wp_get_current_user();
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -13,6 +19,11 @@
 </head>
 
 <body>
+    <!-- Quién está usando la OT y botón para salir (agregado: control de acceso). -->
+    <div style="display:flex; justify-content:flex-end; align-items:center; gap:16px; padding:8px 16px; background:#111; color:#ddd; font:14px 'Poppins', sans-serif;">
+        <span>Recibe: <strong style="color:#fff;"><?php echo esc_html( $usuario_ot->display_name ); ?></strong></span>
+        <a href="<?php echo esc_url( wp_logout_url( home_url( '/ot/' ) ) ); ?>" style="color:#fff; font-weight:600;">Salir</a>
+    </div>
 
     <div class="container" id="form-container">
         <!-- Encabezado -->
