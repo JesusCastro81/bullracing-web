@@ -2078,27 +2078,28 @@ a.br-valoracion__calificar:hover {
   text-transform: uppercase;
 }
 
-.br-footer__asesor {
+.br-footer__contacto {
   display: flex;
   align-items: center;
   gap: 12px;
+  margin: 0;
   font-size: 13px;
 }
 
-/* Recuadro punteado: aquí va el logo de TecnoParque (sin enlace) */
-.br-footer__tecnoparque {
+/* Recuadro punteado con el correo del taller */
+.br-footer .br-footer__correo {
   display: inline-flex;
   align-items: center;
   min-height: 40px;
   padding: 10px 14px;
   border: 1px dashed #52525b;
   color: var(--paleta-gris-200);
+  text-decoration: none;
 }
 
-.br-footer__tecnoparque img {
-  display: block;
-  width: auto;
-  height: 36px;
+.br-footer .br-footer__correo:hover {
+  border-color: var(--color-acento);
+  color: var(--paleta-blanco);
 }
 
 .br-footer__base {

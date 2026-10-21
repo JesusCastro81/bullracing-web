@@ -1,11 +1,8 @@
 <?php
 /**
- * Pie de página (diseño 1, tal cual el Word): logo, lema y asesoría técnica de
- * TecnoParque Nodo Bogotá · SENA en recuadro punteado.
+ * Pie de página (diseño 1): logo, lema y correo del taller en recuadro punteado.
  *
- * - Logo de TecnoParque: cuando la ingeniera lo entregue, se guarda como
- *   assets/img/tecnoparque-nodo-bogota.png (o .svg) y aparece solo en el recuadro.
- *   Va SIN enlace (TecnoParque no tiene página web propia) y sin contacto.
+ * - TecnoParque NO aparece en el pie de página (decisión de la reunión del 20-oct-2026).
  * - Segunda línea: © y enlace a Términos y condiciones (la página legal debe poder abrirse).
  *
  * @package BullRacing
@@ -15,15 +12,7 @@ defined( 'ABSPATH' ) || exit;
 
 $taller = bullracing_datos_taller();
 
-// Logo de TecnoParque si ya está en el tema (PNG o SVG).
-$logo_tp = '';
-foreach ( array( 'svg', 'png' ) as $ext ) {
-	$archivo = '/assets/img/tecnoparque-nodo-bogota.' . $ext;
-	if ( file_exists( get_template_directory() . $archivo ) ) {
-		$logo_tp = get_template_directory_uri() . $archivo;
-		break;
-	}
-}
+$correo = (string) $taller['correo'];
 ?>
 </main>
 
@@ -35,16 +24,12 @@ foreach ( array( 'svg', 'png' ) as $ext ) {
 			<span class="br-footer__lema"><?php echo esc_html( $taller['lema'] ); ?></span>
 		</a>
 
-		<p class="br-footer__asesor">
-			<?php esc_html_e( 'Asesoría técnica', 'bullracing' ); ?>
-			<span class="br-footer__tecnoparque">
-				<?php if ( $logo_tp ) : ?>
-					<img src="<?php echo esc_url( $logo_tp ); ?>" alt="<?php esc_attr_e( 'TecnoParque Nodo Bogotá · SENA', 'bullracing' ); ?>" height="36" loading="lazy">
-				<?php else : ?>
-					<?php esc_html_e( 'TecnoParque Nodo Bogotá · SENA', 'bullracing' ); ?>
-				<?php endif; ?>
-			</span>
-		</p>
+		<?php if ( $correo ) : ?>
+			<p class="br-footer__contacto">
+				<?php esc_html_e( 'Correo', 'bullracing' ); ?>
+				<a class="br-footer__correo" href="<?php echo esc_url( 'mailto:' . $correo ); ?>"><?php echo esc_html( $correo ); ?></a>
+			</p>
+		<?php endif; ?>
 	</div>
 
 	<div class="br-contenedor br-footer__base">
