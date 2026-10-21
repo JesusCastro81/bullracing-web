@@ -111,6 +111,17 @@
   const fecha = $('booking_date');
   const placa = $('user_plate');
 
+  // Placa: solo letras y números, sin guiones ni espacios (así la OT la encuentra al buscarla).
+  if (placa) {
+    placa.setAttribute('pattern', '[A-Z0-9]+');
+    placa.setAttribute('autocapitalize', 'characters');
+    placa.title = 'Solo letras y números, sin guiones ni espacios';
+    placa.addEventListener('input', () => {
+      const limpia = placa.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+      if (limpia !== placa.value) placa.value = limpia;
+    });
+  }
+
   botonera(tipoServicio, 'servicio', (op) => ({
     titulo: op.text,
     detalle: op.value === 'motolavado' ? '4 paquetes · según cilindraje' : 'Combos · gasolina y eléctricas',

@@ -8,7 +8,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'BULLRACING_TEMA_VERSION', '0.7.3' );
+define( 'BULLRACING_TEMA_VERSION', '0.7.4' );
 
 /**
  * Skin activa: el diseño visual escogido. Cambiar de diseño = cambiar este valor
