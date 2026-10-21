@@ -3,7 +3,7 @@
   Verificación del proyecto Bull Racing (el "build" del tema).
 
 .DESCRIPTION
-  1. Revisa la sintaxis de todo el PHP del tema y de los plugins bullracing-*.
+  1. Revisa la sintaxis de todo el PHP del tema, de los plugins bullracing-* y de la OT (carpeta ot/).
   2. Revisa que existan los CSS/JS que carga functions.php.
   3. Revisa que el tema no dependa de servicios externos (debe funcionar sin internet).
   4. Con -ConServidor: comprueba que el sitio local y la API de tarifas respondan.
@@ -34,6 +34,8 @@ if (-not (Test-Path $Php)) {
     Falla "No se encontró PHP en $Php"
 } else {
     $carpetas = @($tema) + (Get-ChildItem (Join-Path $raiz 'wp-content\plugins') -Directory -Filter 'bullracing-*' | ForEach-Object FullName)
+    $ot = Join-Path $raiz 'ot'
+    if (Test-Path $ot) { $carpetas += $ot }
     $archivos = $carpetas | ForEach-Object { Get-ChildItem $_ -Recurse -Filter '*.php' -File }
     foreach ($a in $archivos) {
         $salida = & $Php -l $a.FullName 2>&1

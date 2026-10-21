@@ -2,7 +2,7 @@
  * Bull Racing · Precarga del formulario de agendamiento.
  *
  * Se carga SOLO en la página de agendamiento. Lee del enlace lo que el cliente escogió
- * en la landing (barra del hero, tacómetro de planes o paquetes de motolavado) y escoge
+ * en la landing (barra del hero, tarjetas de planes o paquetes de motolavado) y escoge
  * esas mismas opciones en el formulario, como si el cliente hubiera hecho clic.
  *
  * No modifica el agendamiento: solo cambia el valor de sus listas y dispara el evento
@@ -45,7 +45,7 @@
     const plan = parametros.get('plan');
     const referencia = parametros.get('referencia');
 
-    // Versiones viejas del formulario no tienen "Tipo de Servicio" (solo mantenimiento).
+    // Si el formulario no tiene "Tipo de Servicio", solo se precarga mantenimiento.
     const tieneTipo = Boolean(document.getElementById('tipo_servicio'));
     if (tieneTipo && !escoger('tipo_servicio', servicio)) return;
     if (!tieneTipo && servicio !== 'mantenimiento') return;

@@ -65,15 +65,6 @@ h2 {
   letter-spacing: 0.5px;
 }
 
-/* Botones: letra esténcil en mayúscula */
-.br-boton {
-  font-family: var(--fuente-titulos);
-  font-weight: 800;
-  font-size: 1.15rem;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
 /* Menú en mayúscula con espaciado */
 .br-header .br-menu a {
   font-size: var(--texto-s);
@@ -86,7 +77,7 @@ h2 {
 }
 
 /* =========================================================
-   HEADER del inicio: va encima de la foto del hero (igual al PDF).
+   HEADER del inicio: va encima de la foto del hero.
    En las páginas internas se queda con su fondo negro.
    ========================================================= */
 .home .br-header,
@@ -178,7 +169,7 @@ body:has(.br-banner) .br-header .br-menu li:first-child a:not([aria-current]) {
 }
 
 /* =========================================================
-   Sección: HERO (igual al diseño del PDF)
+   Sección: HERO
    ========================================================= */
 .br-hero {
   --taller-verde-abierto: #22c55e; /* Punto de "taller abierto" del diseño */
@@ -683,7 +674,7 @@ body:has(.br-banner) .br-header .br-menu li:first-child a:not([aria-current]) {
   border-color: var(--color-acento);
 }
 
-/* Marco blanco al pasar el mouse (pedido de don Franz); también con teclado */
+/* Marco blanco al pasar el mouse; también con teclado */
 .br-plan:hover,
 .br-plan:focus-within {
   border-color: var(--paleta-blanco);
@@ -1477,7 +1468,7 @@ a.br-valoracion__calificar:hover {
   color: var(--paleta-gris-400);
 }
 
-/* Mapa: recuadro con botón; el mapa real se carga al tocarlo */
+/* Mapa de Google del taller */
 .br-contacto__mapa {
   grid-column: span 2;
   display: flex;
@@ -1911,7 +1902,7 @@ a.br-valoracion__calificar:hover {
   font-size: 14px;
 }
 
-/* Plano con pin que late (el mapa real se carga al tocar "Ver mapa") */
+/* Plano con pin que late */
 @keyframes br-onda {
   0% { transform: scale(0.6); opacity: 0.8; }
   100% { transform: scale(2.4); opacity: 0; }
@@ -2107,7 +2098,7 @@ a.br-valoracion__calificar:hover {
 }
 
 /* =========================================================
-   FOOTER (diseño 1, tal cual el Word)
+   FOOTER (diseño 1)
    ========================================================= */
 .br-footer {
   margin-top: 0;
@@ -2419,7 +2410,7 @@ a.br-valoracion__calificar:hover {
   list-style: none;
 }
 
-/* Tarjetas que se elevan y se marcan en rojo al pasar el cursor (Word) */
+/* Tarjetas que se elevan y se marcan en rojo al pasar el cursor */
 .br-servicio {
   display: flex;
   flex-direction: column;
@@ -2633,7 +2624,7 @@ a.br-valoracion__calificar:hover {
   padding-block: 64px 80px;
 }
 
-/* El índice queda fijo al hacer scroll (propuesta) */
+/* El índice queda fijo al hacer scroll */
 .br-legal__lateral {
   position: sticky;
   top: 24px;

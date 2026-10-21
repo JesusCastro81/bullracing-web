@@ -56,6 +56,18 @@ final class BullRacing_Acceso_OT {
 		update_option( 'bullracing_acceso_ot_version', self::VERSION );
 	}
 
+	/** Al borrar el plugin: quita el rol y el permiso. La tabla del registro NO se borra (historial). */
+	public static function eliminar(): void {
+		remove_role( self::ROL );
+
+		$admin = get_role( 'administrator' );
+		if ( $admin ) {
+			$admin->remove_cap( self::PERMISO );
+		}
+
+		delete_option( 'bullracing_acceso_ot_version' );
+	}
+
 	/** Si el plugin ya estaba activo cuando se agregó esto, lo instala una sola vez. */
 	public static function actualizar_si_hace_falta(): void {
 		if ( get_option( 'bullracing_acceso_ot_version' ) !== self::VERSION ) {

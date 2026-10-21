@@ -2,8 +2,8 @@
    Bull Racing · Tokens de diseño
    Nivel 1: paleta de marca (no cambia entre diseños).
    Nivel 2: tokens semánticos (cada skin los redefine).
-   Regla: en el resto del CSS solo se usan tokens del nivel 2,
-   nunca colores escritos a mano.
+   Regla: main.css solo usa tokens del nivel 2; los colores propios
+   de un diseño van en su skin (skins/).
    ========================================================= */
 
 :root {

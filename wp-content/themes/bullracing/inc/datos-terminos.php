@@ -2,8 +2,8 @@
 /**
  * Texto legal de Términos y condiciones.
  *
- * Copiado TAL CUAL del sitio actual (página "Ayuda e información", /help-info/), como pide
- * la propuesta. Solo se ordenó en secciones para armar el índice; no se cambió ninguna
+ * Copiado TAL CUAL del sitio actual (página "Ayuda e información", /help-info/).
+ * Solo se ordenó en secciones para armar el índice; no se cambió ninguna
  * palabra del contenido. Cualquier ajuste al texto lo decide el taller.
  *
  * @package BullRacing

@@ -70,45 +70,6 @@ a:hover {
   min-height: 50vh;
 }
 
-/* ---------- Componente: botón ---------- */
-.br-boton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--espacio-s);
-  padding: 12px 24px;
-  border: 2px solid transparent;
-  border-radius: var(--radio-boton);
-  font-weight: 700;
-  text-decoration: none;
-  transition: background var(--transicion), color var(--transicion), transform var(--transicion);
-}
-
-.br-boton:hover {
-  transform: translateY(-1px);
-}
-
-.br-boton--primario {
-  background: var(--color-acento);
-  color: var(--color-sobre-acento);
-}
-
-.br-boton--primario:hover {
-  background: var(--color-acento-hover);
-  color: var(--color-sobre-acento);
-}
-
-.br-boton--contorno {
-  border-color: currentColor;
-  background: transparent;
-  color: inherit;
-}
-
-.br-boton--whatsapp {
-  background: var(--color-whatsapp);
-  color: var(--color-sobre-acento);
-}
-
 /* ---------- Componente: estrellas ---------- */
 .br-estrellas {
   display: inline-flex;
@@ -120,52 +81,6 @@ a:hover {
   color: var(--color-estrellas);
   font-size: var(--texto-l);
   letter-spacing: 2px;
-}
-
-/* ---------- Componente: tarjeta ---------- */
-.br-tarjeta {
-  position: relative;
-  padding: var(--espacio-l);
-  border: 1px solid var(--color-borde);
-  border-radius: var(--radio-m);
-  background: var(--color-superficie);
-  box-shadow: var(--sombra-tarjeta);
-  transition: transform var(--transicion);
-}
-
-.br-tarjeta:hover {
-  transform: translateY(-4px);
-}
-
-.br-tarjeta--destacada {
-  border-color: var(--color-acento);
-}
-
-.br-tarjeta__etiqueta {
-  display: inline-block;
-  margin-bottom: var(--espacio-s);
-  padding: 2px 10px;
-  border-radius: var(--radio-boton);
-  background: var(--color-acento);
-  color: var(--color-sobre-acento);
-  font-size: var(--texto-s);
-  font-weight: 700;
-}
-
-.br-tarjeta__titulo {
-  margin: 0 0 var(--espacio-s);
-  font-size: var(--texto-l);
-}
-
-.br-tarjeta__texto {
-  margin: 0;
-  color: var(--color-texto-suave);
-}
-
-.br-tarjeta__precio {
-  margin: var(--espacio-m) 0 0;
-  font-size: var(--texto-xl);
-  font-weight: 800;
 }
 
 /* ---------- Header ---------- */

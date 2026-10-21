@@ -1,8 +1,7 @@
 <?php
 /**
- * Datos del taller usados en header, footer y contacto.
- * Un solo lugar para cambiarlos. Más adelante se podrán editar desde el panel del taller
- * (bullracing-core) usando el filtro 'bullracing_datos_taller'.
+ * Datos del taller que usan las páginas del tema (header, hero, contacto, footer, Quiénes somos).
+ * Un solo lugar para cambiarlos.
  *
  * @package BullRacing
  */
@@ -19,8 +18,8 @@ function bullracing_datos_taller(): array {
 		'whatsapp'     => '573115495983',
 		'telefono'     => '(57) 311 549 5983',
 		'correo'       => 'tienda@motosbullracing.com',
-		'direccion'    => 'Cra. 84 # 78-58, Bogotá', // Igual al perfil de Google del taller (Engativá).
-		// Horario igual al perfil de Google del taller (consultado el 20-oct-2026). Domingos y festivos: cerrado.
+		'direccion'    => 'Cra. 84 # 78-58, Bogotá', // Según reunión.
+		// Horario según reunión. Domingos y festivos: cerrado.
 		// 'semana': días en que aplica (1 = lunes … 6 = sábado). 'abre' y 'cierra': hora en formato 24 h (lo usa el aviso abierto/cerrado).
 		'horario'      => array(
 			array( 'dias' => 'Lunes a viernes', 'horas' => '7:00 a. m. – 6:00 p. m.', 'semana' => array( 1, 2, 3, 4, 5 ), 'abre' => 7, 'cierra' => 18 ),
@@ -29,9 +28,9 @@ function bullracing_datos_taller(): array {
 		'por_confirmar' => array(), // Datos que muestran [CONFIRMAR] en la página de Contacto. Vaciar cuando el taller los confirme.
 		'clientes'     => 166,
 		'calificacion' => 5,
-		'desde'        => 0,  // Pendiente: año en que abrió el taller (lo da don Franz).
-		'historia'     => '', // Pendiente: historia del taller contada por don Franz.
-		'video'        => '', // Pendiente: enlace del video corto (TikTok o Instagram).
+		'desde'        => 0,  // Pendiente: año en que abrió el taller (lo da el taller).
+		'historia'     => '', // Pendiente: historia del taller (la da el taller).
+		'video'        => '', // Pendiente: video del taller (archivo .mp4/.webm o enlace de TikTok/Instagram).
 		// Valoración REAL del perfil de Google Maps del taller (consultado el 20-oct-2026). Actualizar a mano.
 		'promedio'      => '4,2',
 		'total_resenas' => 29,

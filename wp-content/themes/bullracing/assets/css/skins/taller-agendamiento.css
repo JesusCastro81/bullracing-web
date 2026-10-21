@@ -95,7 +95,7 @@
   pointer-events: none;
 }
 
-/* En el paso 01 cada grupo ocupa todo el ancho, como la propuesta */
+/* En el paso 01 cada grupo ocupa todo el ancho */
 .br-agenda.is-capa #bloque-mantenimiento .ba-form-row {
   display: block;
 }

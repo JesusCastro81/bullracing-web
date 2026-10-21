@@ -1,8 +1,8 @@
 /**
  * Capa visual del agendamiento (Diseño 1 – Taller).
  *
- * NO cambia el funcionamiento del agendamiento (propuesta: "los campos, los precios y el
- * funcionamiento quedan iguales"). Reglas de esta capa:
+ * Solo cambia la apariencia del agendamiento; lo único que agrega es que la placa acepte
+ * solo letras y números. Reglas de esta capa:
  *  - El formulario original sigue intacto: mismos campos, id, name y su ba-agendamiento.js.
  *  - Las listas originales se ocultan a la vista, pero siguen siendo las que valen: los botones
  *    nuevos solo escogen una opción en ellas y lanzan "change", igual que si el cliente la escogiera.
@@ -134,7 +134,7 @@
     const valor = fila ? fila[op.value] : 0;
     return {
       titulo: op.value,
-      // Viaje dice "Solo gasolina" como en la propuesta (decisión del equipo).
+      // Viaje dice "Solo gasolina": no aplica para motos eléctricas.
       detalle: op.value === 'Viaje' ? 'Solo gasolina' : (valor ? pesos(valor) : ''),
     };
   });
@@ -193,7 +193,7 @@
   const detallePrecio = crear('span', 'br-precio__detalle');
   if (cajaPrecio) cajaPrecio.querySelector('span')?.after(detallePrecio);
 
-  /* ---------- Bloque 02 en rejilla, como la propuesta ---------- */
+  /* ---------- Bloque 02 en rejilla ---------- */
   const datos = crear('div', 'br-agenda__datos');
   const desde = paso2.isConnected ? paso2 : null;
   if (desde) {

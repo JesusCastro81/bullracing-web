@@ -229,23 +229,6 @@
     mover();
   });
 
-  /* ---------- Contacto: mapa que se carga al tocarlo ---------- */
-
-  // El mapa de Google no se carga con la página: solo cuando el cliente toca "Ver mapa".
-  document.querySelectorAll('[data-br-mapa]').forEach((caja) => {
-    const boton = caja.querySelector('[data-br-mapa-cargar]');
-    if (!boton) return;
-    boton.addEventListener('click', () => {
-      const mapa = document.createElement('iframe');
-      mapa.src = caja.dataset.brMapa;
-      mapa.title = 'Mapa con la dirección del taller';
-      mapa.loading = 'lazy';
-      mapa.referrerPolicy = 'no-referrer-when-downgrade';
-      mapa.className = 'br-contacto__iframe';
-      caja.replaceChildren(mapa);
-    });
-  });
-
   /* ---------- Contacto: carrusel de fotos del taller ---------- */
 
   // Al pasar el mouse las fotos se encadenan solas; al quitarlo se detiene.
@@ -374,7 +357,7 @@
 
   /* ---------- Quiénes somos: video del taller ---------- */
 
-  // Play/pausa, etiqueta "Reproduciendo" y barra de progreso (lo que describe el Word).
+  // Play/pausa, etiqueta "Reproduciendo" y barra de progreso.
   document.querySelectorAll('[data-br-video]').forEach((caja) => {
     const video = caja.querySelector('video');
     const boton = caja.querySelector('[data-br-video-boton]');
@@ -400,7 +383,7 @@
 
   /* ---------- Hero: taller abierto / cerrado ---------- */
 
-  // Horario del taller (hora de Bogotá), igual al perfil de Google: L-V 7:00 a 18:00 y sábado 7:00 a 17:00.
+  // Horario del taller (hora de Bogotá), según reunión: L-V 7:00 a 18:00 y sábado 7:00 a 17:00.
   // Llega desde inc/datos-taller.php; si no llega, se usa este mismo. Domingos y festivos: cerrado.
   // dias: 1 = lunes … 6 = sábado.
   const HORARIO =
