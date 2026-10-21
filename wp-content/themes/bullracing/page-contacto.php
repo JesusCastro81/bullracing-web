@@ -24,7 +24,7 @@ $direccion  = (string) $taller['direccion'];
 $partes     = array_map( 'trim', explode( ',', $direccion, 2 ) );
 $calle      = $partes[0];
 $ciudad     = ( $partes[1] ?? 'Bogotá' ) . ', Colombia';
-$horario    = array_map( 'trim', explode( '·', (string) $taller['horario'], 2 ) );
+$horario    = (array) $taller['horario'];
 $como_ir    = 'https://www.google.com/maps/dir/?api=1&destination=' . rawurlencode( $direccion );
 // Por nombre + dirección para que Google marque el perfil del taller.
 $mapa_url   = 'https://www.google.com/maps?q=' . rawurlencode( $taller['nombre'] . ', ' . $direccion ) . '&z=16&output=embed';
@@ -92,8 +92,10 @@ bullracing_componente(
 			</div>
 			<div class="br-dato">
 				<p class="br-dato__cabecera"><span><?php esc_html_e( 'Horario', 'bullracing' ); ?></span><?php $confirmar( 'horario' ); ?></p>
-				<p class="br-dato__valor"><?php echo esc_html( $horario[0] ); ?></p>
-				<p class="br-dato__nota"><?php echo esc_html( $horario[1] ?? '' ); ?></p>
+				<?php foreach ( $horario as $fila ) : ?>
+					<p class="br-dato__valor"><?php echo esc_html( $fila['dias'] ); ?></p>
+					<p class="br-dato__nota"><?php echo esc_html( $fila['horas'] ); ?></p>
+				<?php endforeach; ?>
 				<?php /* Mismo aviso del hero: verde si está abierto ahora, rojo si está cerrado (lo calcula main.js). */ ?>
 				<p class="br-estado" data-br-estado>
 					<span class="br-estado__punto" aria-hidden="true"></span>

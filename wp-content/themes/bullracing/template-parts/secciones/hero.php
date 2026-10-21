@@ -29,7 +29,7 @@ $url_cotizar = bullracing_whatsapp_url( __( 'Hola, quiero cotizar un servicio de
 			<span data-br-estado-texto
 				data-abierto="<?php esc_attr_e( 'TALLER ABIERTO', 'bullracing' ); ?>"
 				data-cerrado="<?php esc_attr_e( 'TALLER CERRADO', 'bullracing' ); ?>"><?php esc_html_e( 'TALLER ABIERTO', 'bullracing' ); ?></span>
-			<?php esc_html_e( '· BOGOTÁ · L-S 8:00 a 6:00', 'bullracing' ); ?>
+			<?php esc_html_e( '· BOGOTÁ · L-V 7:00 a 6:00 · SÁB 7:00 a 5:00', 'bullracing' ); ?>
 		</p>
 
 		<h1 class="br-hero__titulo">

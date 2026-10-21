@@ -400,8 +400,16 @@
 
   /* ---------- Hero: taller abierto / cerrado ---------- */
 
-  // Horario del taller: lunes a sábado de 8:00 a 18:00, hora de Bogotá. Cerrado domingos y festivos.
-  const HORARIO = { abre: 8, cierra: 18 };
+  // Horario del taller (hora de Bogotá), igual al perfil de Google: L-V 7:00 a 18:00 y sábado 7:00 a 17:00.
+  // Llega desde inc/datos-taller.php; si no llega, se usa este mismo. Domingos y festivos: cerrado.
+  // dias: 1 = lunes … 6 = sábado.
+  const HORARIO =
+    Array.isArray(datos.horario) && datos.horario.length
+      ? datos.horario
+      : [
+          { dias: [1, 2, 3, 4, 5], abre: 7, cierra: 18 },
+          { dias: [6], abre: 7, cierra: 17 },
+        ];
 
   /** Domingo de Pascua (algoritmo gregoriano anónimo). Mes base 0. */
   const pascua = (anio) => {
@@ -468,14 +476,15 @@
       anio: Number(partes.year),
       clave: `${partes.year}-${partes.month}-${partes.day}`,
       hora: Number(partes.hour),
-      domingo: partes.weekday === 'Sun',
+      diaSemana: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(partes.weekday),
     };
   };
 
   const tallerAbierto = () => {
     const ahora = ahoraEnBogota();
-    if (ahora.domingo || festivosColombia(ahora.anio).has(ahora.clave)) return false;
-    return ahora.hora >= HORARIO.abre && ahora.hora < HORARIO.cierra;
+    if (festivosColombia(ahora.anio).has(ahora.clave)) return false;
+    const turno = HORARIO.find((fila) => fila.dias.includes(ahora.diaSemana));
+    return Boolean(turno) && ahora.hora >= turno.abre && ahora.hora < turno.cierra;
   };
 
   const iniciarEstado = (elemento) => {

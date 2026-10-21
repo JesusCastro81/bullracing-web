@@ -19,9 +19,14 @@ function bullracing_datos_taller(): array {
 		'whatsapp'     => '573115495983',
 		'telefono'     => '(57) 311 549 5983',
 		'correo'       => 'tienda@motosbullracing.com',
-		'direccion'    => 'Cra. 84 # 78-58, Bogotá', // Pendiente: confirmar con el taller.
-		'horario'      => 'Lunes a sábado · 8:00 a. m. – 6:00 p. m.', // Pendiente: confirmar con el taller.
-		'por_confirmar' => array( 'direccion', 'horario' ), // Datos que muestran [CONFIRMAR] en la página de Contacto. Vaciar cuando el taller los confirme.
+		'direccion'    => 'Cra. 84 # 78-58, Bogotá', // Igual al perfil de Google del taller (Engativá).
+		// Horario igual al perfil de Google del taller (consultado el 20-oct-2026). Domingos y festivos: cerrado.
+		// 'semana': días en que aplica (1 = lunes … 6 = sábado). 'abre' y 'cierra': hora en formato 24 h (lo usa el aviso abierto/cerrado).
+		'horario'      => array(
+			array( 'dias' => 'Lunes a viernes', 'horas' => '7:00 a. m. – 6:00 p. m.', 'semana' => array( 1, 2, 3, 4, 5 ), 'abre' => 7, 'cierra' => 18 ),
+			array( 'dias' => 'Sábado', 'horas' => '7:00 a. m. – 5:00 p. m.', 'semana' => array( 6 ), 'abre' => 7, 'cierra' => 17 ),
+		),
+		'por_confirmar' => array(), // Datos que muestran [CONFIRMAR] en la página de Contacto. Vaciar cuando el taller los confirme.
 		'clientes'     => 166,
 		'calificacion' => 5,
 		'desde'        => 0,  // Pendiente: año en que abrió el taller (lo da don Franz).

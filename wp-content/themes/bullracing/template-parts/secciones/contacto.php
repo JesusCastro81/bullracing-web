@@ -28,8 +28,8 @@ $fotos = apply_filters(
 );
 $carrusel = array_values( array_filter( (array) $fotos['carrusel'], static fn( $f ) => ! empty( $f['url'] ) ) );
 
-// Horario en dos líneas, como en el diseño: "LUNES A SÁBADO" / "8:00 A. M. – 6:00 P. M.".
-$horario = array_map( 'trim', explode( '·', (string) $taller['horario'] ) );
+// Horario como en el diseño: días en una línea y horas en la siguiente ("LUNES A VIERNES" / "7:00 A. M. – 6:00 P. M.").
+$horario = (array) $taller['horario'];
 
 $direccion = (string) $taller['direccion'];
 // Se busca por nombre + dirección para que Google marque el perfil del taller, no solo la calle.
@@ -93,8 +93,9 @@ $mapa_ver  = 'https://www.google.com/maps/search/?api=1&query=' . rawurlencode( 
 			<p class="br-contacto__etiqueta"><?php esc_html_e( 'Horario', 'bullracing' ); ?></p>
 			<div>
 				<p class="br-contacto__grande">
-					<?php foreach ( $horario as $linea ) : ?>
-						<span><?php echo esc_html( $linea ); ?></span>
+					<?php foreach ( $horario as $fila ) : ?>
+						<span><?php echo esc_html( $fila['dias'] ); ?></span>
+						<span class="br-contacto__horas"><?php echo esc_html( $fila['horas'] ); ?></span>
 					<?php endforeach; ?>
 				</p>
 				<?php /* Mismo aviso del hero: verde si está abierto ahora, rojo si está cerrado (lo calcula main.js). */ ?>

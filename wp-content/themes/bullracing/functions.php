@@ -8,7 +8,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'BULLRACING_TEMA_VERSION', '0.7.1' );
+define( 'BULLRACING_TEMA_VERSION', '0.7.3' );
 
 /**
  * Skin activa: el diseño visual escogido. Cambiar de diseño = cambiar este valor
@@ -79,6 +79,15 @@ function bullracing_recursos(): void {
 		array(
 			'apiTarifas' => esc_url_raw( rest_url( 'bullracing/v1/tarifas' ) ),
 			'whatsapp'   => bullracing_whatsapp_url(),
+			// Horario para el aviso abierto/cerrado (sale de inc/datos-taller.php).
+			'horario'    => array_map(
+				static fn( $fila ) => array(
+					'dias'   => array_map( 'intval', (array) $fila['semana'] ),
+					'abre'   => (int) $fila['abre'],
+					'cierra' => (int) $fila['cierra'],
+				),
+				(array) bullracing_datos_taller()['horario']
+			),
 		)
 	);
 }

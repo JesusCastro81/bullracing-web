@@ -1543,6 +1543,13 @@ a.br-valoracion__calificar:hover {
   white-space: nowrap;
 }
 
+/* Las horas, más pequeñas que los días, para que quepan los dos turnos */
+.br-contacto__horario .br-contacto__grande .br-contacto__horas {
+  margin-bottom: 8px;
+  color: var(--paleta-gris-400);
+  font-size: 0.7em;
+}
+
 .br-contacto__direccion .br-contacto__grande {
   font-size: clamp(28px, 3vw, 40px);
 }
