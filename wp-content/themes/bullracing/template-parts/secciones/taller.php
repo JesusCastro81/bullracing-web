@@ -1,6 +1,6 @@
 <?php
 /**
- * Sección "El taller": cómo entra y cómo sale la moto (diseño 1, igual al PDF).
+ * Sección "El taller": cómo entra y cómo sale la moto (diseño 1).
  * Solo texto: explica el proceso. No toca la orden de servicio (OT).
  *
  * @package BullRacing

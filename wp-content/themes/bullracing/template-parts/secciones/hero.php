@@ -1,6 +1,6 @@
 <?php
 /**
- * Sección "hero" de la landing (piel Taller industrial), igual al diseño aprobado en el PDF.
+ * Sección "hero" de la landing (piel Taller industrial).
  *
  * La barra blanca NO agrega funciones: usa las mismas opciones y tarifas del agendamiento
  * (API de bullracing-core) para mostrar el precio, y lleva al formulario de agendamiento

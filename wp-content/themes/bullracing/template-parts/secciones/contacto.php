@@ -1,10 +1,10 @@
 <?php
 /**
- * Sección "contacto" del inicio (diseño 1, igual al PDF): mosaico con fotos del taller,
+ * Sección "contacto" del inicio (diseño 1): mosaico con fotos del taller,
  * clientes satisfechos, redes, horario, mapa y dirección.
  *
- * - Fotos: mientras el taller no las entregue, se muestran los recuadros del diseño
- *   (filtro 'bullracing_contacto_fotos').
+ * - Fotos: pendiente entrega de material fotográfico por parte del talento.
+ *   Mientras tanto se muestran los recuadros del diseño (filtro 'bullracing_contacto_fotos').
  * - Mapa: se ve de una vez, pero el navegador lo carga solo cuando el cliente baja hasta
  *   esta parte (loading="lazy"), para que la página abra rápido.
  *
@@ -119,7 +119,7 @@ $mapa_ver  = 'https://www.google.com/maps/search/?api=1&query=' . rawurlencode( 
 			<p class="br-contacto__etiqueta"><?php esc_html_e( 'Dirección', 'bullracing' ); ?></p>
 			<p class="br-contacto__grande"><?php echo esc_html( $direccion ); ?></p>
 			<p class="br-contacto__datos">
-				<?php /* Contacto solo por WhatsApp (acuerdo de la reunión): sin correo. */ ?>
+				<?php /* Contacto solo por WhatsApp: sin correo. */ ?>
 				<a href="<?php echo esc_url( bullracing_whatsapp_url() ); ?>" target="_blank" rel="noopener"><?php echo esc_html( $taller['telefono'] ); ?> · WhatsApp</a>
 			</p>
 		</div>

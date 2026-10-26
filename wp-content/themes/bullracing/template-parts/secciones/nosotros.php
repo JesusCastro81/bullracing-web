@@ -1,11 +1,11 @@
 <?php
 /**
- * Sección "Quiénes somos" del inicio (diseño 1, igual al PDF).
+ * Sección "Quiénes somos" del inicio (diseño 1).
  *
  * Video: si es un archivo .mp4/.webm se reproduce aquí mismo al hacer clic (componente
  * video-reproductor); si es un enlace de TikTok o Instagram, abre el video en su red.
  *
- * La historia, el año de apertura y el video los entrega don Franz. Mientras estén
+ * La historia, el año de apertura y el video los entrega el taller. Mientras estén
  * vacíos en inc/datos-taller.php, se muestran los textos entre corchetes del diseño
  * para que se note que falta el dato real.
  *
@@ -23,7 +23,7 @@ $video  = (string) $taller['video'];
 	<div class="br-contenedor br-nosotros__grid">
 		<?php
 		if ( preg_match( '/\.(mp4|webm)(\?.*)?$/i', $video ) ) :
-			// Archivo de video: se reproduce aquí mismo al hacer clic (propuesta).
+			// Archivo de video: se reproduce aquí mismo al hacer clic.
 			bullracing_componente( 'video-reproductor', array( 'url' => $video, 'clase' => 'br-nosotros__video' ) );
 		else :
 			// Enlace de TikTok/Instagram: el recuadro abre el video en su red. Sin video: recuadro del diseño.

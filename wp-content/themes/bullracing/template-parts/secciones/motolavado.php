@@ -1,6 +1,6 @@
 <?php
 /**
- * Sección "motolavado" de la landing (diseño 1, igual al PDF): antes y después con
+ * Sección "motolavado" de la landing (diseño 1): antes y después con
  * deslizador, y los 4 paquetes con su precio "desde" (tarifas del agendamiento).
  *
  * Cada paquete lleva al formulario de agendamiento con ese paquete ya escogido

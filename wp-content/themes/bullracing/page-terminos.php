@@ -1,6 +1,6 @@
 <?php
 /**
- * Página: Términos y condiciones (slug "terminos"), diseño 1 según la propuesta.
+ * Página: Términos y condiciones (slug "terminos"), diseño 1.
  *
  * - El texto legal sale de inc/datos-terminos.php, copiado tal cual del sitio actual.
  * - Índice fijo al hacer scroll: al tocar una sección salta a ella, la marca activa y

@@ -1,7 +1,8 @@
 # Motos Bull Racing · Sitio web
 
-Rediseño de la landing de [motosbullracing.com](https://motosbullracing.com) sobre WordPress.
-Proyecto desarrollado con acompañamiento técnico de **TecnoParque SENA**.
+Rediseño de la landing de [motosbullracing.com](https://motosbullracing.com) sobre WordPress,
+con el Diseño 1 "Taller industrial". Incluye la orden de servicio (OT) del taller y su acceso
+por usuario.
 
 ## Qué contiene este repositorio
 
@@ -9,50 +10,56 @@ Solo el **código propio** del proyecto. WordPress, los plugins de terceros, las
 subidas y la base de datos **no** se versionan (ver `.gitignore`).
 
 ```
-├── docs/                         Documentación del proyecto
-│   ├── decisiones.md             Decisiones técnicas y por qué se tomaron
-│   ├── despliegue.md             Cómo subir los cambios al hosting
-│   └── propuestas/               Propuestas de diseño presentadas al taller
-├── ot/                           Orden de servicio (OT) del taller: la hizo John Garzón (ver sección OT)
+├── .github/                      Plantilla de Pull Request y revisión automática de PHP
 ├── dev/                          Solo para desarrollo local (no va a producción)
-│   └── verificar.ps1             Verificación del proyecto (el "build")
-├── CHANGELOG.md                  Qué cambió en cada Pull Request
+│   ├── mu-plugins/               local-sin-correos.php: el entorno local no envía correos de WordPress
+│   ├── verificar.ps1             Verificación del proyecto (el "build")
+│   └── wp-config-local-ejemplo.php
+├── ot/                           Orden de servicio (OT) del taller (ver sección OT)
 └── wp-content/
     ├── themes/bullracing/        Tema propio: SOLO apariencia
-    │   ├── inc/datos-taller.php  Datos del taller (dirección, horario, WhatsApp…) en un solo lugar
+    │   ├── inc/                  Datos del taller, planes y términos, cada uno en un solo lugar
     │   ├── template-parts/
-    │   │   ├── componentes/      Piezas pequeñas reutilizables: botón, estrellas, tarjeta
+    │   │   ├── componentes/      Piezas reutilizables: estrellas, banda de páginas internas, reproductor de video
     │   │   └── secciones/        Bloques de la landing: hero, planes, motolavado…
     │   └── assets/
-    │       ├── fonts/            Poppins local (el sitio funciona sin internet)
+    │       ├── fonts/            Fuentes locales (el sitio funciona sin internet)
+    │       ├── js/               Landing, precarga y capa visual del agendamiento
     │       └── css/
     │           ├── tokens.css    Colores, fuentes y espacios como variables
-    │           ├── skins/        Una "piel" por diseño (base, taller…)
-    │           └── main.css      Estructura y componentes (solo usa tokens)
+    │           ├── skins/        Una "piel" por diseño (base, taller)
+    │           └── main.css      Estructura (solo usa tokens)
     └── plugins/
-        └── bullracing-core/      Lógica del negocio: tarifas, rol "Taller", panel de precios, API REST
+        └── bullracing-core/      Lógica del negocio: tarifas, roles "Taller" y "Recepción de motos",
+                                  panel de precios (solo lectura), API REST y registro de recepción de la OT
 ```
 
-**Regla del proyecto:** el tema solo presenta; la lógica vive en plugins. Si mañana se cambia
-el tema, los precios, los usuarios y el agendamiento siguen funcionando.
+**Regla del proyecto:** el tema solo presenta; la lógica vive en el plugin. Si mañana se cambia
+el tema, los precios, los usuarios y la OT siguen funcionando.
 
-La orden de servicio (OT) y el agendamiento son módulos de la fase con TecnoParque y se mantienen
-sin cambios de funcionamiento (todavía no están en este repositorio).
+El **agendamiento** es el formulario de la página actual y no está en este repositorio: el tema
+solo le cambia la apariencia y le agrega que la placa acepte solo letras y números.
 
 ### Cómo se cambia de diseño
 
 El diseño visual se separa en capas para que cambiarlo cueste poco:
 
-1. **Datos** (`bullracing-core`): no cambian.
+1. **Datos** (`bullracing-core` e `inc/`): no cambian.
 2. **Estructura** (`template-parts/`): casi no cambia.
-3. **Tokens** (`tokens.css`): colores, fuentes y espacios. Nunca se escriben colores a mano en el resto del CSS.
-4. **Skin** (`assets/css/skins/`): la piel de cada diseño. La activa se define en `functions.php` con `BULLRACING_SKIN`.
+3. **Tokens** (`tokens.css`): colores, fuentes y espacios. `main.css` no usa colores a mano;
+   los colores propios de un diseño van en su skin.
+4. **Skin** (`assets/css/skins/`): la piel de cada diseño. La activa se define en `functions.php`
+   con `BULLRACING_SKIN`.
 
 ## Requisitos
 
-- PHP 8.1 o superior
-- MariaDB 10.4+ / MySQL 8+
-- WordPress 6.x
+- **PHP:** 8.1 o superior. Se recomienda una versión con soporte y con el parche de seguridad
+  del 21-oct-2026 (8.2.35, 8.3.36, 8.4.27 o más nueva). Aviso oficial:
+  https://www.php.net/archive/2026.php#2026-10-21-5
+  - **Probado en local con PHP 8.1.25** (XAMPP 8.1.25). **Pendiente:** probar con PHP 8.4.27.
+- **Extensión GD de PHP** (la OT la usa para el PDF).
+- MariaDB 10.4+ / MySQL 8+.
+- WordPress 6.4 o superior.
 
 ## Instalación local (Windows + XAMPP)
 
@@ -67,16 +74,16 @@ El diseño visual se separa en capas para que cambiarlo cueste poco:
    ```
    Git solo ve los archivos del proyecto; el resto de WordPress queda fuera gracias al `.gitignore`.
 3. Crear `wp-config.php` a partir de `dev/wp-config-local-ejemplo.php` (nunca se sube al repo).
-4. Copiar `dev/mu-plugins/local-sin-correos.php` a `wp-content/mu-plugins/` para que el entorno
-   local no envíe correos reales.
-5. En el escritorio de WordPress: activar el tema **Bull Racing** y los plugins **Bull Racing Core**
-   y **Bull Racing Agendamiento**.
-
-## Datos personales (Ley 1581 de 2012)
-
-Este repositorio **no** debe contener datos de clientes: nada de volcados de base de datos,
-respaldos ni exportaciones. Para probar se usan datos ficticios. Las tarifas iniciales las crea
-el plugin `bullracing-core` al activarse.
+4. Copiar `dev/mu-plugins/local-sin-correos.php` a `wp-content/mu-plugins/` para que WordPress
+   no envíe correos reales desde el entorno local.
+5. Crear `ot/includes/config.php` a partir de `ot/includes/config.example.php` y, si no existe,
+   importar la estructura de la base de la OT (`ot/bullracing_bd.sql`).
+6. En `C:\xampp81\php\php.ini`, activar `extension=gd`.
+7. Recomendado: que Apache y MySQL solo acepten conexiones del propio computador
+   (`Listen 127.0.0.1:80` en `httpd.conf`, `Listen 127.0.0.1:443` en `httpd-ssl.conf`
+   y `bind-address="127.0.0.1"` en `my.ini`).
+8. En el escritorio de WordPress: activar el plugin **Bull Racing Core** y el tema **Bull Racing**.
+   En **Ajustes → Generales**, zona horaria **Bogotá**.
 
 ## Cómo trabajar: 3 terminales
 
@@ -85,15 +92,15 @@ En VS Code se abren tres terminales (Terminal → New Terminal) en la carpeta de
 | Terminal | Para qué | Comandos |
 |---|---|---|
 | **Backend** | XAMPP encendido (Apache + MySQL) y API | `C:\xampp81\xampp-control.exe` · `.\dev\verificar.ps1 -ConServidor` |
-| **Frontend** | Verificación del tema (el "build") | `.\dev\verificar.ps1` |
+| **Frontend** | Verificación del tema, plugins y OT (el "build") | `.\dev\verificar.ps1` |
 | **Git** | Ramas, cambios y commits | `git status` · `git diff develop` · `git add` · `git commit` · `git push` |
 
 **Vista previa:** http://localhost/bullracing-real (funciona sin internet).
 
 ## Conexión landing ↔ agendamiento
 
-Los botones de agendar de la landing (barra del hero, "Agendar este plan" del tacómetro y los
-paquetes de motolavado) llevan al formulario de agendamiento **con lo escogido ya marcado**.
+Los botones de agendar de la landing (barra del hero, botón Agendar de cada tarjeta de planes y
+los paquetes de motolavado) llevan al formulario de agendamiento **con lo escogido ya marcado**.
 Lo hace `assets/js/precarga-agendamiento.js`, que se carga solo en la página de agendamiento:
 lee los datos del enlace (`?servicio=…&motor=…&plan=…&referencia=…`) y escoge las mismas
 opciones en el formulario. **No modifica el agendamiento.**
@@ -114,24 +121,92 @@ estas listas, porque la precarga las busca por ese nombre:
 
 1. Barra del hero: Mantenimiento pro + 750W → Agendar → formulario con Eléctrica · Pro · 750W · $390.000.
 2. Barra del hero: Motolavado Cero KM + 151 cc - 250 cc → "Escoge día y hora" → formulario con Motolavado · Cero KM · 151 cc - 250 cc.
-3. Tacómetro: Eléctrica + General → Agendar este plan → formulario con Eléctrica · General.
+3. Planes: pestaña Motos eléctricas, tarjeta General → Agendar → formulario con Eléctrica · General.
 4. Paquete de motolavado Black Revive → formulario con Motolavado · Black Revive.
 5. Entrar a la página de agendamiento sin datos → abre normal.
 
-**En local**, mientras el agendamiento definitivo no esté instalado, el mu-plugin
-`wp-content/mu-plugins/local-agendamiento-prueba.php` (no está en el repo) hace que los botones
-lleven a `http://localhost/prueba-agendamiento/`: el formulario definitivo de la fase TecnoParque sin cambios.
-Esa página de prueba vive **fuera** de la carpeta del proyecto (`htdocs/prueba-agendamiento`), para no mezclar
-archivos ajenos con el repositorio. Se borran los dos cuando el agendamiento quede instalado.
+**En local**, el mu-plugin `wp-content/mu-plugins/local-agendamiento-prueba.php` (no está en el
+repo) hace que los botones lleven a `http://localhost/prueba-agendamiento/`: el formulario de
+agendamiento sin cambios. Esa página de prueba vive **fuera** de la carpeta del proyecto
+(`htdocs/prueba-agendamiento`), para no mezclar archivos ajenos con el repositorio.
 
-## Checklist antes de un Pull Request
+## Orden de servicio (OT)
 
-1. `.\dev\verificar.ps1 -ConServidor` termina en **TODO BIEN**.
-2. Revisar en el navegador `localhost/bullracing-real` (escritorio y celular).
-3. `git diff develop` para confirmar que solo cambió lo que se quería.
-4. Actualizar `CHANGELOG.md` (y este README si cambió la estructura o la forma de trabajar).
-5. Abrir el PR hacia `develop` como **borrador** (*Create draft pull request*).
-6. Con el check automático en verde → *Ready for review* → **Squash and merge** → borrar la rama.
+La carpeta `ot/` es la orden de servicio que el taller llena al recibir la moto.
+La programó **John Garzón** para el proyecto Motos Bull Racing, a partir del formato de orden que suministró don Franz.
+
+- Busca el agendamiento por placa y lo marca como atendido al guardar la orden.
+- **Número de orden:** lo asigna el servidor al guardar (`ajax/guardarDatos.php`), no al abrir la
+  página. Nunca sobrescribe una orden existente, y un doble clic en Guardar no duplica la orden.
+- `includes/config.php` tiene los datos de la base de datos y **no se sube a git**.
+  Para instalarla: copiar `includes/config.example.php` como `includes/config.php` y poner los datos del servidor.
+- `bullracing_bd.sql` trae solo la estructura de las tablas (sin datos de clientes).
+- Los `temp_*.png` los crea la OT al generar el PDF (firmas y croquis): no se suben (Ley 1581).
+- Necesita la extensión **GD** de PHP para el PDF.
+
+### Acceso a la OT
+
+La OT original no tenía inicio de sesión. Se protege con el inicio de sesión de WordPress:
+
+- **Rol "Recepción de motos"** (plugin `bullracing-core`): para las personas que el administrador
+  del taller autoriza a recibir motos. Ese rol **solo sirve para la OT**: no puede tocar la página
+  ni los precios. Si entra a `wp-admin`, va a la OT (menos a su Perfil, para cambiar la contraseña).
+- **Un usuario por persona**, todos con el mismo rol. El administrador los crea, edita o quita en
+  **Usuarios** de WordPress.
+- **Contraseña:** cada uno la cambia en su Perfil o la recupera con "¿Has olvidado tu contraseña?"
+  (el sitio debe poder enviar correos).
+- **Quitar el acceso:** cambiar el rol a "Sin rol en este sitio" (o borrar el usuario). El permiso
+  se revisa en cada acción, así que pierde el acceso al instante.
+- **Trazabilidad:** cada orden guardada queda en la tabla `{prefijo}bullracing_ot_recepciones` de
+  WordPress con quién la recibió y a qué hora.
+- El control está en `ot/includes/acceso.php`, incluido al principio de cada archivo PHP de la OT.
+  `ot/.htaccess` no deja descargar el `.sql` ni `includes/`.
+- La OT debe estar en la carpeta `ot/` dentro de la raíz de WordPress (usa `wp-load.php`).
+
+## Despliegue
+
+> **Pasos previstos, a validar** en la prueba con una copia de la página real (Elementor y plugins
+> activos, versiones actualizadas). Nada se toca en el sitio real hasta la entrega oficial.
+
+**Quién lo instala** (lo decide el taller):
+- **Opción 1:** la persona que el taller tenga destinada para su página, siguiendo estos pasos.
+- **Opción 2:** el equipo del proyecto, con un acceso temporal que se retira al terminar.
+
+**Antes**
+1. Respaldo completo del sitio real (archivos + base de datos), guardado **fuera** del repositorio.
+2. Confirmar con el hosting que la página corre en una versión de PHP con soporte y con el parche
+   del 21-oct-2026, y que la extensión GD está activa.
+3. Confirmar que la página tiene HTTPS.
+
+**Instalar**
+4. Comprimir `wp-content/themes/bullracing` → `bullracing.zip` y `wp-content/plugins/bullracing-core`
+   → `bullracing-core.zip`.
+5. **Plugins → Añadir nuevo → Subir plugin** → `bullracing-core.zip` → Activar
+   (crea la tabla de tarifas, los roles y el registro de recepción).
+6. Subir la carpeta `ot/` a la raíz de WordPress (administrador de archivos del hosting o FTP).
+   Crear `ot/includes/config.php` con los datos de la base del servidor e importar
+   `ot/bullracing_bd.sql` si las tablas de la OT no existen.
+7. **Apariencia → Temas → Añadir nuevo → Subir tema** → `bullracing.zip` → Activar.
+8. **Ajustes → Generales → Zona horaria:** Bogotá.
+9. Comprobar que WordPress envía correos (por ejemplo, "¿Has olvidado tu contraseña?").
+   Si no llegan, configurar un SMTP.
+10. Crear los usuarios con el rol **Recepción de motos**.
+
+**Probar**
+11. Inicio (hero, planes, motolavado, valoración, contacto), páginas Quiénes somos, Contacto y
+    Términos, en escritorio y celular.
+12. Agendamiento: una cita de prueba que llegue por correo.
+13. OT: entrar con un usuario de recepción, buscar la placa de la cita de prueba, guardar y sacar el PDF.
+
+**Si algo sale mal:** volver a activar el tema anterior desde **Apariencia → Temas** y, si es
+necesario, restaurar el respaldo del paso 1.
+
+## Datos personales (Ley 1581 de 2012)
+
+Este repositorio **no** debe contener datos de clientes: nada de volcados de base de datos,
+respaldos ni exportaciones. Para probar se usan datos ficticios. Las tarifas iniciales las crea
+el plugin `bullracing-core` al activarse. `ot/includes/config.php` y los `ot/temp_*.png` nunca
+se suben (están en `.gitignore`).
 
 ## Flujo de trabajo
 
@@ -141,37 +216,16 @@ archivos ajenos con el repositorio. Se borran los dos cuando el agendamiento que
 - Commits con [Conventional Commits](https://www.conventionalcommits.org/es/):
   `feat(tema): sección de planes`, `fix(core): cálculo de tarifa eléctrica`.
 
-## Despliegue
+### Checklist antes de un Pull Request
 
-Ver [`docs/despliegue.md`](docs/despliegue.md).
+1. `.\dev\verificar.ps1 -ConServidor` termina en **TODO BIEN**.
+2. Revisar en el navegador `localhost/bullracing-real` (escritorio y celular).
+3. `git diff develop` para confirmar que solo cambió lo que se quería.
+4. Actualizar este README si cambió la estructura o la forma de trabajar.
+5. Abrir el PR hacia `develop` como **borrador** (*Create draft pull request*).
+6. Con el check automático en verde → *Ready for review* → **Squash and merge** → borrar la rama.
 
 ## Propiedad
 
 Repositorio creado durante el desarrollo y transferido al finalizar a la cuenta de GitHub
 de Motos Bull Racing.
-
-## Orden de servicio (OT)
-
-La carpeta `ot/` es la orden de servicio que el taller llena al recibir la moto.
-La programó **John Garzón** para el proyecto Motos Bull Racing, a partir del formato de orden que suministró don Franz.
-
-- Busca el agendamiento por placa y lo marca como atendido al guardar la orden.
-- `includes/config.php` tiene los datos de la base de datos y **no se sube a git**.
-  Para instalarla: copiar `includes/config.example.php` como `includes/config.php` y poner los datos del servidor.
-- `bullracing_bd.sql` trae solo la estructura de las tablas (sin datos de clientes).
-- Los `temp_*.png` los crea la OT al generar el PDF (firmas y croquis): no se suben (Ley 1581).
-- Necesita la extensión **GD** de PHP para el PDF.
-- **Número de orden:** lo asigna el servidor al guardar (`ajax/guardarDatos.php`), no al abrir la página, y nunca sobrescribe una orden existente.
-
-### Acceso a la OT (agregado al proyecto)
-
-La OT original no tenía inicio de sesión. Se protege con el inicio de sesión de WordPress:
-
-- **Rol "Recepción de motos"** (plugin `bullracing-core`): para las personas que don Franz autoriza a recibir motos.
-  Ese rol **solo sirve para la OT**: no puede tocar la página ni los precios. Si entra a `wp-admin`, va a la OT (menos a su Perfil, para cambiar la contraseña).
-- **Un usuario por persona**, todos con el mismo rol. Don Franz los crea, edita o quita en **Usuarios** de WordPress.
-- **Contraseña:** cada uno la cambia en su Perfil o la recupera con "¿Has olvidado tu contraseña?" (el sitio debe poder enviar correos).
-- **Quitar el acceso:** cambiar el rol a "Sin rol en este sitio" (o borrar el usuario). El permiso se revisa en cada acción, así que pierde el acceso al instante.
-- **Trazabilidad:** cada orden guardada queda en la tabla `{prefijo}bullracing_ot_recepciones` de WordPress con quién la recibió y a qué hora.
-- El control está en `ot/includes/acceso.php`, incluido al principio de cada archivo PHP de la OT. `ot/.htaccess` no deja descargar el `.sql` ni `includes/`.
-- La OT debe estar en la carpeta `ot/` dentro de la raíz de WordPress (usa `wp-load.php`).

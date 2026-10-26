@@ -1,9 +1,9 @@
 <?php
 /**
- * Sección "valoración" del inicio (diseño 1, igual al PDF): calificación del taller
+ * Sección "valoración" del inicio (diseño 1): calificación del taller
  * y tres reseñas de clientes.
  *
- * Las reseñas deben ser REALES (copiadas de Google o TikTok, con permiso). Mientras no
+ * Las reseñas, lo ideal es que sean REALES (copiadas de Google o TikTok). Mientras no
  * estén en inc/datos-taller.php se muestran recuadros entre corchetes, para que nunca
  * salga una reseña o un nombre inventado.
  *
@@ -48,7 +48,7 @@ while ( count( $resenas ) < 3 ) {
 						/* translators: %d: número de reseñas en Google */
 						? sprintf( _n( '%d reseña en Google', '%d reseñas en Google', $total, 'bullracing' ), $total )
 						/* translators: %d: número de clientes */
-						: sprintf( __( '%d clientes satisfechos · reseñas de Google y TikTok', 'bullracing' ), (int) $taller['clientes'] )
+						: sprintf( __( '%d clientes satisfechos · reseñas de Google', 'bullracing' ), (int) $taller['clientes'] )
 				);
 				?>
 			</p>

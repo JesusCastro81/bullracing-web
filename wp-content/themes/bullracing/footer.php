@@ -2,7 +2,7 @@
 /**
  * Pie de página (diseño 1): logo, lema y correo del taller en recuadro punteado.
  *
- * - TecnoParque NO aparece en el pie de página (decisión de la reunión del 20-oct-2026).
+ * - El pie de página muestra el correo del taller (reunión del 20-oct-2026).
  * - Segunda línea: © y enlace a Términos y condiciones (la página legal debe poder abrirse).
  *
  * @package BullRacing

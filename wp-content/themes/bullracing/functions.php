@@ -96,7 +96,7 @@ add_action( 'wp_enqueue_scripts', 'bullracing_recursos' );
 /**
  * Muestra un componente de template-parts/componentes/ con sus argumentos.
  *
- * @param string               $nombre Nombre del componente (boton, estrellas, tarjeta).
+ * @param string               $nombre Nombre del componente (estrellas, banner-pagina, video-reproductor).
  * @param array<string, mixed> $args   Argumentos del componente.
  */
 function bullracing_componente( string $nombre, array $args = array() ): void {

@@ -1,11 +1,11 @@
 <?php
 /**
- * Página: Quiénes somos (slug "quienes-somos"), diseño 1 tal cual el Word de propuestas.
+ * Página: Quiénes somos (slug "quienes-somos"), diseño 1.
  *
- * - Historia, año de apertura y video: los entrega don Franz (inc/datos-taller.php).
+ * - Historia, año de apertura y video: los entrega el taller (inc/datos-taller.php).
  *   Mientras falten, se muestran los corchetes del diseño.
  * - Video: si 'video' es un archivo .mp4/.webm, se reproduce aquí mismo con play/pausa,
- *   la etiqueta "Reproduciendo" y la barra de progreso (lo que pide el Word). Si es un enlace
+ *   la etiqueta "Reproduciendo" y la barra de progreso. Si es un enlace
  *   de TikTok o Instagram, el recuadro abre el video en su red.
  * - Equipo: fotos, nombres y cargos reales los da el taller ('equipo' en datos-taller);
  *   mientras tanto, recuadros pendientes. Nunca nombres inventados.

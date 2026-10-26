@@ -1,6 +1,6 @@
 <?php
 /**
- * Encabezado: logo, menú principal y botón de agendar.
+ * Encabezado: logo y menú principal.
  *
  * @package BullRacing
  */

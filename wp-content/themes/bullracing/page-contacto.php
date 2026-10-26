@@ -1,12 +1,12 @@
 <?php
 /**
- * Página: Contacto (slug "contacto"), diseño 1 tal cual el Word de propuestas.
+ * Página: Contacto (slug "contacto"), diseño 1.
  *
  * El contacto es solo por WhatsApp (acuerdo de la reunión): sin formulario ni correo.
  * - "Abrir chat" abre la conversación de WhatsApp con el taller.
  * - "Copiar número" copia el teléfono y confirma con "Número copiado".
- * - El mapa de Google se carga solo al tocar "Ver mapa de Google"; mientras tanto se ve
- *   el plano con el pin que late. "Cómo llegar" abre la ruta en Google Maps.
+ * - El mapa de Google se ve de una vez (se carga al llegar a esa parte).
+ *   "Cómo llegar" abre la ruta en Google Maps.
  * - Dirección y horario muestran [CONFIRMAR] mientras el taller no los confirme
  *   (lista 'por_confirmar' en inc/datos-taller.php).
  *
