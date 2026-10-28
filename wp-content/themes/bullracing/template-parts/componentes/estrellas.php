@@ -2,7 +2,7 @@
 /**
  * Componente: calificación con estrellas.
  *
- * Uso: bullracing_componente( 'estrellas', array( 'valor' => 5, 'total' => 166 ) );
+ * Uso: bullracing_componente( 'estrellas', array( 'valor' => 4, 'total' => 250, 'texto' => 'motos atendidas' ) );
  *
  * @package BullRacing
  */
@@ -14,7 +14,7 @@ $args = wp_parse_args(
 	array(
 		'valor' => 5,
 		'total' => 0,
-		'texto' => __( 'clientes satisfechos', 'bullracing' ),
+		'texto' => __( 'motos atendidas', 'bullracing' ),
 	)
 );
 

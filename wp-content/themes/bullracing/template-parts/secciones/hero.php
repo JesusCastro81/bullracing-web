@@ -48,6 +48,7 @@ $url_cotizar = bullracing_whatsapp_url( __( 'Hola, quiero cotizar un servicio de
 			array(
 				'valor' => $taller['calificacion'],
 				'total' => $taller['clientes'],
+				'texto' => __( 'motos atendidas', 'bullracing' ),
 			)
 		);
 		?>

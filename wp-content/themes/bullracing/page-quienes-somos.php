@@ -47,7 +47,7 @@ bullracing_componente(
 		'subtitulo' => __( 'Taller de Bogotá para motos a gasolina y eléctricas.', 'bullracing' ),
 		'cifras'    => array(
 			array( 'valor' => $ano_txt, 'etiqueta' => __( 'Desde', 'bullracing' ) ),
-			array( 'valor' => (string) $taller['clientes'], 'etiqueta' => __( 'Clientes', 'bullracing' ), 'destacado' => true ),
+			array( 'valor' => (string) $taller['clientes'], 'etiqueta' => __( 'Motos atendidas', 'bullracing' ), 'destacado' => true ),
 			array( 'valor' => 'BOG', 'etiqueta' => __( 'Bogotá', 'bullracing' ) ),
 		),
 	)
@@ -137,11 +137,11 @@ bullracing_componente(
 	<div class="br-equipo__valoracion">
 		<p class="br-equipo__etiqueta"><?php esc_html_e( 'Valoración', 'bullracing' ); ?></p>
 		<div>
-			<p class="br-equipo__estrellas" aria-hidden="true">★★★★★</p>
+			<p class="br-equipo__estrellas" aria-hidden="true"><?php echo esc_html( str_repeat( '★', (int) $taller['calificacion'] ) . str_repeat( '☆', 5 - (int) $taller['calificacion'] ) ); ?></p>
 			<p class="br-equipo__cifra"><?php echo esc_html( number_format_i18n( (int) $taller['clientes'] ) ); ?></p>
-			<p class="br-equipo__etiqueta"><?php esc_html_e( 'Clientes satisfechos', 'bullracing' ); ?></p>
+			<p class="br-equipo__etiqueta"><?php esc_html_e( 'Motos atendidas', 'bullracing' ); ?></p>
 		</div>
-		<p class="br-equipo__nota"><?php esc_html_e( 'Reseñas de Google y TikTok.', 'bullracing' ); ?></p>
+		<p class="br-equipo__nota"><?php echo esc_html( sprintf( __( 'Calificación en Google: %s de 5.', 'bullracing' ), $taller['promedio'] ) ); ?></p>
 	</div>
 </section>
 <?php

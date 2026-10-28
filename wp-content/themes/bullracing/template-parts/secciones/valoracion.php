@@ -47,8 +47,8 @@ while ( count( $resenas ) < 3 ) {
 					$total
 						/* translators: %d: número de reseñas en Google */
 						? sprintf( _n( '%d reseña en Google', '%d reseñas en Google', $total, 'bullracing' ), $total )
-						/* translators: %d: número de clientes */
-						: sprintf( __( '%d clientes satisfechos · reseñas de Google', 'bullracing' ), (int) $taller['clientes'] )
+						/* translators: %d: número de motos atendidas */
+						: sprintf( __( '%d motos atendidas · reseñas de Google', 'bullracing' ), (int) $taller['clientes'] )
 				);
 				?>
 			</p>

@@ -92,6 +92,20 @@ final class BullRacing_Acceso_OT {
 		);
 	}
 
+	/** Motos atendidas: número de la última OT guardada. Sin órdenes todavía: 250 (número de la primera OT). */
+	public static function motos_atendidas(): int {
+		global $wpdb;
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- nombre de tabla interno.
+		$ultima = (int) $wpdb->get_var( 'SELECT MAX(CAST(numero_orden AS UNSIGNED)) FROM ' . self::tabla() );
+		return max( 250, $ultima );
+	}
+
+	/** Pone las motos atendidas en los datos del taller que muestra el tema. */
+	public static function contador_en_datos( array $datos ): array {
+		$datos['clientes'] = self::motos_atendidas();
+		return $datos;
+	}
+
 	/** ¿El usuario es solo de recepción (no administrador)? */
 	private static function es_solo_recepcion( ?WP_User $usuario = null ): bool {
 		$usuario = $usuario ?? wp_get_current_user();

@@ -1,7 +1,7 @@
 <?php
 /**
  * Sección "contacto" del inicio (diseño 1): mosaico con fotos del taller,
- * clientes satisfechos, redes, horario, mapa y dirección.
+ * motos atendidas, redes, horario, mapa y dirección.
  *
  * - Fotos: pendiente entrega de material fotográfico por parte del talento.
  *   Mientras tanto se muestran los recuadros del diseño (filtro 'bullracing_contacto_fotos').
@@ -65,10 +65,10 @@ $mapa_ver  = 'https://www.google.com/maps/search/?api=1&query=' . rawurlencode( 
 		<?php endif; ?>
 
 		<div class="br-contacto__clientes">
-			<span class="br-contacto__estrellas" aria-hidden="true">★★★★★</span>
+			<span class="br-contacto__estrellas" aria-hidden="true"><?php echo esc_html( str_repeat( '★', (int) $taller['calificacion'] ) . str_repeat( '☆', 5 - (int) $taller['calificacion'] ) ); ?></span>
 			<p>
 				<strong><?php echo esc_html( number_format_i18n( (int) $taller['clientes'] ) ); ?></strong>
-				<span><?php esc_html_e( 'Clientes satisfechos', 'bullracing' ); ?></span>
+				<span><?php esc_html_e( 'Motos atendidas', 'bullracing' ); ?></span>
 			</p>
 		</div>
 

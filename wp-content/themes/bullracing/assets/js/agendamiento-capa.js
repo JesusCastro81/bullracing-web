@@ -122,6 +122,11 @@
     });
   }
 
+  // Fecha: desde hoy (hora de Bogotá). En el calendario los días pasados quedan en gris.
+  if (fecha) {
+    fecha.min = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Bogota' }).format(new Date());
+  }
+
   botonera(tipoServicio, 'servicio', (op) => ({
     titulo: op.text,
     detalle: op.value === 'motolavado' ? '4 paquetes · según cilindraje' : 'Combos · gasolina y eléctricas',
@@ -234,7 +239,10 @@
   const total = crear('div', 'br-ticket__total');
   const totalValor = crear('strong');
   total.append(crear('span', '', 'Total estimado'), totalValor);
-  ticket.append(lista, total);
+  // Mismo aviso que la sección de planes: el precio es solo de mano de obra.
+  const nota = crear('p', 'br-ticket__nota');
+  nota.append(crear('strong', '', 'Precio solo de mano de obra.'), ' El valor final puede variar si tu moto necesita repuestos.');
+  ticket.append(lista, total, nota);
 
   const antes = crear('section', 'br-antes');
   antes.append(crear('p', 'br-antes__titulo', 'Antes de llegar'));

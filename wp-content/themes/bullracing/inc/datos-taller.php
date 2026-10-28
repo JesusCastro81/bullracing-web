@@ -26,8 +26,8 @@ function bullracing_datos_taller(): array {
 			array( 'dias' => 'Sábado', 'horas' => '7:00 a. m. – 5:00 p. m.', 'semana' => array( 6 ), 'abre' => 7, 'cierra' => 17 ),
 		),
 		'por_confirmar' => array(), // Datos que muestran [CONFIRMAR] en la página de Contacto. Vaciar cuando el taller los confirme.
-		'clientes'     => 166,
-		'calificacion' => 5,
+		// Motos atendidas: número de la última OT guardada (lo pone bullracing-core). 250 = número de la primera OT.
+		'clientes'     => 250,
 		'desde'        => 0,  // Pendiente: año en que abrió el taller (lo da el taller).
 		'historia'     => '', // Pendiente: historia del taller (la da el taller).
 		'video'        => '', // Pendiente: video del taller (archivo .mp4/.webm o enlace de TikTok/Instagram).
@@ -64,6 +64,9 @@ function bullracing_datos_taller(): array {
 			'Facebook'  => 'https://www.facebook.com/Bullracingmotos/',
 		),
 	);
+
+	// Estrellas enteras según la calificación real de Google (4,2 → 4).
+	$datos['calificacion'] = (int) round( (float) str_replace( ',', '.', $datos['promedio'] ) );
 
 	return apply_filters( 'bullracing_datos_taller', $datos );
 }

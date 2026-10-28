@@ -42,3 +42,4 @@ add_action( 'init', array( 'BullRacing_Acceso_OT', 'actualizar_si_hace_falta' ) 
 add_action( 'admin_init', array( 'BullRacing_Acceso_OT', 'limitar_escritorio' ) );
 add_filter( 'login_redirect', array( 'BullRacing_Acceso_OT', 'redirigir_al_entrar' ), 10, 3 );
 add_filter( 'show_admin_bar', array( 'BullRacing_Acceso_OT', 'ocultar_barra' ) );
+add_filter( 'bullracing_datos_taller', array( 'BullRacing_Acceso_OT', 'contador_en_datos' ) );
