@@ -346,6 +346,38 @@ body {
     border-color: #ff0000;
 }
 
+/* ====== BÚSQUEDA: AGENDAMIENTO O HISTORIAL DE OT ====== */
+.busqueda-modo {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+}
+
+.busqueda-modo label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+
+.historial {
+    margin-top: 16px;
+    overflow-x: auto;
+}
+
+.historial td {
+    white-space: nowrap;
+}
+
+.historial .btn-limpiar {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+}
+
 /* ====== TABLAS ====== */
 .revision-table {
     width: 100%;

@@ -465,12 +465,88 @@ document.addEventListener('DOMContentLoaded', function() {
     // ===== Buscar al presionar Enter =====
     document.getElementById('buscar_placa').addEventListener('keyup', function(e) {
         if (e.key === 'Enter') {
-            buscarAgendamiento();
+            buscarPorPlaca();
         }
     });
 
-    document.getElementById('btnBuscar').addEventListener('click', buscarAgendamiento);
+    document.getElementById('btnBuscar').addEventListener('click', buscarPorPlaca);
+
+    // Al cambiar entre agendamiento e historial se limpia el resultado anterior.
+    document.querySelectorAll('input[name="modo_busqueda"]').forEach(function(opcion) {
+        opcion.addEventListener('change', function() {
+            document.getElementById('resultado_busqueda').textContent = '';
+            document.getElementById('historial_ot').hidden = true;
+        });
+    });
 });
+
+
+// ===== BUSCAR POR PLACA: agendamiento pendiente o historial de OT =====
+function buscarPorPlaca() {
+    const modo = document.querySelector('input[name="modo_busqueda"]:checked');
+    if (modo && modo.value === 'historial') {
+        buscarHistorial();
+    } else {
+        buscarAgendamiento();
+    }
+}
+
+// Historial: tabla con las órdenes de la placa y el botón para descargar el PDF de cada una.
+function buscarHistorial() {
+    const placa = document.getElementById('buscar_placa').value.trim();
+    const resultado = document.getElementById('resultado_busqueda');
+    const caja = document.getElementById('historial_ot');
+    caja.hidden = true;
+    caja.textContent = '';
+    if (!placa) {
+        resultado.textContent = 'Ingrese una placa';
+        return;
+    }
+    resultado.textContent = 'Buscando...';
+    fetch(`ajax/historial_placa.php?placa=${encodeURIComponent(placa)}`)
+        .then(res => res.json())
+        .then(data => {
+            if (!data.success) {
+                resultado.textContent = data.msg;
+                return;
+            }
+            if (!data.data.length) {
+                resultado.textContent = 'No hay órdenes registradas con esa placa o documento';
+                return;
+            }
+            resultado.textContent = data.data.length === 1 ? '1 orden encontrada' : data.data.length + ' órdenes encontradas';
+
+            const tabla = document.createElement('table');
+            tabla.className = 'revision-table';
+            const encabezado = tabla.createTHead().insertRow();
+            ['N.º orden', 'Placa', 'Documento', 'Fecha de ingreso', 'Recibió', ''].forEach(function(titulo) {
+                const th = document.createElement('th');
+                th.textContent = titulo;
+                encabezado.appendChild(th);
+            });
+            const cuerpo = tabla.createTBody();
+            data.data.forEach(function(orden) {
+                const fila = cuerpo.insertRow();
+                // Motos sin placa (por ejemplo, eléctricas): en la casilla de placa queda el documento o nada.
+                const sinPlaca = !orden.placa || /^\d+$/.test(orden.placa);
+                [orden.numero_orden, sinPlaca ? 'Sin placa' : orden.placa, orden.documento, orden.fecha_ingreso, orden.recibio || '—'].forEach(function(valor) {
+                    fila.insertCell().textContent = valor || '';
+                });
+                const enlace = document.createElement('a');
+                enlace.className = 'btn-limpiar';
+                enlace.href = 'generar_pdf.php?id=' + encodeURIComponent(orden.numero_orden);
+                enlace.innerHTML = '<i class="fas fa-file-pdf"></i> ';
+                enlace.append('Descargar PDF');
+                fila.insertCell().appendChild(enlace);
+            });
+            caja.appendChild(tabla);
+            caja.hidden = false;
+        })
+        .catch(err => {
+            resultado.textContent = 'Error al buscar';
+            console.error(err);
+        });
+}
 
 
 function buscarAgendamiento() {

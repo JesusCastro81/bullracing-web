@@ -15,7 +15,7 @@ $usuario_ot = wp_get_current_user();
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="./assets/css/styles.css">
+    <link rel="stylesheet" href="./assets/css/styles.css?v=7">
 </head>
 
 <body>
@@ -44,13 +44,19 @@ $usuario_ot = wp_get_current_user();
 
         <!-- Buscar por placa -->
         <div class="section">
-            <div class="section-title"><i class="fas fa-search"></i> Buscar por Placa (Agendamiento)</div>
+            <div class="section-title"><i class="fas fa-search"></i> Buscar por Placa</div>
+            <!-- Agendamiento pendiente: llena el formulario con la cita. Historial de OT: órdenes anteriores de la placa con su PDF. -->
+            <div class="busqueda-modo">
+                <label><input type="radio" name="modo_busqueda" value="agendamiento" checked> Agendamiento pendiente</label>
+                <label><input type="radio" name="modo_busqueda" value="historial"> Historial de OT</label>
+            </div>
             <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-                <input type="text" id="buscar_placa" placeholder="Ingrese placa"
+                <input type="text" id="buscar_placa" placeholder="Ingrese placa o documento"
                     style="flex:1; min-width:200px; padding:10px; border-radius:50px; border:2px solid #e0e0e0;">
                     <button class="btn btn-pdf" id="btnBuscar"><i class="fas fa-search"></i> Buscar</button>
                 <span id="resultado_busqueda" style="font-size:0.8rem; color:#888; margin-left:10px;"></span>
             </div>
+            <div id="historial_ot" class="historial" hidden></div>
         </div>
         <!-- Datos del Cliente -->
         <div class="section">
@@ -624,7 +630,7 @@ $usuario_ot = wp_get_current_user();
 
     <div class="toast" id="toast"></div>
 
-    <script src="./js/script.js"></script>
+    <script src="./js/script.js?v=7"></script>
 </body>
 
 </html>
