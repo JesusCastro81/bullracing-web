@@ -111,19 +111,28 @@ bullracing_componente(
 </section>
 
 <section class="br-contenedor br-equipo">
-	<figure class="br-equipo__taller">
-		<span class="br-equipo__pendiente"><?php esc_html_e( 'Foto pendiente', 'bullracing' ); ?></span>
-		<figcaption>
-			<strong><?php esc_html_e( 'Foto del taller · pendiente', 'bullracing' ); ?></strong>
-			<span><?php esc_html_e( 'La entrega el taller: fachada o rampa de trabajo.', 'bullracing' ); ?></span>
-		</figcaption>
+	<?php $foto_taller = bullracing_foto( 'equipo-taller.jpg' ); ?>
+	<figure class="br-equipo__taller<?php echo $foto_taller ? ' br-equipo__taller--foto' : ''; ?>">
+		<?php if ( $foto_taller ) : ?>
+			<img src="<?php echo esc_url( $foto_taller ); ?>" alt="<?php esc_attr_e( 'El taller Motos Bull Racing', 'bullracing' ); ?>" loading="lazy">
+		<?php else : ?>
+			<span class="br-equipo__pendiente"><?php esc_html_e( 'Foto pendiente', 'bullracing' ); ?></span>
+			<figcaption>
+				<strong><?php esc_html_e( 'Foto del taller · pendiente', 'bullracing' ); ?></strong>
+				<span><?php esc_html_e( 'La entrega el taller: fachada o rampa de trabajo.', 'bullracing' ); ?></span>
+			</figcaption>
+		<?php endif; ?>
 	</figure>
 
 	<?php foreach ( $areas as $i => $area ) : ?>
-		<?php $persona = $equipo[ $i ] ?? array(); ?>
+		<?php
+		$persona = $equipo[ $i ] ?? array();
+		// Foto: la de inc/datos-taller.php o, si no hay, equipo-1.jpg, equipo-2.jpg, equipo-3.jpg de assets/img/taller/.
+		$foto = $persona['foto'] ?? bullracing_foto( 'equipo-' . ( $i + 1 ) . '.jpg' );
+		?>
 		<figure class="br-persona">
-			<?php if ( ! empty( $persona['foto'] ) ) : ?>
-				<img src="<?php echo esc_url( $persona['foto'] ); ?>" alt="<?php echo esc_attr( $persona['nombre'] ?? '' ); ?>" loading="lazy">
+			<?php if ( $foto ) : ?>
+				<img src="<?php echo esc_url( $foto ); ?>" alt="<?php echo esc_attr( $persona['nombre'] ?? '' ); ?>" loading="lazy">
 			<?php else : ?>
 				<span class="br-persona__foto"><?php esc_html_e( 'Foto del equipo · pendiente', 'bullracing' ); ?></span>
 			<?php endif; ?>

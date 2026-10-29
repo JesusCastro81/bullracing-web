@@ -145,3 +145,40 @@ function bullracing_whatsapp_url( string $mensaje = '' ): string {
 
 	return $url;
 }
+
+/**
+ * Fotos del taller en assets/img/taller/, cada una con un nombre fijo (ver README).
+ * Para poner o cambiar una foto se copia el archivo con ese nombre; si no está, se ve el recuadro pendiente.
+ */
+function bullracing_foto( string $archivo ): string {
+	$ruta = get_template_directory() . '/assets/img/taller/' . $archivo;
+	if ( ! file_exists( $ruta ) ) {
+		return '';
+	}
+	// La fecha del archivo va en la dirección: al reemplazar una foto con el mismo nombre, el navegador descarga la nueva.
+	return get_template_directory_uri() . '/assets/img/taller/' . rawurlencode( $archivo ) . '?v=' . filemtime( $ruta );
+}
+
+add_filter(
+	'bullracing_contacto_fotos',
+	static function ( array $fotos ): array {
+		$fotos['rampa']    = bullracing_foto( 'contacto-rampa.jpg' );
+		$fotos['entrega']  = bullracing_foto( 'contacto-entrega.jpg' );
+		$fotos['carrusel'] = array(
+			array( 'texto' => __( 'Recibo', 'bullracing' ), 'url' => bullracing_foto( 'contacto-carrusel-1.jpg' ) ),
+			array( 'texto' => __( 'Rampa', 'bullracing' ), 'url' => bullracing_foto( 'contacto-carrusel-2.jpg' ) ),
+			array( 'texto' => __( 'Lavado', 'bullracing' ), 'url' => bullracing_foto( 'contacto-carrusel-3.jpg' ) ),
+			array( 'texto' => __( 'Entrega', 'bullracing' ), 'url' => bullracing_foto( 'contacto-carrusel-4.jpg' ) ),
+		);
+		return $fotos;
+	}
+);
+
+add_filter(
+	'bullracing_motolavado_fotos',
+	static function ( array $fotos ): array {
+		$fotos['antes']   = bullracing_foto( 'motolavado-antes.jpg' );
+		$fotos['despues'] = bullracing_foto( 'motolavado-despues.jpg' );
+		return $fotos;
+	}
+);
