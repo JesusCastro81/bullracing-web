@@ -30,15 +30,18 @@ function bullracing_datos_taller(): array {
 		// Horario según el taller (mensaje al grupo, octubre de 2026). Domingos y festivos: cerrado.
 		// Solo se escriben las horas en formato 24 h; el texto ("7:00 a. m. – 7:00 p. m.") se arma solo.
 		// 'semana': días en que aplica (1 = lunes … 6 = sábado). Lo usa también el aviso abierto/cerrado.
+		// 'corto': como se ve en el aviso del hero.
 		'horario'  => array(
 			array(
 				'dias'   => 'Lunes a viernes',
+				'corto'  => 'L-V',
 				'semana' => array( 1, 2, 3, 4, 5 ),
 				'abre'   => 7,
 				'cierra' => 19,
 			),
 			array(
 				'dias'   => 'Sábado',
+				'corto'  => 'SÁB',
 				'semana' => array( 6 ),
 				'abre'   => 8,
 				'cierra' => 17,
@@ -120,18 +123,25 @@ function bullracing_datos_taller(): array {
 		$datos['horario'][ $i ]['horas'] = bullracing_hora( $fila['abre'] ) . ' – ' . bullracing_hora( $fila['cierra'] );
 	}
 
-	// 2. Estrellas enteras según la calificación de Google (4,2 → 4).
+	// 2. Calle y ciudad por separado ("Cra. 84 # 78-58" y "Bogotá") y mapa de Google de la dirección.
+	$partes          = array_map( 'trim', explode( ',', $datos['direccion'], 2 ) );
+	$datos['calle']  = $partes[0];
+	$datos['ciudad'] = $partes[1] ?? '';
+	// Se busca por nombre + dirección para que Google marque el perfil del taller, no solo la calle.
+	$datos['mapa'] = 'https://www.google.com/maps?q=' . rawurlencode( $datos['nombre'] . ', ' . $datos['direccion'] ) . '&z=16&output=embed';
+
+	// 3. Estrellas enteras según la calificación de Google (4,2 → 4).
 	$datos['calificacion'] = (int) round( (float) str_replace( ',', '.', $datos['promedio'] ) );
 
-	// 3. Años del taller (0 mientras no se sepa el año de apertura).
+	// 4. Años del taller (0 mientras no se sepa el año de apertura).
 	$datos['anios'] = $datos['desde'] ? (int) gmdate( 'Y' ) - (int) $datos['desde'] : 0;
 
-	// 4. Clientes antes del plugin: la base. El plugin bullracing-core la reemplaza por base + OT.
+	// 5. Clientes antes del plugin: la base. El plugin bullracing-core la reemplaza por base + OT.
 	$datos['clientes'] = $datos['contador']['base'];
 
 	$datos = apply_filters( 'bullracing_datos_taller', $datos );
 
-	// 5. Formato visual (después del filtro, para que incluya lo que sume el plugin).
+	// 6. Formato visual (después del filtro, para que incluya lo que sume el plugin).
 	$datos['clientes_fmt'] = number_format_i18n( (int) $datos['clientes'] );
 
 	return $datos;

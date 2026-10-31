@@ -1,6 +1,6 @@
 <?php
 /**
- * Botón flotante de WhatsApp (presente en todas las páginas).
+ * Componente: botón flotante de WhatsApp (presente en todas las páginas).
  * Círculo con el ícono de chat; el texto queda para lectores de pantalla.
  *
  * @package BullRacing

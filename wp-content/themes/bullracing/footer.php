@@ -38,7 +38,7 @@ $correo = (string) $taller['correo'];
 	</div>
 </footer>
 
-<?php get_template_part( 'template-parts/boton-whatsapp' ); ?>
+<?php bullracing_componente( 'boton-whatsapp' ); ?>
 
 <?php wp_footer(); ?>
 </body>

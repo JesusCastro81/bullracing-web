@@ -23,6 +23,18 @@ function bullracing_hora( int $hora ): string {
 }
 
 /**
+ * Genera la cadena de texto de estrellas llenas y vacías.
+ * Ej.: 4 → "★★★★☆".
+ *
+ * @param int $calificacion Número de estrellas de 0 a 5.
+ * @return string Cadena con caracteres de estrellas.
+ */
+function bullracing_estrellas( int $calificacion ): string {
+	$calificacion = min( 5, max( 0, $calificacion ) );
+	return str_repeat( '★', $calificacion ) . str_repeat( '☆', 5 - $calificacion );
+}
+
+/**
  * URL de una página por su slug. Si la página aún no existe, devuelve el ancla de respaldo
  * en el inicio (ej. "#nosotros"), para que el menú nunca quede con enlaces rotos.
  */
