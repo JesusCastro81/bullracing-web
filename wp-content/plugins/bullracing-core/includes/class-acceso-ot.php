@@ -92,17 +92,20 @@ final class BullRacing_Acceso_OT {
 		);
 	}
 
-	/** Motos atendidas: número de la última OT guardada. Sin órdenes todavía: 250 (número de la primera OT). */
-	public static function motos_atendidas(): int {
+	/** Cuántas órdenes de servicio se han guardado con el sistema (registro de recepción). */
+	public static function ordenes_guardadas(): int {
 		global $wpdb;
 		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- nombre de tabla interno.
-		$ultima = (int) $wpdb->get_var( 'SELECT MAX(CAST(numero_orden AS UNSIGNED)) FROM ' . self::tabla() );
-		return max( 250, $ultima );
+		return (int) $wpdb->get_var( 'SELECT COUNT(*) FROM ' . self::tabla() );
 	}
 
-	/** Pone las motos atendidas en los datos del taller que muestra el tema. */
+	/**
+	 * Clientes satisfechos = base que da el taller (inc/datos-taller.php del tema) + órdenes guardadas.
+	 * El tema define la base; el plugin solo suma.
+	 */
 	public static function contador_en_datos( array $datos ): array {
-		$datos['clientes'] = self::motos_atendidas();
+		$base              = (int) ( $datos['contador']['base'] ?? 0 );
+		$datos['clientes'] = $base + self::ordenes_guardadas();
 		return $datos;
 	}
 
