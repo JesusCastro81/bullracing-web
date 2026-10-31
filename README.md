@@ -18,16 +18,26 @@ subidas y la base de datos **no** se versionan (ver `.gitignore`).
 ├── ot/                           Orden de servicio (OT) del taller (ver sección OT)
 └── wp-content/
     ├── themes/bullracing/        Tema propio: SOLO apariencia
-    │   ├── inc/                  Datos del taller, planes y términos, cada uno en un solo lugar
+    │   ├── functions.php         Solo constantes y carga de inc/
+    │   ├── inc/
+    │   │   ├── helpers.php       Funciones de ayuda: hora, estrellas, WhatsApp, fotos, video, ícono de chat
+    │   │   ├── datos-taller.php  Datos del taller (fuente única): horario, contador, reseñas, servicios, contacto
+    │   │   ├── datos-planes.php  Qué incluye cada plan, plan recomendado y nombres de motores
+    │   │   ├── datos-terminos.php Texto legal
+    │   │   └── setup.php         Ganchos de WordPress: soportes, CSS/JS y datos para el JS
     │   ├── template-parts/
-    │   │   ├── componentes/      Piezas reutilizables: estrellas, banda de páginas internas, reproductor de video
-    │   │   └── secciones/        Bloques de la landing: hero, planes, motolavado…
+    │   │   ├── componentes/      Piezas reutilizables: estrellas, banda de páginas internas, video, botón de WhatsApp
+    │   │   ├── inicio/           Secciones del inicio en el orden de la página: 01-hero … 07-contacto
+    │   │   ├── quienes-somos/    01-historia, 02-servicios, 03-equipo
+    │   │   ├── contacto/         01-whatsapp, 02-datos, 03-mapa, 04-redes
+    │   │   └── terminos/         01-indice, 02-texto
+    │   ├── front-page.php, page-*.php  Orquestadores: solo llaman a sus partes en orden
     │   └── assets/
     │       ├── fonts/            Fuentes locales (el sitio funciona sin internet)
-    │       ├── js/               Landing, precarga y capa visual del agendamiento
+    │       ├── js/               main.js (índice 00–08), precarga y capa visual del agendamiento
     │       └── css/
     │           ├── tokens.css    Colores, fuentes y espacios como variables
-    │           ├── skins/        Una "piel" por diseño (base, taller)
+    │           ├── skins/        Una "piel" por diseño (base, taller); taller.css con índice 00–09
     │           └── main.css      Estructura (solo usa tokens)
     └── plugins/
         └── bullracing-core/      Lógica del negocio: tarifas, roles "Taller" y "Recepción de motos",
@@ -40,6 +50,40 @@ el tema, los precios, los usuarios y la OT siguen funcionando.
 El **agendamiento** es el formulario de la página actual y no está en este repositorio: el tema
 solo le cambia la apariencia y le agrega que la placa acepte solo letras y números.
 
+> **Pendiente:** el tema todavía **no carga** `assets/js/agendamiento-capa.js` ni
+> `assets/css/taller-agendamiento.css` (solo los usa la página de prueba local). Antes del
+> despliegue hay que cargarlos en `inc/setup.php` y probarlos sobre una copia de la página real.
+
+## Dónde cambiar cada cosa
+
+Cada dato se escribe en un solo lugar; todo lo demás lo lee de ahí.
+
+| Para cambiar… | Ve a… |
+|---|---|
+| Horario, teléfono, WhatsApp, correo, dirección, redes | `inc/datos-taller.php` |
+| Base de clientes satisfechos (el plugin le suma las órdenes de servicio guardadas) | `inc/datos-taller.php` → `contador` |
+| Calificación y reseñas de Google | `inc/datos-taller.php` → `promedio`, `total_resenas`, `resenas` |
+| Año de apertura, historia y video del taller | `inc/datos-taller.php` → `desde`, `historia`, `video` |
+| Servicios de Quiénes somos (y áreas del equipo) | `inc/datos-taller.php` → `servicios` |
+| Qué incluye cada plan y cuál es el recomendado | `inc/datos-planes.php` |
+| Nombres de los motores y referencia inicial de la barra del hero | `inc/datos-planes.php` |
+| Precios | Panel de precios de `bullracing-core` (el tema no tiene precios) |
+| Texto legal | `inc/datos-terminos.php` |
+| Una sección del inicio | `template-parts/inicio/0N-….php` |
+| Estilo de una sección | `assets/css/skins/taller.css`, bloque con el número de la sección (ver índice) |
+| Versión del tema | `style.css` → `Version` |
+
+**Fotos:** se copian en `assets/img/taller/` con estos nombres; si una falta, se ve el recuadro
+pendiente o la tarjeta queda solo con texto.
+
+| Dónde | Archivo |
+|---|---|
+| Inicio · El taller (4 pasos) | `paso-01.jpg` … `paso-04.jpg` |
+| Inicio · Motolavado | `motolavado-antes.jpg`, `motolavado-despues.jpg` |
+| Inicio · Contacto | `contacto-carrusel-1.jpg` … `contacto-carrusel-4.jpg`, `contacto-entrega.jpg`, `contacto-rampa.jpg` |
+| Quiénes somos · Servicios | `quienes-mantenimiento.jpg`, `quienes-diagnostico.jpg`, `quienes-motolavado.jpg` |
+| Quiénes somos · Equipo | `equipo-taller.jpg`, `equipo-1.jpg` … `equipo-3.jpg` |
+
 ### Cómo se cambia de diseño
 
 El diseño visual se separa en capas para que cambiarlo cueste poco:
@@ -49,7 +93,8 @@ El diseño visual se separa en capas para que cambiarlo cueste poco:
 3. **Tokens** (`tokens.css`): colores, fuentes y espacios. `main.css` no usa colores a mano;
    los colores propios de un diseño van en su skin.
 4. **Skin** (`assets/css/skins/`): la piel de cada diseño. La activa se define en `functions.php`
-   con `BULLRACING_SKIN`.
+   con `BULLRACING_SKIN`. Las secciones de `taller.css` van en el orden de la página; el mapa y
+   las tarjetas con foto van al final a propósito (bloque 09), porque ajustan reglas anteriores.
 
 ## Requisitos
 
@@ -179,7 +224,8 @@ La OT original no tenía inicio de sesión. Se protege con el inicio de sesión 
 3. Confirmar que la página tiene HTTPS.
 
 **Instalar**
-4. Comprimir `wp-content/themes/bullracing` → `bullracing.zip` y `wp-content/plugins/bullracing-core`
+4. Subir la versión en `wp-content/themes/bullracing/style.css` (`Version`), para que los
+   navegadores descarguen el CSS y el JS nuevos. Comprimir `wp-content/themes/bullracing` → `bullracing.zip` y `wp-content/plugins/bullracing-core`
    → `bullracing-core.zip`.
 5. **Plugins → Añadir nuevo → Subir plugin** → `bullracing-core.zip` → Activar
    (crea la tabla de tarifas, los roles y el registro de recepción).
@@ -197,6 +243,8 @@ La OT original no tenía inicio de sesión. Se protege con el inicio de sesión 
     Términos, en escritorio y celular.
 12. Agendamiento: una cita de prueba que llegue por correo.
 13. OT: entrar con un usuario de recepción, buscar la placa de la cita de prueba, guardar y sacar el PDF.
+14. Borrar la cita de prueba, su orden de servicio y su fila del registro de recepción: así el
+    contador de clientes satisfechos vuelve a la base que dio el taller.
 
 **Si algo sale mal:** volver a activar el tema anterior desde **Apariencia → Temas** y, si es
 necesario, restaurar el respaldo del paso 1.

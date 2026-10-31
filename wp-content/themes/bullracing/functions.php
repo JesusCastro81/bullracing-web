@@ -15,7 +15,9 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'BULLRACING_TEMA_VERSION', '0.7.5' );
+// La versión se escribe solo en style.css (donde WordPress la busca). Va en la dirección de los
+// CSS y JS: al subirla, los navegadores descargan los archivos nuevos en vez de usar los guardados.
+define( 'BULLRACING_TEMA_VERSION', (string) wp_get_theme( get_template() )->get( 'Version' ) );
 
 /**
  * Skin activa: el diseño visual escogido. Cambiar de diseño = cambiar este valor
