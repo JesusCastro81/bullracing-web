@@ -1,10 +1,21 @@
 /**
- * Bull Racing · Interacciones de la landing.
- * Los datos del servidor llegan en window.bullracingDatos (ver functions.php).
+ * Bull Racing · Interacciones del sitio.
+ * Los datos del servidor llegan en window.bullracingDatos (se arma en inc/setup.php).
  * Sin librerías: JavaScript del navegador.
+ *
+ * Índice (orden de la página):
+ *   00 Global: datos, formato de precios y tarifas
+ *   01 Hero: barra de precio y aviso abierto/cerrado
+ *   03 Planes
+ *   04 Motolavado
+ *   06 Video del taller (Nosotros y Quiénes somos)
+ *   07 Contacto: carrusel de fotos
+ *   08 Páginas internas: copiar número (Contacto) y Términos
  */
 (() => {
   'use strict';
+
+  /* ---------- 00 Global ---------- */
 
   const datos = window.bullracingDatos || {};
 
@@ -37,7 +48,7 @@
     enlace.setAttribute('href', url.toString());
   };
 
-  /* ---------- Hero: barra para ver el precio antes de agendar ---------- */
+  /* ---------- 01 Hero: barra para ver el precio antes de agendar ---------- */
 
   // Grupos en el mismo orden del agendamiento.
   const GRUPOS = [
@@ -133,266 +144,11 @@
 
   document.querySelectorAll('[data-br-cotizador]').forEach(iniciarCotizador);
 
-  /* ---------- Planes: tarjetas con desplegable + tacómetro ---------- */
+  /* ---------- 01 Hero: taller abierto / cerrado ---------- */
 
-  const NOMBRE_MOTOR = { gasolina: 'moto a gasolina', electrica: 'moto eléctrica' };
-
-  const iniciarPlanes = (seccion) => {
-    const botonesMotor = [...seccion.querySelectorAll('[data-br-motor]')];
-    const grupos = [...seccion.querySelectorAll('[data-br-grupo]')];
-    const tarjetas = [...seccion.querySelectorAll('[data-br-plan]')];
-    const aguja = seccion.querySelector('[data-br-aguja]');
-    const precioGrande = seccion.querySelector('[data-br-precio-grande]');
-    const planNombre = seccion.querySelector('[data-br-plan-nombre]');
-    const motorNombre = seccion.querySelector('[data-br-motor-nombre]');
-    const refNombre = seccion.querySelector('[data-br-ref-nombre]');
-    if (!tarjetas.length) return;
-
-    const selectDe = (tarjeta) => tarjeta.querySelector('[data-br-referencia]');
-    const precioDe = (tarjeta) => Number(selectDe(tarjeta).selectedOptions[0]?.dataset.precio || 0);
-
-    // Escala del tacómetro: el precio más alto de todos queda casi al tope.
-    const todos = tarjetas.flatMap((t) => [...selectDe(t).options].map((o) => Number(o.dataset.precio || 0)));
-    const escala = Math.ceil((Math.max(...todos, 1) * 1.125) / 50000) * 50000;
-
-    let motor = 'gasolina';
-    let elegida = tarjetas.find((t) => t.getAttribute('aria-current') === 'true') || tarjetas[0];
-
-    // Cada tarjeta: precio de la referencia escogida y el Agendar con esa elección.
-    const pintarTarjeta = (tarjeta) => {
-      const select = selectDe(tarjeta);
-      tarjeta.querySelector('[data-br-valor]').textContent = formatoPrecio.format(precioDe(tarjeta));
-      tarjeta.querySelector('[data-br-desde]').textContent = select.selectedIndex === 0 ? 'Desde' : 'Precio';
-      enlaceConEleccion(tarjeta.querySelector('[data-br-agendar]'), {
-        servicio: 'mantenimiento',
-        motor: tarjeta.dataset.motor,
-        plan: tarjeta.dataset.brPlan,
-        referencia: select.value,
-      });
-    };
-
-    // Pestañas, tarjeta elegida y tacómetro.
-    const pintar = () => {
-      botonesMotor.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.brMotor === motor)));
-      grupos.forEach((g) => {
-        g.hidden = g.dataset.brGrupo !== motor;
-      });
-      tarjetas.forEach((t) => t.setAttribute('aria-current', String(t === elegida)));
-
-      const valor = precioDe(elegida);
-      precioGrande.textContent = formatoPrecio.format(valor);
-      planNombre.textContent = elegida.dataset.brPlan;
-      motorNombre.textContent = NOMBRE_MOTOR[motor];
-      refNombre.textContent = selectDe(elegida).value;
-      aguja.style.transform = `rotate(${-90 + Math.min(valor / escala, 1) * 180}deg)`;
-    };
-
-    botonesMotor.forEach((b) =>
-      b.addEventListener('click', () => {
-        motor = b.dataset.brMotor;
-        const delMotor = tarjetas.filter((t) => t.dataset.motor === motor);
-        // Mismo plan en el otro motor; si no existe (Viaje en eléctricas), el recomendado.
-        elegida =
-          delMotor.find((t) => t.dataset.brPlan === elegida.dataset.brPlan) ||
-          delMotor.find((t) => t.classList.contains('br-plan--recomendado')) ||
-          delMotor[0];
-        pintar();
-      })
-    );
-
-    tarjetas.forEach((t) => {
-      t.addEventListener('click', (evento) => {
-        if (evento.target.closest('a, select')) return;
-        elegida = t;
-        pintar();
-      });
-      selectDe(t).addEventListener('change', () => {
-        pintarTarjeta(t);
-        elegida = t;
-        pintar();
-      });
-      pintarTarjeta(t);
-    });
-
-    pintar();
-  };
-
-  document.querySelectorAll('[data-br-planes]').forEach(iniciarPlanes);
-
-  /* ---------- Motolavado: antes y después ---------- */
-
-  // El deslizador es un <input type="range">: funciona con mouse, dedo y teclado.
-  document.querySelectorAll('[data-br-comparar]').forEach((caja) => {
-    const rango = caja.querySelector('[data-br-comparar-rango]');
-    const mover = () => caja.style.setProperty('--corte', `${rango.value}%`);
-    rango.addEventListener('input', mover);
-    mover();
-  });
-
-  /* ---------- Contacto: carrusel de fotos del taller ---------- */
-
-  // Al pasar el mouse las fotos se encadenan solas; al quitarlo se detiene.
-  // En celular (sin mouse) y con teclado, cada toque o Enter pasa a la siguiente.
-  document.querySelectorAll('[data-br-carrusel]').forEach((caja) => {
-    const fotos = [...caja.querySelectorAll('.br-carrusel__foto')];
-    const puntos = [...caja.querySelectorAll('.br-carrusel__puntos span')];
-    const texto = caja.querySelector('[data-br-carrusel-texto]');
-    const sinMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let actual = 0;
-    let reloj = null;
-
-    const mostrar = (indice) => {
-      actual = (indice + fotos.length) % fotos.length;
-      fotos.forEach((foto, i) => foto.classList.toggle('is-activa', i === actual));
-      puntos.forEach((punto, i) => punto.classList.toggle('is-activo', i === actual));
-      if (texto) texto.textContent = fotos[actual].dataset.texto || '';
-    };
-    const siguiente = () => mostrar(actual + 1);
-    const detener = () => {
-      clearInterval(reloj);
-      reloj = null;
-    };
-
-    // pointerenter + pointerType: solo un mouse real arranca el avance automático
-    // (un toque en el celular también "entra", pero ahí manda el click).
-    caja.addEventListener('pointerenter', (evento) => {
-      if (evento.pointerType !== 'mouse' || sinMovimiento || reloj) return;
-      siguiente();
-      reloj = setInterval(siguiente, 1500);
-    });
-    caja.addEventListener('pointerleave', detener);
-    caja.addEventListener('click', (evento) => {
-      if (evento.pointerType === 'mouse') return; // Con mouse ya avanza solo.
-      siguiente();
-    });
-    caja.addEventListener('keydown', (evento) => {
-      if (evento.key === 'Enter' || evento.key === ' ') {
-        evento.preventDefault();
-        siguiente();
-      }
-    });
-  });
-
-  /* ---------- Contacto: copiar número ---------- */
-
-  document.querySelectorAll('[data-br-copiar]').forEach((boton) => {
-    const textoOriginal = boton.textContent.trim();
-    boton.addEventListener('click', async () => {
-      const numero = boton.dataset.brCopiar;
-      try {
-        await navigator.clipboard.writeText(numero);
-      } catch (e) {
-        // Navegadores sin permiso de portapapeles: se copia con una caja de texto temporal.
-        const caja = Object.assign(document.createElement('textarea'), { value: numero });
-        document.body.append(caja);
-        caja.select();
-        document.execCommand('copy');
-        caja.remove();
-      }
-      boton.textContent = boton.dataset.copiado;
-      boton.classList.add('is-copiado');
-      setTimeout(() => {
-        boton.textContent = textoOriginal;
-        boton.classList.remove('is-copiado');
-      }, 2500);
-    });
-  });
-
-  /* ---------- Términos: índice, sección activa y avance de lectura ---------- */
-
-  document.querySelectorAll('[data-br-legal]').forEach((legal) => {
-    const enlaces = [...legal.querySelectorAll('[data-br-legal-enlace]')];
-    const secciones = [...legal.querySelectorAll('[data-br-legal-seccion]')];
-    const barra = legal.querySelector('[data-br-legal-barra]');
-    const estado = legal.querySelector('[data-br-legal-estado]');
-    const texto = legal.querySelector('.br-legal__texto');
-    const plantilla = estado.dataset.plantilla;
-    let marcada = -1;
-
-    const marcar = (indice) => {
-      if (indice === marcada) return;
-      marcada = indice;
-      enlaces.forEach((enlace, i) => {
-        enlace.classList.toggle('is-activo', i === indice);
-        if (i === indice) enlace.setAttribute('aria-current', 'location');
-        else enlace.removeAttribute('aria-current');
-      });
-    };
-
-    const actualizar = () => {
-      // Sección activa: la última cuyo título ya pasó la parte de arriba de la pantalla.
-      const linea = window.innerHeight * 0.3;
-      let activa = 0;
-      secciones.forEach((seccion, i) => {
-        if (seccion.getBoundingClientRect().top <= linea) activa = i;
-      });
-
-      // Avance: cuánto del texto legal ya se leyó (100 % al llegar al final del texto).
-      const caja = texto.getBoundingClientRect();
-      const recorrido = caja.height - window.innerHeight;
-      const leido = recorrido > 0 ? Math.min(1, Math.max(0, -caja.top / recorrido)) : 1;
-      if (leido >= 0.995) activa = secciones.length - 1;
-
-      marcar(activa);
-      const porcentaje = Math.round(leido * 100);
-      barra.style.width = `${porcentaje}%`;
-      estado.textContent = plantilla.replace('{n}', activa + 1).replace('{p}', porcentaje);
-    };
-
-    // Al tocar una sección del índice se marca de una vez (el scroll suave lo hace el CSS).
-    enlaces.forEach((enlace, i) => enlace.addEventListener('click', () => marcar(i)));
-
-    let pendiente = false;
-    window.addEventListener('scroll', () => {
-      if (pendiente) return;
-      pendiente = true;
-      requestAnimationFrame(() => {
-        pendiente = false;
-        actualizar();
-      });
-    }, { passive: true });
-    window.addEventListener('resize', actualizar);
-    actualizar();
-  });
-
-  /* ---------- Quiénes somos: video del taller ---------- */
-
-  // Play/pausa, etiqueta "Reproduciendo" y barra de progreso.
-  document.querySelectorAll('[data-br-video]').forEach((caja) => {
-    const video = caja.querySelector('video');
-    const boton = caja.querySelector('[data-br-video-boton]');
-    const etiqueta = caja.querySelector('[data-br-video-etiqueta]');
-    const barra = caja.querySelector('[data-br-video-barra]');
-    const textoEtiqueta = etiqueta.textContent;
-    const textoBoton = boton.getAttribute('aria-label');
-
-    const pintar = () => {
-      const sonando = !video.paused && !video.ended;
-      caja.classList.toggle('is-reproduciendo', sonando);
-      etiqueta.textContent = sonando ? etiqueta.dataset.reproduciendo : textoEtiqueta;
-      boton.setAttribute('aria-label', sonando ? boton.dataset.pausar : textoBoton);
-    };
-
-    boton.addEventListener('click', () => (video.paused ? video.play() : video.pause()));
-    video.addEventListener('click', () => (video.paused ? video.play() : video.pause()));
-    ['play', 'pause', 'ended'].forEach((evento) => video.addEventListener(evento, pintar));
-    video.addEventListener('timeupdate', () => {
-      barra.style.width = video.duration ? `${(video.currentTime / video.duration) * 100}%` : '0';
-    });
-  });
-
-  /* ---------- Hero: taller abierto / cerrado ---------- */
-
-  // Horario del taller (hora de Bogotá), según reunión: L-V 7:00 a 18:00 y sábado 7:00 a 17:00.
-  // Llega desde inc/datos-taller.php; si no llega, se usa este mismo. Domingos y festivos: cerrado.
-  // dias: 1 = lunes … 6 = sábado.
-  const HORARIO =
-    Array.isArray(datos.horario) && datos.horario.length
-      ? datos.horario
-      : [
-          { dias: [1, 2, 3, 4, 5], abre: 7, cierra: 18 },
-          { dias: [6], abre: 7, cierra: 17 },
-        ];
+  // Horario del taller (hora de Bogotá): llega desde inc/datos-taller.php. Domingos y festivos: cerrado.
+  // dias: 1 = lunes … 6 = sábado. Sin horario no se muestra el aviso: mejor nada que un dato equivocado.
+  const HORARIO = Array.isArray(datos.horario) ? datos.horario : [];
 
   /** Domingo de Pascua (algoritmo gregoriano anónimo). Mes base 0. */
   const pascua = (anio) => {
@@ -481,5 +237,259 @@
     setInterval(pintar, 60000); // Se actualiza solo, sin recargar la página.
   };
 
-  document.querySelectorAll('[data-br-estado]').forEach(iniciarEstado);
+  document.querySelectorAll('[data-br-estado]').forEach((elemento) => {
+    if (HORARIO.length) {
+      iniciarEstado(elemento);
+    } else {
+      elemento.hidden = true;
+    }
+  });
+
+  /* ---------- 03 Planes: tarjetas con desplegable + tacómetro ---------- */
+
+  const NOMBRE_MOTOR = { gasolina: 'moto a gasolina', electrica: 'moto eléctrica' };
+
+  const iniciarPlanes = (seccion) => {
+    const botonesMotor = [...seccion.querySelectorAll('[data-br-motor]')];
+    const grupos = [...seccion.querySelectorAll('[data-br-grupo]')];
+    const tarjetas = [...seccion.querySelectorAll('[data-br-plan]')];
+    const aguja = seccion.querySelector('[data-br-aguja]');
+    const precioGrande = seccion.querySelector('[data-br-precio-grande]');
+    const planNombre = seccion.querySelector('[data-br-plan-nombre]');
+    const motorNombre = seccion.querySelector('[data-br-motor-nombre]');
+    const refNombre = seccion.querySelector('[data-br-ref-nombre]');
+    if (!tarjetas.length) return;
+
+    const selectDe = (tarjeta) => tarjeta.querySelector('[data-br-referencia]');
+    const precioDe = (tarjeta) => Number(selectDe(tarjeta).selectedOptions[0]?.dataset.precio || 0);
+
+    // Escala del tacómetro: el precio más alto de todos queda casi al tope.
+    const todos = tarjetas.flatMap((t) => [...selectDe(t).options].map((o) => Number(o.dataset.precio || 0)));
+    const escala = Math.ceil((Math.max(...todos, 1) * 1.125) / 50000) * 50000;
+
+    let motor = 'gasolina';
+    let elegida = tarjetas.find((t) => t.getAttribute('aria-current') === 'true') || tarjetas[0];
+
+    // Cada tarjeta: precio de la referencia escogida y el Agendar con esa elección.
+    const pintarTarjeta = (tarjeta) => {
+      const select = selectDe(tarjeta);
+      tarjeta.querySelector('[data-br-valor]').textContent = formatoPrecio.format(precioDe(tarjeta));
+      tarjeta.querySelector('[data-br-desde]').textContent = select.selectedIndex === 0 ? 'Desde' : 'Precio';
+      enlaceConEleccion(tarjeta.querySelector('[data-br-agendar]'), {
+        servicio: 'mantenimiento',
+        motor: tarjeta.dataset.motor,
+        plan: tarjeta.dataset.brPlan,
+        referencia: select.value,
+      });
+    };
+
+    // Pestañas, tarjeta elegida y tacómetro.
+    const pintar = () => {
+      botonesMotor.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.brMotor === motor)));
+      grupos.forEach((g) => {
+        g.hidden = g.dataset.brGrupo !== motor;
+      });
+      tarjetas.forEach((t) => t.setAttribute('aria-current', String(t === elegida)));
+
+      const valor = precioDe(elegida);
+      precioGrande.textContent = formatoPrecio.format(valor);
+      planNombre.textContent = elegida.dataset.brPlan;
+      motorNombre.textContent = NOMBRE_MOTOR[motor];
+      refNombre.textContent = selectDe(elegida).value;
+      aguja.style.transform = `rotate(${-90 + Math.min(valor / escala, 1) * 180}deg)`;
+    };
+
+    botonesMotor.forEach((b) =>
+      b.addEventListener('click', () => {
+        motor = b.dataset.brMotor;
+        const delMotor = tarjetas.filter((t) => t.dataset.motor === motor);
+        // Mismo plan en el otro motor; si no existe (Viaje en eléctricas), el recomendado.
+        elegida =
+          delMotor.find((t) => t.dataset.brPlan === elegida.dataset.brPlan) ||
+          delMotor.find((t) => t.classList.contains('br-plan--recomendado')) ||
+          delMotor[0];
+        pintar();
+      })
+    );
+
+    tarjetas.forEach((t) => {
+      t.addEventListener('click', (evento) => {
+        if (evento.target.closest('a, select')) return;
+        elegida = t;
+        pintar();
+      });
+      selectDe(t).addEventListener('change', () => {
+        pintarTarjeta(t);
+        elegida = t;
+        pintar();
+      });
+      pintarTarjeta(t);
+    });
+
+    pintar();
+  };
+
+  document.querySelectorAll('[data-br-planes]').forEach(iniciarPlanes);
+
+  /* ---------- 04 Motolavado: antes y después ---------- */
+
+  // El deslizador es un <input type="range">: funciona con mouse, dedo y teclado.
+  document.querySelectorAll('[data-br-comparar]').forEach((caja) => {
+    const rango = caja.querySelector('[data-br-comparar-rango]');
+    const mover = () => caja.style.setProperty('--corte', `${rango.value}%`);
+    rango.addEventListener('input', mover);
+    mover();
+  });
+
+  /* ---------- 06 Video del taller (Nosotros y Quiénes somos) ---------- */
+
+  // Play/pausa, etiqueta "Reproduciendo" y barra de progreso.
+  document.querySelectorAll('[data-br-video]').forEach((caja) => {
+    const video = caja.querySelector('video');
+    const boton = caja.querySelector('[data-br-video-boton]');
+    const etiqueta = caja.querySelector('[data-br-video-etiqueta]');
+    const barra = caja.querySelector('[data-br-video-barra]');
+    const textoEtiqueta = etiqueta.textContent;
+    const textoBoton = boton.getAttribute('aria-label');
+
+    const pintar = () => {
+      const sonando = !video.paused && !video.ended;
+      caja.classList.toggle('is-reproduciendo', sonando);
+      etiqueta.textContent = sonando ? etiqueta.dataset.reproduciendo : textoEtiqueta;
+      boton.setAttribute('aria-label', sonando ? boton.dataset.pausar : textoBoton);
+    };
+
+    boton.addEventListener('click', () => (video.paused ? video.play() : video.pause()));
+    video.addEventListener('click', () => (video.paused ? video.play() : video.pause()));
+    ['play', 'pause', 'ended'].forEach((evento) => video.addEventListener(evento, pintar));
+    video.addEventListener('timeupdate', () => {
+      barra.style.width = video.duration ? `${(video.currentTime / video.duration) * 100}%` : '0';
+    });
+  });
+
+  /* ---------- 07 Contacto: carrusel de fotos del taller ---------- */
+
+  // Al pasar el mouse las fotos se encadenan solas; al quitarlo se detiene.
+  // En celular (sin mouse) y con teclado, cada toque o Enter pasa a la siguiente.
+  document.querySelectorAll('[data-br-carrusel]').forEach((caja) => {
+    const fotos = [...caja.querySelectorAll('.br-carrusel__foto')];
+    const puntos = [...caja.querySelectorAll('.br-carrusel__puntos span')];
+    const texto = caja.querySelector('[data-br-carrusel-texto]');
+    const sinMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let actual = 0;
+    let reloj = null;
+
+    const mostrar = (indice) => {
+      actual = (indice + fotos.length) % fotos.length;
+      fotos.forEach((foto, i) => foto.classList.toggle('is-activa', i === actual));
+      puntos.forEach((punto, i) => punto.classList.toggle('is-activo', i === actual));
+      if (texto) texto.textContent = fotos[actual].dataset.texto || '';
+    };
+    const siguiente = () => mostrar(actual + 1);
+    const detener = () => {
+      clearInterval(reloj);
+      reloj = null;
+    };
+
+    // pointerenter + pointerType: solo un mouse real arranca el avance automático
+    // (un toque en el celular también "entra", pero ahí manda el click).
+    caja.addEventListener('pointerenter', (evento) => {
+      if (evento.pointerType !== 'mouse' || sinMovimiento || reloj) return;
+      siguiente();
+      reloj = setInterval(siguiente, 1500);
+    });
+    caja.addEventListener('pointerleave', detener);
+    caja.addEventListener('click', (evento) => {
+      if (evento.pointerType === 'mouse') return; // Con mouse ya avanza solo.
+      siguiente();
+    });
+    caja.addEventListener('keydown', (evento) => {
+      if (evento.key === 'Enter' || evento.key === ' ') {
+        evento.preventDefault();
+        siguiente();
+      }
+    });
+  });
+
+  /* ---------- 08 Página Contacto: copiar número ---------- */
+
+  document.querySelectorAll('[data-br-copiar]').forEach((boton) => {
+    const textoOriginal = boton.textContent.trim();
+    boton.addEventListener('click', async () => {
+      const numero = boton.dataset.brCopiar;
+      try {
+        await navigator.clipboard.writeText(numero);
+      } catch (e) {
+        // Navegadores sin permiso de portapapeles: se copia con una caja de texto temporal.
+        const caja = Object.assign(document.createElement('textarea'), { value: numero });
+        document.body.append(caja);
+        caja.select();
+        document.execCommand('copy');
+        caja.remove();
+      }
+      boton.textContent = boton.dataset.copiado;
+      boton.classList.add('is-copiado');
+      setTimeout(() => {
+        boton.textContent = textoOriginal;
+        boton.classList.remove('is-copiado');
+      }, 2500);
+    });
+  });
+
+  /* ---------- 08 Página Términos: índice, sección activa y avance de lectura ---------- */
+
+  document.querySelectorAll('[data-br-legal]').forEach((legal) => {
+    const enlaces = [...legal.querySelectorAll('[data-br-legal-enlace]')];
+    const secciones = [...legal.querySelectorAll('[data-br-legal-seccion]')];
+    const barra = legal.querySelector('[data-br-legal-barra]');
+    const estado = legal.querySelector('[data-br-legal-estado]');
+    const texto = legal.querySelector('.br-legal__texto');
+    const plantilla = estado.dataset.plantilla;
+    let marcada = -1;
+
+    const marcar = (indice) => {
+      if (indice === marcada) return;
+      marcada = indice;
+      enlaces.forEach((enlace, i) => {
+        enlace.classList.toggle('is-activo', i === indice);
+        if (i === indice) enlace.setAttribute('aria-current', 'location');
+        else enlace.removeAttribute('aria-current');
+      });
+    };
+
+    const actualizar = () => {
+      // Sección activa: la última cuyo título ya pasó la parte de arriba de la pantalla.
+      const linea = window.innerHeight * 0.3;
+      let activa = 0;
+      secciones.forEach((seccion, i) => {
+        if (seccion.getBoundingClientRect().top <= linea) activa = i;
+      });
+
+      // Avance: cuánto del texto legal ya se leyó (100 % al llegar al final del texto).
+      const caja = texto.getBoundingClientRect();
+      const recorrido = caja.height - window.innerHeight;
+      const leido = recorrido > 0 ? Math.min(1, Math.max(0, -caja.top / recorrido)) : 1;
+      if (leido >= 0.995) activa = secciones.length - 1;
+
+      marcar(activa);
+      const porcentaje = Math.round(leido * 100);
+      barra.style.width = `${porcentaje}%`;
+      estado.textContent = plantilla.replace('{n}', activa + 1).replace('{p}', porcentaje);
+    };
+
+    // Al tocar una sección del índice se marca de una vez (el scroll suave lo hace el CSS).
+    enlaces.forEach((enlace, i) => enlace.addEventListener('click', () => marcar(i)));
+
+    let pendiente = false;
+    window.addEventListener('scroll', () => {
+      if (pendiente) return;
+      pendiente = true;
+      requestAnimationFrame(() => {
+        pendiente = false;
+        actualizar();
+      });
+    }, { passive: true });
+    window.addEventListener('resize', actualizar);
+    actualizar();
+  });
 })();
