@@ -84,6 +84,49 @@ pendiente o la tarjeta queda solo con texto.
 | Quiénes somos · Servicios | `quienes-mantenimiento.jpg`, `quienes-diagnostico.jpg`, `quienes-motolavado.jpg` |
 | Quiénes somos · Equipo | `equipo-taller.jpg`, `equipo-1.jpg` … `equipo-3.jpg` |
 
+### Material del taller: fotos, video y textos
+
+> **Las fotos que hay hoy en `assets/img/taller/` son de prueba y NO están en el repositorio.**
+> Se reemplazan por las reales del taller con **el mismo nombre** de la tabla de arriba.
+
+**Fotos**
+- JPG, nombre exacto en minúscula y sin espacios.
+- Ancho máximo 1200 px y menos de 300 KB por foto, para que la página cargue rápido.
+- La página recorta cada foto para llenar su recuadro, conservando el centro.
+- Antes y después del motolavado: la misma moto, desde el mismo punto y con el mismo encuadre.
+- El carrusel de contacto necesita al menos 2 fotos; con menos se usa `contacto-rampa.jpg`.
+- Sin caras de clientes ni placas legibles sin autorización (Ley 1581). Personas del taller: con su autorización.
+- Si falta una foto, la página no se rompe: se ve el recuadro pendiente o la tarjeta solo con texto.
+
+**Video** (`'video'` en `inc/datos-taller.php`)
+- Recomendado: el enlace del video en TikTok o Instagram. No pesa en el repositorio; el recuadro abre el video en la red.
+- O un archivo `.mp4` / `.webm` subido en **Medios → Añadir nuevo** de WordPress, pegando aquí su URL: se reproduce en la página. El video **no** se sube al repositorio.
+- Vacío: se ve "Video pendiente".
+
+**Textos** (`inc/datos-taller.php`)
+- `'historia'`: la historia del taller. Vacío: texto entre corchetes.
+- `'desde'`: año de apertura en número, sin comillas. La página calcula los años. `0`: se ve `[AÑO]`.
+- `'equipo'`: todavía no existe; se agrega después de `'servicios'`, en el mismo orden de los servicios
+  (Mantenimiento, Diagnóstico, Motolavado). Las fotos de cada persona son `equipo-1.jpg` … `equipo-3.jpg`.
+
+```php
+'equipo'    => array(
+	array( 'nombre' => 'Nombre Apellido', 'cargo' => 'Cargo' ), // Mantenimiento
+	array( 'nombre' => 'Nombre Apellido', 'cargo' => 'Cargo' ), // Diagnóstico
+	array( 'nombre' => 'Nombre Apellido', 'cargo' => 'Cargo' ), // Motolavado
+),
+```
+
+**Pasos para integrar el material**
+1. Revisar que el material tenga autorización de uso.
+2. Preparar cada foto y copiarla con su nombre en `wp-content/themes/bullracing/assets/img/taller/`.
+3. Escribir en `inc/datos-taller.php` el video, la historia, el año y el equipo que se tengan.
+4. Subir la versión del tema en `style.css`.
+5. `.\dev\verificar.ps1 -ConServidor` en **TODO BIEN** y revisar en el navegador con **Ctrl + F5**,
+   en escritorio y celular.
+6. Commit **agregando cada archivo por su nombre**, nunca `git add -A` (así no se cuela ningún archivo de prueba):
+   `git add wp-content/themes/bullracing/assets/img/taller/paso-01.jpg …`
+
 ### Cómo se cambia de diseño
 
 El diseño visual se separa en capas para que cambiarlo cueste poco:
