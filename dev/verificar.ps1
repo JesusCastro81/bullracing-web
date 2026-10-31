@@ -4,7 +4,7 @@
 
 .DESCRIPTION
   1. Revisa la sintaxis de todo el PHP del tema, de los plugins bullracing-* y de la OT (carpeta ot/).
-  2. Revisa que existan los CSS/JS que carga functions.php.
+  2. Revisa que existan los CSS/JS que carga inc/setup.php.
   3. Revisa que el tema no dependa de servicios externos (debe funcionar sin internet).
   4. Con -ConServidor: comprueba que el sitio local y la API de tarifas respondan.
 
@@ -44,11 +44,13 @@ if (-not (Test-Path $Php)) {
     if ($errores -eq 0) { Ok "$($archivos.Count) archivos PHP sin errores de sintaxis" }
 }
 
-# ---------- 2. Recursos que carga functions.php ----------
+# ---------- 2. Recursos que carga inc/setup.php ----------
 Titulo '2. Recursos del tema (CSS/JS)'
 $functions = Get-Content (Join-Path $tema 'functions.php') -Raw -Encoding UTF8
+$setup     = Get-Content (Join-Path $tema 'inc\setup.php') -Raw -Encoding UTF8
 $skin = if ($functions -match "define\(\s*'BULLRACING_SKIN',\s*'([^']+)'") { $Matches[1] } else { 'base' }
-$recursos = [regex]::Matches($functions, "\`$uri \. '(/[^']+)'") | ForEach-Object { $_.Groups[1].Value }
+$recursos = [regex]::Matches($setup, "\`$uri \. '(/[^']+)'") | ForEach-Object { $_.Groups[1].Value }
+if (-not $recursos) { Falla 'No se encontraron recursos en inc/setup.php' }
 $recursos += "/assets/css/skins/$skin.css"
 foreach ($r in ($recursos | Where-Object { $_ -notmatch '/skins/$' } | Sort-Object -Unique)) {
     $ruta = Join-Path $tema ($r.TrimStart('/') -replace '/', '\')
