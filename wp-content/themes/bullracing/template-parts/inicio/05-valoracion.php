@@ -1,6 +1,6 @@
 <?php
 /**
- * Sección "valoración" del inicio (diseño 1): calificación del taller
+ * Inicio · 05 Valoración (diseño 1): calificación del taller
  * y tres reseñas de clientes.
  *
  * Las reseñas, lo ideal es que sean REALES (copiadas de Google o TikTok). Mientras no
@@ -47,8 +47,8 @@ while ( count( $resenas ) < 3 ) {
 					$total
 						/* translators: %d: número de reseñas en Google */
 						? sprintf( _n( '%d reseña en Google', '%d reseñas en Google', $total, 'bullracing' ), $total )
-						/* translators: %d: número de motos atendidas */
-						: sprintf( __( '%d motos atendidas · reseñas de Google', 'bullracing' ), (int) $taller['clientes'] )
+						/* translators: 1: número de clientes, 2: texto del contador */
+						: sprintf( __( '%1$s %2$s · reseñas de Google', 'bullracing' ), $taller['clientes_fmt'], $taller['contador']['texto'] )
 				);
 				?>
 			</p>

@@ -1,6 +1,6 @@
 <?php
 /**
- * Sección "motolavado" de la landing (diseño 1): antes y después con
+ * Inicio · 04 Motolavado (diseño 1): antes y después con
  * deslizador, y los 4 paquetes con su precio "desde" (tarifas del agendamiento).
  *
  * Cada paquete lleva al formulario de agendamiento con ese paquete ya escogido
@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$desde     = bullracing_precios_desde( 'motolavado' )['gasolina'] ?? array();
+$desde       = bullracing_precios_desde( 'motolavado' )['gasolina'] ?? array();
 $destacado   = 'Full Shine'; // El paquete resaltado en rojo, como en el diseño.
 $url_agendar = bullracing_url_pagina( 'agendamiento', '#motolavado' );
 

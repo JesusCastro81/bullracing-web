@@ -1,7 +1,7 @@
 <?php
 /**
- * Sección "contacto" del inicio (diseño 1): mosaico con fotos del taller,
- * motos atendidas, redes, horario, mapa y dirección.
+ * Inicio · 07 Contacto (diseño 1): mosaico con fotos del taller,
+ * clientes satisfechos, redes, horario, mapa y dirección.
  *
  * - Fotos: pendiente entrega de material fotográfico por parte del talento.
  *   Mientras tanto se muestran los recuadros del diseño (filtro 'bullracing_contacto_fotos').
@@ -28,12 +28,9 @@ $fotos = apply_filters(
 );
 $carrusel = array_values( array_filter( (array) $fotos['carrusel'], static fn( $f ) => ! empty( $f['url'] ) ) );
 
-// Horario como en el diseño: días en una línea y horas en la siguiente ("LUNES A VIERNES" / "7:00 A. M. – 6:00 P. M.").
 $horario = (array) $taller['horario'];
 
 $direccion = (string) $taller['direccion'];
-// Se busca por nombre + dirección para que Google marque el perfil del taller, no solo la calle.
-$mapa_url  = 'https://www.google.com/maps?q=' . rawurlencode( $taller['nombre'] . ', ' . $direccion ) . '&z=16&output=embed';
 $mapa_ver  = 'https://www.google.com/maps/search/?api=1&query=' . rawurlencode( $direccion );
 ?>
 <section class="br-seccion br-seccion--contacto br-contacto" id="contacto">
@@ -65,10 +62,10 @@ $mapa_ver  = 'https://www.google.com/maps/search/?api=1&query=' . rawurlencode( 
 		<?php endif; ?>
 
 		<div class="br-contacto__clientes">
-			<span class="br-contacto__estrellas" aria-hidden="true"><?php echo esc_html( str_repeat( '★', (int) $taller['calificacion'] ) . str_repeat( '☆', 5 - (int) $taller['calificacion'] ) ); ?></span>
+			<span class="br-contacto__estrellas" aria-hidden="true"><?php echo esc_html( bullracing_estrellas( (int) $taller['calificacion'] ) ); ?></span>
 			<p>
-				<strong><?php echo esc_html( number_format_i18n( (int) $taller['clientes'] ) ); ?></strong>
-				<span><?php esc_html_e( 'Motos atendidas', 'bullracing' ); ?></span>
+				<strong><?php echo esc_html( $taller['clientes_fmt'] ); ?></strong>
+				<span><?php echo esc_html( $taller['contador']['texto'] ); ?></span>
 			</p>
 		</div>
 
@@ -109,7 +106,7 @@ $mapa_ver  = 'https://www.google.com/maps/search/?api=1&query=' . rawurlencode( 
 		</div>
 
 		<div class="br-contacto__mapa br-contacto__mapa--vivo">
-			<iframe class="br-contacto__iframe" src="<?php echo esc_url( $mapa_url ); ?>"
+			<iframe class="br-contacto__iframe" src="<?php echo esc_url( $taller['mapa'] ); ?>"
 				title="<?php esc_attr_e( 'Mapa con la ubicación del taller', 'bullracing' ); ?>"
 				loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 			<a class="br-contacto__abrir-mapa" href="<?php echo esc_url( $mapa_ver ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Abrir en Google Maps ↗', 'bullracing' ); ?></a>

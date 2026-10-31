@@ -1,6 +1,6 @@
 <?php
 /**
- * Sección "Quiénes somos" del inicio (diseño 1).
+ * Inicio · 06 Quiénes somos, resumen (diseño 1).
  *
  * Video: si es un archivo .mp4/.webm se reproduce aquí mismo al hacer clic (componente
  * video-reproductor); si es un enlace de TikTok o Instagram, abre el video en su red.
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
 
 $taller = bullracing_datos_taller();
 $desde  = (int) $taller['desde'];
-$anios  = $desde ? (int) gmdate( 'Y' ) - $desde : 0;
+$anios  = (int) $taller['anios'];
 $video  = (string) $taller['video'];
 ?>
 <section class="br-seccion br-seccion--nosotros br-nosotros" id="nosotros">
@@ -69,7 +69,7 @@ $video  = (string) $taller['video'];
 			</p>
 			<p class="br-nosotros__datos">
 				<span><?php echo esc_html( $desde ? sprintf( 'DESDE %d', $desde ) : 'DESDE [AÑO]' ); ?></span>
-				<span><?php esc_html_e( 'BOGOTÁ', 'bullracing' ); ?></span>
+				<span><?php echo esc_html( mb_strtoupper( $taller['ciudad'] ) ); ?></span>
 				<span><?php esc_html_e( 'GASOLINA Y ELÉCTRICAS', 'bullracing' ); ?></span>
 			</p>
 		</div>

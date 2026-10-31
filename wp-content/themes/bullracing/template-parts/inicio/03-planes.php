@@ -1,6 +1,6 @@
 <?php
 /**
- * Sección "planes" de la landing (diseño 1).
+ * Inicio · 03 Planes de mantenimiento (diseño 1).
  * Igual a la sección de la página oficial del taller (reunión 20-oct-2026):
  * pestañas gasolina / eléctricas, una tarjeta por plan con su desplegable de referencias,
  * lo que incluye y el botón Agendar. Encima, el tacómetro con el precio de la tarjeta elegida

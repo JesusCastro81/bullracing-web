@@ -1,7 +1,7 @@
 <?php
 /**
- * Sección "El taller": cómo entra y cómo sale la moto (diseño 1).
- * Solo texto: explica el proceso. No toca la orden de servicio (OT).
+ * Inicio · 02 El taller: cómo entra la moto (diseño 1). Explica el proceso; no toca la orden de servicio (OT).
+ * Fotos: paso-01.jpg … paso-04.jpg en assets/img/taller/. Si falta una, la tarjeta queda solo con texto.
  *
  * @package BullRacing
  */
@@ -32,7 +32,6 @@ $pasos = array(
 		<div class="br-taller__cabecera">
 			<h2 class="br-taller__titulo">
 				<?php esc_html_e( 'Así entra', 'bullracing' ); ?><br>
-				<?php esc_html_e( 'y así sale', 'bullracing' ); ?><br>
 				<span><?php esc_html_e( 'tu moto', 'bullracing' ); ?></span>
 			</h2>
 			<p class="br-taller__intro">
@@ -42,10 +41,19 @@ $pasos = array(
 
 		<ol class="br-taller__pasos">
 			<?php foreach ( $pasos as $i => $paso ) : ?>
+				<?php
+				$numero = sprintf( '%02d', $i + 1 );
+				$foto   = bullracing_foto( 'paso-' . $numero . '.jpg' );
+				?>
 				<li class="br-taller__paso">
-					<span class="br-taller__numero" aria-hidden="true"><?php echo esc_html( sprintf( '%02d', $i + 1 ) ); ?></span>
-					<h3 class="br-taller__paso-titulo"><?php echo esc_html( $paso['titulo'] ); ?></h3>
-					<p class="br-taller__paso-texto"><?php echo esc_html( $paso['texto'] ); ?></p>
+					<?php if ( $foto ) : ?>
+						<div class="br-taller__paso-fondo" style="--fondo: url('<?php echo esc_url( $foto ); ?>');"></div>
+					<?php endif; ?>
+					<div class="br-taller__paso-contenido">
+						<span class="br-taller__numero" aria-hidden="true"><?php echo esc_html( $numero ); ?></span>
+						<h3 class="br-taller__paso-titulo"><?php echo esc_html( $paso['titulo'] ); ?></h3>
+						<p class="br-taller__paso-texto"><?php echo esc_html( $paso['texto'] ); ?></p>
+					</div>
 				</li>
 			<?php endforeach; ?>
 		</ol>

@@ -2985,3 +2985,91 @@ a.br-valoracion__calificar:hover {
     transition: none;
   }
 }
+
+/* Aviso del hero: cada trozo (ciudad, cada día con sus horas) no se parte en dos líneas */
+.br-hero__aviso {
+  white-space: nowrap;
+}
+
+/* =========================================================
+   Tarjetas con foto: pasos del taller (inicio) y servicios (Quiénes somos)
+   La foto llega desde el PHP en la variable --fondo; sin foto, la tarjeta queda solo con texto.
+   En reposo la foto se ve al 35 %; al pasar el cursor se ve completa y el texto se oculta.
+   ========================================================= */
+.br-taller__paso,
+.br-servicio {
+  position: relative;
+  overflow: hidden;
+  min-height: 240px;
+  border: 1px solid var(--color-borde);
+  background-color: var(--paleta-negro);
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.br-taller__paso:hover,
+.br-servicio:hover {
+  border-color: var(--color-acento);
+}
+
+.br-taller__paso-fondo,
+.br-servicio__fondo {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-image: var(--fondo);
+  background-position: center;
+  background-size: cover;
+  opacity: 0.35;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* Capa oscura para que el texto se lea sobre la foto */
+.br-taller__paso-fondo::after,
+.br-servicio__fondo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgb(0 0 0 / 0.4);
+  transition: opacity 0.4s ease;
+}
+
+.br-taller__paso-contenido,
+.br-servicio__contenido {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+  padding: 1.5rem;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.br-taller__paso:hover .br-taller__paso-fondo,
+.br-servicio:hover .br-servicio__fondo {
+  opacity: 1;
+  transform: scale(1.03);
+}
+
+.br-taller__paso:hover .br-taller__paso-fondo::after,
+.br-servicio:hover .br-servicio__fondo::after {
+  opacity: 0;
+}
+
+/* El texto solo se oculta si hay foto que mostrar */
+.br-taller__paso:hover .br-taller__paso-fondo + .br-taller__paso-contenido,
+.br-servicio:hover .br-servicio__fondo + .br-servicio__contenido {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .br-taller__paso,
+  .br-servicio,
+  .br-taller__paso-fondo,
+  .br-servicio__fondo,
+  .br-taller__paso-contenido,
+  .br-servicio__contenido {
+    transition: none;
+  }
+}

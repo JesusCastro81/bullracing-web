@@ -1,6 +1,6 @@
 <?php
 /**
- * Sección "hero" de la landing (piel Taller industrial).
+ * Inicio · 01 Hero (piel Taller industrial).
  *
  * La barra blanca NO agrega funciones: usa las mismas opciones y tarifas del agendamiento
  * (API de bullracing-core) para mostrar el precio, y lleva al formulario de agendamiento
@@ -15,6 +15,12 @@ defined( 'ABSPATH' ) || exit;
 $taller      = bullracing_datos_taller();
 $url_agendar = bullracing_url_pagina( 'agendamiento', '#planes' );
 $url_cotizar = bullracing_whatsapp_url( __( 'Hola, quiero cotizar un servicio de mecánica general.', 'bullracing' ) );
+
+// Aviso junto al estado: ciudad y un trozo por fila del horario (salen de inc/datos-taller.php).
+$aviso = array( $taller['ciudad'] );
+foreach ( $taller['horario'] as $fila ) {
+	$aviso[] = $fila['corto'] . ' ' . $fila['horas'];
+}
 ?>
 <section class="br-seccion br-seccion--hero br-hero" id="hero">
 	<img class="br-hero__imagen"
@@ -29,7 +35,9 @@ $url_cotizar = bullracing_whatsapp_url( __( 'Hola, quiero cotizar un servicio de
 			<span data-br-estado-texto
 				data-abierto="<?php esc_attr_e( 'TALLER ABIERTO', 'bullracing' ); ?>"
 				data-cerrado="<?php esc_attr_e( 'TALLER CERRADO', 'bullracing' ); ?>"><?php esc_html_e( 'TALLER ABIERTO', 'bullracing' ); ?></span>
-			<?php esc_html_e( '· BOGOTÁ · L-V 7:00 a 6:00 · SÁB 7:00 a 5:00', 'bullracing' ); ?>
+			<?php foreach ( $aviso as $parte ) : ?>
+				<span class="br-hero__aviso">· <?php echo esc_html( mb_strtoupper( $parte ) ); ?></span>
+			<?php endforeach; ?>
 		</p>
 
 		<h1 class="br-hero__titulo">
@@ -48,7 +56,7 @@ $url_cotizar = bullracing_whatsapp_url( __( 'Hola, quiero cotizar un servicio de
 			array(
 				'valor' => $taller['calificacion'],
 				'total' => $taller['clientes'],
-				'texto' => __( 'motos atendidas', 'bullracing' ),
+				'texto' => $taller['contador']['texto'],
 			)
 		);
 		?>
