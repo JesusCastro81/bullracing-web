@@ -50,15 +50,14 @@
 
   /* ---------- 01 Hero: barra para ver el precio antes de agendar ---------- */
 
-  // Grupos en el mismo orden del agendamiento.
-  const GRUPOS = [
-    { servicio: 'mantenimiento', motor: 'gasolina', titulo: 'Moto a gasolina' },
-    { servicio: 'mantenimiento', motor: 'electrica', titulo: 'Moto eléctrica' },
-    { servicio: 'motolavado', motor: 'gasolina', titulo: 'Motolavado' },
-  ];
+  // Grupos de la lista, en el orden del agendamiento (salen de inc/datos-planes.php).
+  const GRUPOS = Array.isArray(datos.grupos) ? datos.grupos : [];
 
-  // Lo que muestra el diseño por defecto: Mantenimiento preventivo · Naked < 200.
-  const POR_DEFECTO = { valor: 'mantenimiento|gasolina|Preventivo', referencia: 'Naked < 200' };
+  // Elección de entrada: el plan recomendado a gasolina con la referencia del diseño.
+  const POR_DEFECTO = {
+    valor: `mantenimiento|gasolina|${datos.planInicial || ''}`,
+    referencia: datos.refInicial || '',
+  };
 
   const nombreServicio = (servicio, plan) =>
     servicio === 'mantenimiento' ? `Mantenimiento ${plan.toLowerCase()}` : `Motolavado ${plan}`;
@@ -247,7 +246,8 @@
 
   /* ---------- 03 Planes: tarjetas con desplegable + tacómetro ---------- */
 
-  const NOMBRE_MOTOR = { gasolina: 'moto a gasolina', electrica: 'moto eléctrica' };
+  // Cómo se nombra cada motor en el detalle del tacómetro (sale de inc/datos-planes.php).
+  const nombreMotor = (motor) => (datos.motores && datos.motores[motor] ? datos.motores[motor].frase : '');
 
   const iniciarPlanes = (seccion) => {
     const botonesMotor = [...seccion.querySelectorAll('[data-br-motor]')];
@@ -294,7 +294,7 @@
       const valor = precioDe(elegida);
       precioGrande.textContent = formatoPrecio.format(valor);
       planNombre.textContent = elegida.dataset.brPlan;
-      motorNombre.textContent = NOMBRE_MOTOR[motor];
+      motorNombre.textContent = nombreMotor(motor);
       refNombre.textContent = selectDe(elegida).value;
       aguja.style.transform = `rotate(${-90 + Math.min(valor / escala, 1) * 180}deg)`;
     };

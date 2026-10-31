@@ -75,13 +75,13 @@ foreach ( $taller['horario'] as $fila ) {
 		<label class="br-cotizador__campo">
 			<?php esc_html_e( 'Servicio', 'bullracing' ); ?>
 			<select data-br-servicio disabled>
-				<option><?php esc_html_e( 'Mantenimiento preventivo', 'bullracing' ); ?></option>
+				<option><?php echo esc_html( 'Mantenimiento ' . mb_strtolower( bullracing_plan_recomendado() ) ); ?></option>
 			</select>
 		</label>
 		<label class="br-cotizador__campo">
 			<?php esc_html_e( 'Tu moto', 'bullracing' ); ?>
 			<select data-br-referencia disabled>
-				<option><?php esc_html_e( 'Naked < 200', 'bullracing' ); ?></option>
+				<option><?php echo esc_html( bullracing_referencia_hero() ); ?></option>
 			</select>
 		</label>
 		<a class="br-cotizador__campo br-cotizador__fecha" data-br-agendar href="<?php echo esc_url( $url_agendar ); ?>">

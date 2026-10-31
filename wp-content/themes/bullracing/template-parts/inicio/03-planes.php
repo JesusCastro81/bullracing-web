@@ -1,7 +1,7 @@
 <?php
 /**
  * Inicio · 03 Planes de mantenimiento (diseño 1).
- * Igual a la sección de la página oficial del taller (reunión 20-oct-2026):
+ * Igual a la sección de la página oficial del taller:
  * pestañas gasolina / eléctricas, una tarjeta por plan con su desplegable de referencias,
  * lo que incluye y el botón Agendar. Encima, el tacómetro con el precio de la tarjeta elegida
  * y el aviso de que el precio es solo mano de obra.
@@ -17,14 +17,7 @@ defined( 'ABSPATH' ) || exit;
 $planes      = bullracing_datos_planes();
 $precios     = bullracing_precios_por_referencia();
 $url_agendar = bullracing_url_pagina( 'agendamiento', '#planes' );
-$motores     = array(
-	'gasolina'  => __( 'Motos gasolina', 'bullracing' ),
-	'electrica' => __( 'Motos eléctricas', 'bullracing' ),
-);
-$nombre_motor = array(
-	'gasolina'  => __( 'moto a gasolina', 'bullracing' ),
-	'electrica' => __( 'moto eléctrica', 'bullracing' ),
-);
+$motores     = bullracing_motores();
 
 /** Formato del diseño: $280.000. */
 $formato = static function ( int $valor ): string {
@@ -36,13 +29,10 @@ if ( empty( $precios ) ) {
 	return;
 }
 
-// Tarjeta que arranca en el tacómetro: el plan recomendado (Preventivo) a gasolina, primera referencia.
-$plan_0 = (string) array_key_first( $precios['gasolina'] ?? array() );
-foreach ( $planes as $nombre => $plan ) {
-	if ( ! empty( $plan['recomendado'] ) && isset( $precios['gasolina'][ $nombre ] ) ) {
-		$plan_0 = $nombre;
-		break;
-	}
+// Tarjeta que arranca en el tacómetro: el plan recomendado a gasolina, primera referencia.
+$plan_0 = bullracing_plan_recomendado();
+if ( ! isset( $precios['gasolina'][ $plan_0 ] ) ) {
+	$plan_0 = (string) array_key_first( $precios['gasolina'] ?? array() );
 }
 $fila_0 = $precios['gasolina'][ $plan_0 ][0] ?? array( 'referencia' => '', 'precio' => 0 );
 ?>
@@ -58,10 +48,10 @@ $fila_0 = $precios['gasolina'][ $plan_0 ][0] ?? array( 'referencia' => '', 'prec
 				<p class="br-planes__sub"><?php esc_html_e( 'Selecciona tu máquina para ver el precio exacto.', 'bullracing' ); ?></p>
 
 				<div class="br-planes__motores" role="group" aria-label="<?php esc_attr_e( 'Tipo de moto', 'bullracing' ); ?>">
-					<?php foreach ( $motores as $id => $etiqueta ) : ?>
+					<?php foreach ( $motores as $id => $nombres ) : ?>
 						<button type="button" class="br-planes__motor" data-br-motor="<?php echo esc_attr( $id ); ?>"
 							aria-pressed="<?php echo 'gasolina' === $id ? 'true' : 'false'; ?>">
-							<?php echo esc_html( $etiqueta ); ?>
+							<?php echo esc_html( $nombres['pestana'] ); ?>
 						</button>
 					<?php endforeach; ?>
 				</div>
@@ -84,7 +74,7 @@ $fila_0 = $precios['gasolina'][ $plan_0 ][0] ?? array( 'referencia' => '', 'prec
 				<p class="br-tacometro__precio" data-br-precio-grande aria-live="polite"><?php echo esc_html( $formato( (int) $fila_0['precio'] ) ); ?></p>
 				<p class="br-tacometro__detalle">
 					<?php esc_html_e( 'Plan', 'bullracing' ); ?> <span data-br-plan-nombre><?php echo esc_html( $plan_0 ); ?></span>
-					· <span data-br-motor-nombre><?php echo esc_html( $nombre_motor['gasolina'] ); ?></span>
+					· <span data-br-motor-nombre><?php echo esc_html( $motores['gasolina']['frase'] ); ?></span>
 					· <span data-br-ref-nombre><?php echo esc_html( $fila_0['referencia'] ); ?></span>
 				</p>
 				<p class="br-tacometro__aviso">

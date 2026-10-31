@@ -65,10 +65,10 @@ function bullracing_recursos(): void {
 		'bullracing-main',
 		'bullracingDatos',
 		array(
-			'apiTarifas' => esc_url_raw( rest_url( 'bullracing/v1/tarifas' ) ),
-			'whatsapp'   => bullracing_whatsapp_url(),
+			'apiTarifas'  => esc_url_raw( rest_url( 'bullracing/v1/tarifas' ) ),
+			'whatsapp'    => bullracing_whatsapp_url(),
 			// Horario para el aviso abierto/cerrado (sale de inc/datos-taller.php).
-			'horario'    => array_map(
+			'horario'     => array_map(
 				static fn( $fila ) => array(
 					'dias'   => array_map( 'intval', (array) $fila['semana'] ),
 					'abre'   => (int) $fila['abre'],
@@ -76,6 +76,11 @@ function bullracing_recursos(): void {
 				),
 				(array) bullracing_datos_taller()['horario']
 			),
+			// Barra del hero y tacómetro de Planes (salen de inc/datos-planes.php).
+			'motores'     => bullracing_motores(),
+			'grupos'      => bullracing_grupos_hero(),
+			'planInicial' => bullracing_plan_recomendado(),
+			'refInicial'  => bullracing_referencia_hero(),
 		)
 	);
 }

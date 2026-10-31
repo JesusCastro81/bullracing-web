@@ -103,3 +103,67 @@ function bullracing_precios_por_referencia( string $servicio = 'mantenimiento' )
 
 	return $precios;
 }
+
+/**
+ * Tipos de motor en el orden del agendamiento y cómo se nombran en la página:
+ * 'pestana' (pestañas de Planes), 'frase' (detalle del tacómetro) y 'grupo' (lista de la barra del hero).
+ *
+ * @return array<string, array<string, string>>
+ */
+function bullracing_motores(): array {
+	return array(
+		'gasolina'  => array(
+			'pestana' => 'Motos gasolina',
+			'frase'   => 'moto a gasolina',
+			'grupo'   => 'Moto a gasolina',
+		),
+		'electrica' => array(
+			'pestana' => 'Motos eléctricas',
+			'frase'   => 'moto eléctrica',
+			'grupo'   => 'Moto eléctrica',
+		),
+	);
+}
+
+/**
+ * Grupos de la lista de servicios de la barra del hero, en el orden del agendamiento:
+ * mantenimiento por tipo de motor y luego motolavado (solo motos a gasolina).
+ *
+ * @return array<int, array<string, string>>
+ */
+function bullracing_grupos_hero(): array {
+	$grupos = array();
+	foreach ( bullracing_motores() as $motor => $nombres ) {
+		$grupos[] = array(
+			'servicio' => 'mantenimiento',
+			'motor'    => $motor,
+			'titulo'   => $nombres['grupo'],
+		);
+	}
+	$grupos[] = array(
+		'servicio' => 'motolavado',
+		'motor'    => 'gasolina',
+		'titulo'   => 'Motolavado',
+	);
+	return $grupos;
+}
+
+/**
+ * Plan marcado como recomendado en bullracing_datos_planes(). Arranca elegido en el hero y en el tacómetro.
+ */
+function bullracing_plan_recomendado(): string {
+	foreach ( bullracing_datos_planes() as $nombre => $plan ) {
+		if ( ! empty( $plan['recomendado'] ) ) {
+			return (string) $nombre;
+		}
+	}
+	return '';
+}
+
+/**
+ * Referencia (cilindraje) que la barra del hero muestra elegida de entrada, la del diseño.
+ * El tacómetro de Planes arranca en la primera referencia de la tabla de tarifas.
+ */
+function bullracing_referencia_hero(): string {
+	return 'Naked < 200';
+}
