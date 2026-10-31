@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
 $taller   = bullracing_datos_taller();
 $ano_txt  = $taller['desde'] ? (string) $taller['desde'] : '[AÑO]';
 $video    = (string) $taller['video'];
-$es_mp4   = (bool) preg_match( '/\.(mp4|webm)(\?.*)?$/i', $video );
+$es_mp4   = 'archivo' === bullracing_video_tipo( $video );
 $historia = (string) $taller['historia'];
 ?>
 <section class="br-contenedor br-historia">

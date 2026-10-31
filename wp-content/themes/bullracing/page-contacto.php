@@ -1,7 +1,7 @@
 <?php
 /**
  * Página: Contacto (slug "contacto"), diseño 1. Orquestador.
- * El contacto es solo por WhatsApp (acuerdo de la reunión): sin formulario ni correo.
+ * El contacto es solo por WhatsApp: sin formulario ni correo.
  * Las partes viven en template-parts/contacto/; los datos salen de inc/datos-taller.php.
  *
  * @package BullRacing

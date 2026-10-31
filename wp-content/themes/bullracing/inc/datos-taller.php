@@ -27,7 +27,7 @@ function bullracing_datos_taller(): array {
 		'correo'   => 'tienda@motosbullracing.com',
 
 		// 01 · Hero: horario y contador.
-		// Horario según el taller (mensaje al grupo, octubre de 2026). Domingos y festivos: cerrado.
+		// Horario que da el taller. Domingos y festivos: cerrado.
 		// Solo se escriben las horas en formato 24 h; el texto ("7:00 a. m. – 7:00 p. m.") se arma solo.
 		// 'semana': días en que aplica (1 = lunes … 6 = sábado). Lo usa también el aviso abierto/cerrado.
 		// 'corto': como se ve en el aviso del hero.
@@ -48,14 +48,14 @@ function bullracing_datos_taller(): array {
 			),
 		),
 
-		// Clientes satisfechos según el taller (mensaje al grupo, octubre de 2026).
+		// Clientes satisfechos: base que da el taller.
 		// El plugin bullracing-core suma las órdenes de servicio guardadas.
 		'contador' => array(
 			'base'  => 3759,
 			'texto' => 'Clientes satisfechos',
 		),
 
-		// 05 · Valoración: datos reales del perfil de Google (consultado el 20-oct-2026). Se actualizan a mano.
+		// 05 · Valoración: datos reales del perfil de Google. Se actualizan a mano.
 		'promedio'      => '4,2',
 		'total_resenas' => 29,
 		'url_calificar' => 'https://search.google.com/local/writereview?placeid=ChIJxUc6jg2bP44RoRKKHa7fvko',

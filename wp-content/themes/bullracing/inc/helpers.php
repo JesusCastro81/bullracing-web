@@ -83,6 +83,32 @@ function bullracing_foto( string $archivo ): string {
 }
 
 /**
+ * Tipo de video del taller: 'archivo' (.mp4/.webm, se reproduce en la página),
+ * 'enlace' (TikTok, Instagram u otra red, se abre allá) o '' si no hay video.
+ */
+function bullracing_video_tipo( string $url ): string {
+	if ( '' === $url ) {
+		return '';
+	}
+	return preg_match( '/\.(mp4|webm)(\?.*)?$/i', $url ) ? 'archivo' : 'enlace';
+}
+
+/**
+ * Ícono de chat (burbuja) del botón flotante de WhatsApp y de la página Contacto.
+ * Devuelve SVG fijo: se imprime sin escapar.
+ *
+ * @param int    $tamano Ancho y alto en píxeles.
+ * @param string $clase  Clase CSS opcional.
+ */
+function bullracing_icono_chat( int $tamano, string $clase = '' ): string {
+	return sprintf(
+		'<svg%1$s width="%2$d" height="%2$d" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.4A8.4 8.4 0 1 1 21 11.5z"></path></svg>',
+		$clase ? ' class="' . esc_attr( $clase ) . '"' : '',
+		$tamano
+	);
+}
+
+/**
  * Muestra un componente de template-parts/componentes/ con sus argumentos.
  *
  * @param string               $nombre Nombre del componente (estrellas, banner-pagina, video-reproductor).

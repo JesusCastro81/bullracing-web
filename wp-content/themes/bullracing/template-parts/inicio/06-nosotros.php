@@ -22,7 +22,7 @@ $video  = (string) $taller['video'];
 <section class="br-seccion br-seccion--nosotros br-nosotros" id="nosotros">
 	<div class="br-contenedor br-nosotros__grid">
 		<?php
-		if ( preg_match( '/\.(mp4|webm)(\?.*)?$/i', $video ) ) :
+		if ( 'archivo' === bullracing_video_tipo( $video ) ) :
 			// Archivo de video: se reproduce aquí mismo al hacer clic.
 			bullracing_componente( 'video-reproductor', array( 'url' => $video, 'clase' => 'br-nosotros__video' ) );
 		else :

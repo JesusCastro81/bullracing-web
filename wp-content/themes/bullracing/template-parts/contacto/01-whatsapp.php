@@ -9,11 +9,9 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$taller   = bullracing_datos_taller();
-$url_chat = bullracing_whatsapp_url( __( 'Hola, quiero comunicarme con el taller.', 'bullracing' ) );
-
-// Ícono de chat (el mismo de la burbuja flotante).
-$icono_chat = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.4A8.4 8.4 0 1 1 21 11.5z"></path></svg>';
+$taller     = bullracing_datos_taller();
+$url_chat   = bullracing_whatsapp_url( __( 'Hola, quiero comunicarme con el taller.', 'bullracing' ) );
+$icono_chat = bullracing_icono_chat( 22 );
 ?>
 <div class="br-chat">
 	<span class="br-chat__fondo" aria-hidden="true"><?php echo $icono_chat; // phpcs:ignore WordPress.Security.EscapeOutput -- SVG fijo. ?></span>
