@@ -208,6 +208,15 @@ La OT original no tenía inicio de sesión. Se protege con el inicio de sesión 
   `ot/.htaccess` no deja descargar el `.sql` ni `includes/`.
 - La OT debe estar en la carpeta `ot/` dentro de la raíz de WordPress (usa `wp-load.php`).
 
+**Cómo entra el personal a la OT** (no hay botón en la página pública, a propósito):
+
+1. Abrir `https://motosbullracing.com/ot/` (en local: `http://localhost/bullracing-real/ot/`).
+   También sirve `/wp-admin`: el usuario de recepción va directo a la OT.
+2. Si no ha iniciado sesión, WordPress pide usuario y contraseña y luego vuelve a la OT.
+3. Para no escribir la dirección: marcador "OT Bull Racing" en el navegador del mostrador
+   (o acceso directo en el escritorio) y, en el celular, "Agregar a pantalla de inicio".
+4. En un computador compartido, al terminar, usar **Salir** en la barra "Recibe · Salir".
+
 ## Despliegue
 
 > **Pasos previstos, a validar** en la prueba con una copia de la página real (Elementor y plugins
