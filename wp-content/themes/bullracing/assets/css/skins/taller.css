@@ -6,6 +6,19 @@
    Los colores salen de la paleta de marca (tokens.css).
    ========================================================= */
 
+/* Índice (orden de la página):
+   00 Global: fuentes y colores de la piel, header y footer
+   01 Hero (incluye el aviso del horario)
+   02 El taller
+   03 Planes
+   04 Motolavado
+   05 Valoración
+   06 Quiénes somos (resumen en el inicio)
+   07 Contacto (mosaico y carrusel)
+   08 Páginas internas: banda superior, Quiénes somos, Contacto, Términos
+   09 Compartido: mapa y tarjetas con foto. Van de últimos a propósito: ajustan reglas
+      de secciones anteriores y en CSS gana la regla que va después. */
+
 /* Fuentes de esta piel, alojadas en el tema (licencia SIL OFL 1.1, sin internet).
    Son fuentes variables: un solo archivo cubre varios grosores. */
 @font-face {
@@ -77,7 +90,7 @@ h2 {
 }
 
 /* =========================================================
-   HEADER del inicio: va encima de la foto del hero.
+   00 · GLOBAL: HEADER del inicio: va encima de la foto del hero.
    En las páginas internas se queda con su fondo negro.
    ========================================================= */
 .home .br-header,
@@ -169,7 +182,102 @@ body:has(.br-banner) .br-header .br-menu li:first-child a:not([aria-current]) {
 }
 
 /* =========================================================
-   Sección: HERO
+   00 · GLOBAL: FOOTER (diseño 1)
+   ========================================================= */
+.br-footer {
+  margin-top: 0;
+  padding-block: 36px 20px;
+  border-top: 2px solid var(--color-acento);
+  background: #070708;
+  color: var(--paleta-gris-400);
+}
+
+.br-footer p {
+  margin: 0;
+}
+
+.br-footer__fila {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+
+.br-footer .br-footer__marca {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--paleta-blanco);
+  text-decoration: none;
+}
+
+.br-footer .br-footer__marca:hover {
+  color: var(--paleta-blanco);
+}
+
+.br-footer__marca img {
+  width: 52px;
+  height: 52px;
+}
+
+.br-footer__lema {
+  font: 900 26px var(--fuente-titulos);
+  text-transform: uppercase;
+}
+
+.br-footer__contacto {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  font-size: 13px;
+}
+
+/* Recuadro punteado con el correo del taller */
+.br-footer .br-footer__correo {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 10px 14px;
+  border: 1px dashed #52525b;
+  color: var(--paleta-gris-200);
+  text-decoration: none;
+}
+
+.br-footer .br-footer__correo:hover {
+  border-color: var(--color-acento);
+  color: var(--paleta-blanco);
+}
+
+.br-footer__base {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 24px;
+  margin-top: 24px;
+  padding-top: 14px;
+  border-top: 1px solid var(--paleta-gris-800);
+  font-size: 12px;
+  color: var(--paleta-gris-500);
+}
+
+.br-footer__base a {
+  color: var(--paleta-gris-400);
+}
+
+.br-footer__base a:hover {
+  color: var(--paleta-blanco);
+}
+
+@media (max-width: 640px) {
+  .br-footer__lema {
+    font-size: 22px;
+  }
+}
+
+/* =========================================================
+   01 · Sección: HERO
    ========================================================= */
 .br-hero {
   --taller-verde-abierto: #22c55e; /* Punto de "taller abierto" del diseño */
@@ -435,8 +543,13 @@ body:has(.br-banner) .br-header .br-menu li:first-child a:not([aria-current]) {
   }
 }
 
+/* Aviso del hero: cada trozo (ciudad, cada día con sus horas) no se parte en dos líneas */
+.br-hero__aviso {
+  white-space: nowrap;
+}
+
 /* =========================================================
-   Sección: EL TALLER (así entra y así sale tu moto)
+   02 · Sección: EL TALLER (así entra tu moto)
    ========================================================= */
 .br-taller {
   padding-block: 110px 90px;
@@ -531,7 +644,7 @@ body:has(.br-banner) .br-header .br-menu li:first-child a:not([aria-current]) {
 }
 
 /* =========================================================
-   Sección: PLANES (tarjetas como la página oficial + tacómetro)
+   03 · Sección: PLANES (tarjetas como la página oficial + tacómetro)
    ========================================================= */
 .br-planes {
   padding-block: 100px;
@@ -861,7 +974,7 @@ body:has(.br-banner) .br-header .br-menu li:first-child a:not([aria-current]) {
 }
 
 /* =========================================================
-   Sección: MOTOLAVADO (antes y después + paquetes)
+   04 · Sección: MOTOLAVADO (antes y después + paquetes)
    ========================================================= */
 .br-lavado {
   padding-block: 110px;
@@ -1103,100 +1216,7 @@ body:has(.br-banner) .br-header .br-menu li:first-child a:not([aria-current]) {
 }
 
 /* =========================================================
-   Sección: QUIÉNES SOMOS
-   ========================================================= */
-.br-nosotros {
-  background: #141416; /* Banda un poco más clara, como en el diseño */
-  border-block: 1px solid var(--paleta-gris-800);
-}
-
-.br-nosotros__grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 56px;
-  align-items: center;
-  padding-block: 100px;
-}
-
-.br-nosotros__video {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  height: 420px;
-  padding: 20px;
-  border: 2px solid var(--paleta-gris-800);
-  background: #1c1c1f;
-  color: var(--paleta-gris-400);
-  font-size: 14px;
-  text-align: center;
-  text-decoration: none;
-}
-
-a.br-nosotros__video:hover {
-  color: var(--paleta-blanco);
-}
-
-.br-nosotros__play {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  background: var(--color-acento);
-  color: var(--paleta-blanco);
-}
-
-.br-nosotros__texto {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.br-nosotros__texto .br-skin-etiqueta {
-  margin: 0;
-}
-
-.br-nosotros__titulo {
-  margin: 0;
-  font-size: clamp(3rem, 6vw, 4.75rem);
-}
-
-.br-nosotros__titulo span {
-  color: var(--color-acento);
-}
-
-.br-nosotros__historia {
-  margin: 0;
-  color: var(--color-texto-suave);
-  line-height: 1.7;
-}
-
-.br-nosotros__datos {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px 32px;
-  margin: 0;
-  font: 13px var(--fuente-mono);
-  color: var(--paleta-gris-200);
-}
-
-@media (max-width: 960px) {
-  .br-nosotros__grid {
-    grid-template-columns: 1fr;
-    gap: var(--espacio-l);
-    padding-block: var(--espacio-xl);
-  }
-
-  .br-nosotros__video {
-    height: 300px;
-  }
-}
-
-/* =========================================================
-   Sección: VALORACIÓN
+   05 · Sección: VALORACIÓN
    ========================================================= */
 .br-valoracion__grid {
   display: grid;
@@ -1345,7 +1365,100 @@ a.br-valoracion__calificar:hover {
 }
 
 /* =========================================================
-   Sección: CONTACTO (mosaico)
+   06 · Sección: QUIÉNES SOMOS (resumen en el inicio)
+   ========================================================= */
+.br-nosotros {
+  background: #141416; /* Banda un poco más clara, como en el diseño */
+  border-block: 1px solid var(--paleta-gris-800);
+}
+
+.br-nosotros__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: center;
+  padding-block: 100px;
+}
+
+.br-nosotros__video {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  height: 420px;
+  padding: 20px;
+  border: 2px solid var(--paleta-gris-800);
+  background: #1c1c1f;
+  color: var(--paleta-gris-400);
+  font-size: 14px;
+  text-align: center;
+  text-decoration: none;
+}
+
+a.br-nosotros__video:hover {
+  color: var(--paleta-blanco);
+}
+
+.br-nosotros__play {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--color-acento);
+  color: var(--paleta-blanco);
+}
+
+.br-nosotros__texto {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.br-nosotros__texto .br-skin-etiqueta {
+  margin: 0;
+}
+
+.br-nosotros__titulo {
+  margin: 0;
+  font-size: clamp(3rem, 6vw, 4.75rem);
+}
+
+.br-nosotros__titulo span {
+  color: var(--color-acento);
+}
+
+.br-nosotros__historia {
+  margin: 0;
+  color: var(--color-texto-suave);
+  line-height: 1.7;
+}
+
+.br-nosotros__datos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 32px;
+  margin: 0;
+  font: 13px var(--fuente-mono);
+  color: var(--paleta-gris-200);
+}
+
+@media (max-width: 960px) {
+  .br-nosotros__grid {
+    grid-template-columns: 1fr;
+    gap: var(--espacio-l);
+    padding-block: var(--espacio-xl);
+  }
+
+  .br-nosotros__video {
+    height: 300px;
+  }
+}
+
+/* =========================================================
+   07 · Sección: CONTACTO (mosaico)
    ========================================================= */
 .br-contacto__mosaico {
   display: grid;
@@ -1584,7 +1697,72 @@ a.br-valoracion__calificar:hover {
 }
 
 /* =========================================================
-   PÁGINAS INTERNAS: banda superior con foto
+   07 · Carrusel de fotos del taller (recuadro grande de contacto en el inicio).
+   Las fotos se encadenan al pasar el mouse; en celular, con cada toque.
+   ========================================================= */
+.br-carrusel {
+  padding: 0;
+  border-style: solid;
+  cursor: pointer;
+}
+
+.br-carrusel__foto {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.br-carrusel__foto.is-activa {
+  opacity: 1;
+}
+
+.br-carrusel__pie {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 40px 18px 16px;
+  background: linear-gradient(transparent, rgb(8 8 10 / 0.85));
+  color: var(--paleta-blanco);
+}
+
+.br-carrusel__texto {
+  font: 12px var(--fuente-mono);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.br-carrusel__puntos {
+  display: flex;
+  gap: 6px;
+}
+
+.br-carrusel__puntos span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.35);
+}
+
+.br-carrusel__puntos span.is-activo {
+  background: var(--color-acento);
+}
+
+.br-carrusel:focus-visible {
+  outline: 2px solid var(--paleta-blanco);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .br-carrusel__foto {
+    transition: none;
+  }
+}
+
+/* =========================================================
+   08 · PÁGINAS INTERNAS: banda superior con foto
    ========================================================= */
 .br-banner {
   position: relative;
@@ -1712,488 +1890,7 @@ a.br-valoracion__calificar:hover {
 }
 
 /* =========================================================
-   PÁGINA CONTACTO
-   ========================================================= */
-.br-pcontacto {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding-block: 64px 72px;
-}
-
-.br-pcontacto p {
-  margin: 0;
-}
-
-.br-pcontacto__fila {
-  display: grid;
-  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
-  gap: 16px;
-  align-items: stretch;
-}
-
-.br-pcontacto__fila--baja {
-  min-height: 270px;
-}
-
-/* Recuadro verde: canal oficial (WhatsApp) */
-.br-chat {
-  --taller-verde-chat: #16a34a;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  padding: 34px 40px;
-  overflow: hidden;
-  background-color: var(--taller-verde-chat);
-  background-image: repeating-linear-gradient(45deg, rgb(255 255 255 / 0.04) 0 2px, transparent 2px 16px);
-  color: var(--paleta-blanco);
-}
-
-.br-chat > * {
-  position: relative;
-}
-
-.br-chat__fondo {
-  position: absolute !important;
-  right: -40px;
-  bottom: -60px;
-  opacity: 0.14;
-}
-
-.br-chat__fondo svg {
-  width: 360px;
-  height: 360px;
-}
-
-.br-chat__canal {
-  display: inline-flex;
-  align-self: flex-start;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 14px;
-  border: 1px solid rgb(255 255 255 / 0.5);
-  font: 13px var(--fuente-mono);
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-.br-chat__canal span {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--paleta-blanco);
-}
-
-.br-chat__titulo {
-  margin: 0;
-  padding-top: 10px;
-  font-size: clamp(3.5rem, 7vw, 6rem);
-  line-height: 0.85;
-}
-
-.br-chat__numero {
-  font: 700 30px var(--fuente-mono);
-  letter-spacing: 1px;
-}
-
-.br-chat__temas {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  font-size: 13px;
-}
-
-.br-chat__temas li {
-  padding: 7px 12px;
-  background: rgb(8 8 10 / 0.25);
-}
-
-.br-chat__acciones {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 4px;
-}
-
-.br-chat__abrir {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 16px 26px;
-  background: var(--paleta-blanco);
-  color: var(--paleta-negro);
-  font: 800 26px var(--fuente-titulos);
-  letter-spacing: 1px;
-  text-decoration: none;
-  text-transform: uppercase;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.br-chat__abrir svg {
-  color: var(--taller-verde-chat);
-}
-
-.br-chat__abrir:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 14px 30px rgb(0 0 0 / 0.35);
-  color: var(--paleta-negro);
-}
-
-.br-chat__copiar {
-  padding: 0 22px;
-  border: 2px solid rgb(255 255 255 / 0.55);
-  background: transparent;
-  color: var(--paleta-blanco);
-  font: 600 14px var(--fuente-base);
-  cursor: pointer;
-  transition: border-color var(--transicion);
-}
-
-.br-chat__copiar:hover,
-.br-chat__copiar.is-copiado {
-  border-color: var(--paleta-blanco);
-}
-
-/* Dirección, teléfono y horario */
-.br-pcontacto__datos {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.br-dato {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 22px 26px;
-  border: 2px solid var(--paleta-gris-800);
-  background: #141416;
-}
-
-.br-dato__cabecera {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font: 12px var(--fuente-mono);
-  letter-spacing: 2px;
-  color: var(--paleta-gris-400);
-  text-transform: uppercase;
-}
-
-.br-dato__confirmar {
-  padding: 3px 6px;
-  border: 1px dashed var(--paleta-amarillo);
-  color: var(--paleta-amarillo);
-  font-size: 10px;
-  letter-spacing: 1px;
-}
-
-.br-dato__valor {
-  font: 900 36px/1 var(--fuente-titulos);
-  text-transform: uppercase;
-}
-
-.br-dato__nota {
-  color: var(--paleta-gris-400);
-  font-size: 14px;
-}
-
-/* Plano con pin que late */
-@keyframes br-onda {
-  0% { transform: scale(0.6); opacity: 0.8; }
-  100% { transform: scale(2.4); opacity: 0; }
-}
-
-.br-plano {
-  position: relative;
-  min-height: 270px;
-  overflow: hidden;
-  border: 1px dashed var(--paleta-gris-800);
-  background-color: #141416;
-  background-image:
-    repeating-linear-gradient(0deg, rgb(255 255 255 / 0.04) 0 1px, transparent 1px 40px),
-    repeating-linear-gradient(90deg, rgb(255 255 255 / 0.04) 0 1px, transparent 1px 40px);
-}
-
-.br-plano__calle {
-  position: absolute;
-  background: #1f1f23;
-}
-
-.br-plano__calle--a {
-  left: -40px;
-  top: 120px;
-  width: 1000px;
-  height: 22px;
-  transform: rotate(-8deg);
-}
-
-.br-plano__calle--b {
-  left: 45%;
-  top: -40px;
-  width: 22px;
-  height: 420px;
-  transform: rotate(12deg);
-}
-
-.br-plano__pin {
-  position: absolute;
-  left: 50%;
-  top: 46%;
-  color: var(--color-acento);
-}
-
-.br-plano__pin svg {
-  position: absolute;
-  left: -18px;
-  top: -44px;
-}
-
-.br-plano__onda {
-  position: absolute;
-  left: -22px;
-  top: -22px;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: rgb(217 30 24 / 0.5);
-  animation: br-onda 1.8s ease-out infinite;
-}
-
-.br-plano__etiqueta {
-  position: absolute;
-  left: 50%;
-  top: 46%;
-  display: flex;
-  flex-direction: column;
-  padding: 10px 14px;
-  background: var(--paleta-gris-100);
-  color: var(--paleta-negro);
-  box-shadow: 0 10px 24px rgb(0 0 0 / 0.4);
-  transform: translate(24px, -40px);
-}
-
-.br-plano__etiqueta strong {
-  font: 900 20px/1 var(--fuente-titulos);
-  text-transform: uppercase;
-}
-
-.br-plano__etiqueta span {
-  margin-top: 3px;
-  color: #52525b;
-  font-size: 12px;
-}
-
-.br-plano__ver {
-  position: absolute;
-  left: 18px;
-  bottom: 16px;
-  padding: 6px 10px;
-  border: 1px solid var(--paleta-gris-800);
-  background: var(--paleta-negro);
-  color: var(--paleta-gris-200);
-  font: 12px var(--fuente-mono);
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  cursor: pointer;
-}
-
-.br-plano__ver:hover {
-  border-color: var(--paleta-blanco);
-  color: var(--paleta-blanco);
-}
-
-.br-plano__llegar {
-  position: absolute;
-  right: 18px;
-  bottom: 16px;
-  padding: 8px 14px;
-  background: var(--color-acento);
-  color: var(--paleta-blanco);
-  font-size: 13px;
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.br-plano__llegar:hover {
-  background: var(--color-acento-hover);
-  color: var(--paleta-blanco);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .br-plano__onda {
-    animation: none;
-  }
-}
-
-/* Redes */
-.br-sociales {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 26px 28px;
-  background: var(--paleta-gris-100);
-  color: var(--paleta-negro);
-}
-
-.br-sociales__cabecera {
-  display: flex;
-  justify-content: space-between;
-  font: 12px var(--fuente-mono);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-}
-
-.br-sociales__usuario {
-  color: var(--paleta-gris-500);
-  text-transform: none;
-}
-
-.br-sociales__lista {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.br-sociales__lista a {
-  display: inline-block;
-  color: var(--paleta-negro);
-  font: 800 34px/1.05 var(--fuente-titulos);
-  text-decoration: none;
-  transition: padding-left 0.2s ease, color 0.2s ease;
-}
-
-.br-sociales__lista a:hover {
-  padding-left: 10px;
-  color: var(--color-acento);
-}
-
-.br-sociales__lema {
-  padding-top: 12px;
-  border-top: 2px dashed var(--paleta-gris-400);
-  color: var(--color-acento);
-  font: 900 26px var(--fuente-titulos);
-}
-
-@media (max-width: 960px) {
-  .br-pcontacto__fila {
-    grid-template-columns: 1fr;
-  }
-
-  .br-chat {
-    padding: 28px 24px;
-  }
-
-  .br-banner {
-    padding-top: 110px;
-  }
-}
-
-/* =========================================================
-   FOOTER (diseño 1)
-   ========================================================= */
-.br-footer {
-  margin-top: 0;
-  padding-block: 36px 20px;
-  border-top: 2px solid var(--color-acento);
-  background: #070708;
-  color: var(--paleta-gris-400);
-}
-
-.br-footer p {
-  margin: 0;
-}
-
-.br-footer__fila {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  gap: 24px;
-}
-
-.br-footer .br-footer__marca {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  color: var(--paleta-blanco);
-  text-decoration: none;
-}
-
-.br-footer .br-footer__marca:hover {
-  color: var(--paleta-blanco);
-}
-
-.br-footer__marca img {
-  width: 52px;
-  height: 52px;
-}
-
-.br-footer__lema {
-  font: 900 26px var(--fuente-titulos);
-  text-transform: uppercase;
-}
-
-.br-footer__contacto {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: 0;
-  font-size: 13px;
-}
-
-/* Recuadro punteado con el correo del taller */
-.br-footer .br-footer__correo {
-  display: inline-flex;
-  align-items: center;
-  min-height: 40px;
-  padding: 10px 14px;
-  border: 1px dashed #52525b;
-  color: var(--paleta-gris-200);
-  text-decoration: none;
-}
-
-.br-footer .br-footer__correo:hover {
-  border-color: var(--color-acento);
-  color: var(--paleta-blanco);
-}
-
-.br-footer__base {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 8px 24px;
-  margin-top: 24px;
-  padding-top: 14px;
-  border-top: 1px solid var(--paleta-gris-800);
-  font-size: 12px;
-  color: var(--paleta-gris-500);
-}
-
-.br-footer__base a {
-  color: var(--paleta-gris-400);
-}
-
-.br-footer__base a:hover {
-  color: var(--paleta-blanco);
-}
-
-@media (max-width: 640px) {
-  .br-footer__lema {
-    font-size: 22px;
-  }
-}
-
-/* =========================================================
-   PÁGINA QUIÉNES SOMOS
+   08 · PÁGINA QUIÉNES SOMOS
    ========================================================= */
 .br-historia {
   display: grid;
@@ -2631,7 +2328,393 @@ a.br-valoracion__calificar:hover {
 }
 
 /* =========================================================
-   PÁGINA TÉRMINOS Y CONDICIONES
+   08 · PÁGINA CONTACTO
+   ========================================================= */
+.br-pcontacto {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-block: 64px 72px;
+}
+
+.br-pcontacto p {
+  margin: 0;
+}
+
+.br-pcontacto__fila {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: stretch;
+}
+
+.br-pcontacto__fila--baja {
+  min-height: 270px;
+}
+
+/* Recuadro verde: canal oficial (WhatsApp) */
+.br-chat {
+  --taller-verde-chat: #16a34a;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 34px 40px;
+  overflow: hidden;
+  background-color: var(--taller-verde-chat);
+  background-image: repeating-linear-gradient(45deg, rgb(255 255 255 / 0.04) 0 2px, transparent 2px 16px);
+  color: var(--paleta-blanco);
+}
+
+.br-chat > * {
+  position: relative;
+}
+
+.br-chat__fondo {
+  position: absolute !important;
+  right: -40px;
+  bottom: -60px;
+  opacity: 0.14;
+}
+
+.br-chat__fondo svg {
+  width: 360px;
+  height: 360px;
+}
+
+.br-chat__canal {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  border: 1px solid rgb(255 255 255 / 0.5);
+  font: 13px var(--fuente-mono);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.br-chat__canal span {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--paleta-blanco);
+}
+
+.br-chat__titulo {
+  margin: 0;
+  padding-top: 10px;
+  font-size: clamp(3.5rem, 7vw, 6rem);
+  line-height: 0.85;
+}
+
+.br-chat__numero {
+  font: 700 30px var(--fuente-mono);
+  letter-spacing: 1px;
+}
+
+.br-chat__temas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+}
+
+.br-chat__temas li {
+  padding: 7px 12px;
+  background: rgb(8 8 10 / 0.25);
+}
+
+.br-chat__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.br-chat__abrir {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 26px;
+  background: var(--paleta-blanco);
+  color: var(--paleta-negro);
+  font: 800 26px var(--fuente-titulos);
+  letter-spacing: 1px;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.br-chat__abrir svg {
+  color: var(--taller-verde-chat);
+}
+
+.br-chat__abrir:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgb(0 0 0 / 0.35);
+  color: var(--paleta-negro);
+}
+
+.br-chat__copiar {
+  padding: 0 22px;
+  border: 2px solid rgb(255 255 255 / 0.55);
+  background: transparent;
+  color: var(--paleta-blanco);
+  font: 600 14px var(--fuente-base);
+  cursor: pointer;
+  transition: border-color var(--transicion);
+}
+
+.br-chat__copiar:hover,
+.br-chat__copiar.is-copiado {
+  border-color: var(--paleta-blanco);
+}
+
+/* Dirección, teléfono y horario */
+.br-pcontacto__datos {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.br-dato {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 22px 26px;
+  border: 2px solid var(--paleta-gris-800);
+  background: #141416;
+}
+
+.br-dato__cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font: 12px var(--fuente-mono);
+  letter-spacing: 2px;
+  color: var(--paleta-gris-400);
+  text-transform: uppercase;
+}
+
+.br-dato__confirmar {
+  padding: 3px 6px;
+  border: 1px dashed var(--paleta-amarillo);
+  color: var(--paleta-amarillo);
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+.br-dato__valor {
+  font: 900 36px/1 var(--fuente-titulos);
+  text-transform: uppercase;
+}
+
+.br-dato__nota {
+  color: var(--paleta-gris-400);
+  font-size: 14px;
+}
+
+/* Plano con pin que late */
+@keyframes br-onda {
+  0% { transform: scale(0.6); opacity: 0.8; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+.br-plano {
+  position: relative;
+  min-height: 270px;
+  overflow: hidden;
+  border: 1px dashed var(--paleta-gris-800);
+  background-color: #141416;
+  background-image:
+    repeating-linear-gradient(0deg, rgb(255 255 255 / 0.04) 0 1px, transparent 1px 40px),
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 0.04) 0 1px, transparent 1px 40px);
+}
+
+.br-plano__calle {
+  position: absolute;
+  background: #1f1f23;
+}
+
+.br-plano__calle--a {
+  left: -40px;
+  top: 120px;
+  width: 1000px;
+  height: 22px;
+  transform: rotate(-8deg);
+}
+
+.br-plano__calle--b {
+  left: 45%;
+  top: -40px;
+  width: 22px;
+  height: 420px;
+  transform: rotate(12deg);
+}
+
+.br-plano__pin {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  color: var(--color-acento);
+}
+
+.br-plano__pin svg {
+  position: absolute;
+  left: -18px;
+  top: -44px;
+}
+
+.br-plano__onda {
+  position: absolute;
+  left: -22px;
+  top: -22px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgb(217 30 24 / 0.5);
+  animation: br-onda 1.8s ease-out infinite;
+}
+
+.br-plano__etiqueta {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 14px;
+  background: var(--paleta-gris-100);
+  color: var(--paleta-negro);
+  box-shadow: 0 10px 24px rgb(0 0 0 / 0.4);
+  transform: translate(24px, -40px);
+}
+
+.br-plano__etiqueta strong {
+  font: 900 20px/1 var(--fuente-titulos);
+  text-transform: uppercase;
+}
+
+.br-plano__etiqueta span {
+  margin-top: 3px;
+  color: #52525b;
+  font-size: 12px;
+}
+
+.br-plano__ver {
+  position: absolute;
+  left: 18px;
+  bottom: 16px;
+  padding: 6px 10px;
+  border: 1px solid var(--paleta-gris-800);
+  background: var(--paleta-negro);
+  color: var(--paleta-gris-200);
+  font: 12px var(--fuente-mono);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.br-plano__ver:hover {
+  border-color: var(--paleta-blanco);
+  color: var(--paleta-blanco);
+}
+
+.br-plano__llegar {
+  position: absolute;
+  right: 18px;
+  bottom: 16px;
+  padding: 8px 14px;
+  background: var(--color-acento);
+  color: var(--paleta-blanco);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.br-plano__llegar:hover {
+  background: var(--color-acento-hover);
+  color: var(--paleta-blanco);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .br-plano__onda {
+    animation: none;
+  }
+}
+
+/* Redes */
+.br-sociales {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 26px 28px;
+  background: var(--paleta-gris-100);
+  color: var(--paleta-negro);
+}
+
+.br-sociales__cabecera {
+  display: flex;
+  justify-content: space-between;
+  font: 12px var(--fuente-mono);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.br-sociales__usuario {
+  color: var(--paleta-gris-500);
+  text-transform: none;
+}
+
+.br-sociales__lista {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.br-sociales__lista a {
+  display: inline-block;
+  color: var(--paleta-negro);
+  font: 800 34px/1.05 var(--fuente-titulos);
+  text-decoration: none;
+  transition: padding-left 0.2s ease, color 0.2s ease;
+}
+
+.br-sociales__lista a:hover {
+  padding-left: 10px;
+  color: var(--color-acento);
+}
+
+.br-sociales__lema {
+  padding-top: 12px;
+  border-top: 2px dashed var(--paleta-gris-400);
+  color: var(--color-acento);
+  font: 900 26px var(--fuente-titulos);
+}
+
+@media (max-width: 960px) {
+  .br-pcontacto__fila {
+    grid-template-columns: 1fr;
+  }
+
+  .br-chat {
+    padding: 28px 24px;
+  }
+
+  .br-banner {
+    padding-top: 110px;
+  }
+}
+
+/* =========================================================
+   08 · PÁGINA TÉRMINOS Y CONDICIONES
    ========================================================= */
 .br-legal {
   display: grid;
@@ -2841,7 +2924,7 @@ a.br-valoracion__calificar:hover {
 }
 
 /* =========================================================
-   Mapa de Google visible (inicio y página Contacto).
+   09 · COMPARTIDO: Mapa de Google visible (inicio y página Contacto).
    El iframe tiene loading="lazy": solo se carga al llegar a esta parte.
    ========================================================= */
 .br-contacto__mapa--vivo {
@@ -2922,77 +3005,7 @@ a.br-valoracion__calificar:hover {
 }
 
 /* =========================================================
-   Carrusel de fotos del taller (recuadro grande de contacto en el inicio).
-   Las fotos se encadenan al pasar el mouse; en celular, con cada toque.
-   ========================================================= */
-.br-carrusel {
-  padding: 0;
-  border-style: solid;
-  cursor: pointer;
-}
-
-.br-carrusel__foto {
-  opacity: 0;
-  transition: opacity 0.6s ease;
-}
-
-.br-carrusel__foto.is-activa {
-  opacity: 1;
-}
-
-.br-carrusel__pie {
-  position: absolute;
-  inset: auto 0 0;
-  z-index: 1;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  padding: 40px 18px 16px;
-  background: linear-gradient(transparent, rgb(8 8 10 / 0.85));
-  color: var(--paleta-blanco);
-}
-
-.br-carrusel__texto {
-  font: 12px var(--fuente-mono);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-}
-
-.br-carrusel__puntos {
-  display: flex;
-  gap: 6px;
-}
-
-.br-carrusel__puntos span {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: rgb(255 255 255 / 0.35);
-}
-
-.br-carrusel__puntos span.is-activo {
-  background: var(--color-acento);
-}
-
-.br-carrusel:focus-visible {
-  outline: 2px solid var(--paleta-blanco);
-  outline-offset: 2px;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .br-carrusel__foto {
-    transition: none;
-  }
-}
-
-/* Aviso del hero: cada trozo (ciudad, cada día con sus horas) no se parte en dos líneas */
-.br-hero__aviso {
-  white-space: nowrap;
-}
-
-/* =========================================================
-   Tarjetas con foto: pasos del taller (inicio) y servicios (Quiénes somos)
+   09 · COMPARTIDO: Tarjetas con foto: pasos del taller (inicio) y servicios (Quiénes somos)
    La foto llega desde el PHP en la variable --fondo; sin foto, la tarjeta queda solo con texto.
    En reposo la foto se ve al 35 %; al pasar el cursor se ve completa y el texto se oculta.
    ========================================================= */
