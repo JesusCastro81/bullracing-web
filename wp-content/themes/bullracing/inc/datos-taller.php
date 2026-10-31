@@ -12,20 +12,6 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Hora en formato de 24 h a texto del diseño: 7 → "7:00 a. m.", 12 → "12:00 m.", 19 → "7:00 p. m.".
- *
- * @param int $hora Hora de 0 a 23.
- */
-function bullracing_hora( int $hora ): string {
-	if ( 12 === $hora ) {
-		return '12:00 m.';
-	}
-	$sufijo = $hora < 12 ? 'a. m.' : 'p. m.';
-	$hora12 = $hora % 12 ?: 12;
-	return $hora12 . ':00 ' . $sufijo;
-}
-
-/**
  * Datos del taller.
  *
  * @return array<string, mixed>
@@ -149,34 +135,4 @@ function bullracing_datos_taller(): array {
 	$datos['clientes_fmt'] = number_format_i18n( (int) $datos['clientes'] );
 
 	return $datos;
-}
-
-/**
- * El número de WhatsApp que usa bullracing_whatsapp_url() (functions.php) sale de estos datos.
- */
-add_filter(
-	'bullracing_whatsapp_numero',
-	static function (): string {
-		return (string) bullracing_datos_taller()['whatsapp'];
-	}
-);
-
-/**
- * URL de una página por su slug. Si la página aún no existe, devuelve el ancla de respaldo
- * en el inicio (ej. "#nosotros"), para que el menú nunca quede con enlaces rotos.
- */
-function bullracing_url_pagina( string $slug, string $ancla_respaldo = '' ): string {
-	$pagina = get_page_by_path( $slug );
-
-	if ( $pagina instanceof WP_Post && 'publish' === $pagina->post_status ) {
-		$url = get_permalink( $pagina );
-	} else {
-		$url = home_url( '/' . $ancla_respaldo );
-	}
-
-	/**
-	 * Permite cambiar la dirección de una página sin tocar el tema.
-	 * Ej.: en local, 'agendamiento' apunta a la página de prueba (mu-plugin local, fuera del repo).
-	 */
-	return (string) apply_filters( 'bullracing_url_pagina', $url, $slug );
 }
