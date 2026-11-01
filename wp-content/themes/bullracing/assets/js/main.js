@@ -326,6 +326,33 @@
       pintarTarjeta(t);
     });
 
+    // Celular: un punto por plan para ir a cada tarjeta y ver en cuál va el cliente.
+    grupos.forEach((grupo) => {
+      const fila = grupo.querySelector('[data-br-fila]');
+      const puntos = [...grupo.querySelectorAll('[data-br-punto]')];
+      const deFila = [...fila.querySelectorAll('[data-br-plan]')];
+      const posicion = (k) => deFila[k].offsetLeft - deFila[0].offsetLeft;
+      const marcar = () => {
+        const alFinal = fila.scrollLeft >= fila.scrollWidth - fila.clientWidth - 2;
+        const actual = alFinal
+          ? deFila.length - 1
+          : deFila.findIndex(
+              (t, k) => k === deFila.length - 1 || fila.scrollLeft < (posicion(k) + posicion(k + 1)) / 2
+            );
+        puntos.forEach((p, k) => p.setAttribute('aria-current', String(k === actual)));
+      };
+      puntos.forEach((p, k) =>
+        p.addEventListener('click', () =>
+          fila.scrollTo({
+            left: posicion(k),
+            behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+          })
+        )
+      );
+      fila.addEventListener('scroll', marcar, { passive: true });
+      marcar();
+    });
+
     pintar();
   };
 

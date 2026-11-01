@@ -765,7 +765,7 @@ body:has(.br-banner) .br-header .br-menu li:first-child a:not([aria-current]) {
   padding-top: 14px; /* espacio para el sello "Recomendado" y la tarjeta que sube */
 }
 
-.br-planes__tarjetas[hidden] {
+.br-planes__navegacion {
   display: none;
 }
 
@@ -963,6 +963,50 @@ body:has(.br-banner) .br-header .br-menu li:first-child a:not([aria-current]) {
 
   .br-plan {
     scroll-snap-align: start;
+  }
+
+  /* Pista y un punto por plan: muestran que hay más tarjetas y en cuál va el cliente */
+  .br-planes__navegacion {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--espacio-s);
+    margin-top: var(--espacio-s);
+  }
+
+  .br-planes__desliza {
+    margin: 0;
+    color: var(--color-texto-suave);
+    font: 12px var(--fuente-mono);
+  }
+
+  .br-planes__puntos {
+    display: flex;
+    gap: 4px;
+  }
+
+  /* Botón de 24 px para tocarlo con el dedo; el punto visible es de 10 px */
+  .br-planes__punto {
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+
+  .br-planes__punto::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--paleta-gris-800);
+  }
+
+  .br-planes__punto[aria-current="true"]::before {
+    background: var(--color-acento);
   }
 }
 
