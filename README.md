@@ -50,9 +50,11 @@ el tema, los precios, los usuarios y la OT siguen funcionando.
 El **agendamiento** es el formulario de la página actual y no está en este repositorio: el tema
 solo le cambia la apariencia y le agrega que la placa acepte solo letras y números.
 
-> **Pendiente:** el tema todavía **no carga** `assets/js/agendamiento-capa.js` ni
-> `assets/css/taller-agendamiento.css` (solo los usa la página de prueba local). Antes del
-> despliegue hay que cargarlos en `inc/setup.php` y probarlos sobre una copia de la página real.
+El tema carga la capa visual (`assets/js/agendamiento-capa.js` y
+`assets/css/skins/taller-agendamiento.css`) **solo en la página de agendamiento** (`inc/setup.php`).
+Si la página no trae un contenedor `[data-br-agenda]` alrededor del formulario, la capa lo crea.
+Si el formulario no es el agendamiento definitivo (no tiene `#tipo_servicio`), la capa no actúa.
+El enlace de dudas usa el WhatsApp de `inc/datos-taller.php`.
 
 ## Dónde cambiar cada cosa
 
@@ -287,8 +289,8 @@ La OT original no tenía inicio de sesión. Se protege con el inicio de sesión 
 
 ## Despliegue
 
-> **Pasos previstos, a validar** en la prueba con una copia de la página real (Elementor y plugins
-> activos, versiones actualizadas). Nada se toca en el sitio real hasta la entrega oficial.
+> **Probado el 01-nov-2026** en la copia local del sitio real con Elementor 4.3.1 y Elementor Pro
+> activos. Nada se toca en el sitio real hasta la entrega oficial.
 
 **Quién lo instala** (lo decide el taller):
 - **Opción 1:** la persona que el taller tenga destinada para su página, siguiendo estos pasos.
@@ -310,17 +312,23 @@ La OT original no tenía inicio de sesión. Se protege con el inicio de sesión 
    Crear `ot/includes/config.php` con los datos de la base del servidor e importar
    `ot/bullracing_bd.sql` si las tablas de la OT no existen.
 7. **Apariencia → Temas → Añadir nuevo → Subir tema** → `bullracing.zip` → Activar.
-8. **Ajustes → Generales → Zona horaria:** Bogotá.
-9. Comprobar que WordPress envía correos (por ejemplo, "¿Has olvidado tu contraseña?").
-   Si no llegan, configurar un SMTP.
-10. Crear los usuarios con el rol **Recepción de motos**.
+8. En **Páginas**, abrir **Inicio** (HOME) con **Editar** (no "Editar con Elementor") → botón
+   **"Volver al editor de WordPress"** → **Plantilla: Plantilla por defecto** → **Guardar**.
+   Repetir con **Contacto**. No tocar la página de agendamiento.
+   Por qué: esas dos páginas están armadas en Elementor. Si no se hace, Elementor muestra el
+   diseño viejo en lugar del tema, y sus estilos globales ponen el fondo y los enlaces en blanco.
+   El contenido viejo no se borra: vuelve si alguien usa "Editar con Elementor".
+9. **Ajustes → Generales → Zona horaria:** Bogotá.
+10. Comprobar que WordPress envía correos (por ejemplo, "¿Has olvidado tu contraseña?").
+    Si no llegan, configurar un SMTP.
+11. Crear los usuarios con el rol **Recepción de motos**.
 
 **Probar**
-11. Inicio (hero, planes, motolavado, valoración, contacto), páginas Quiénes somos, Contacto y
-    Términos, en escritorio y celular.
-12. Agendamiento: una cita de prueba que llegue por correo.
-13. OT: entrar con un usuario de recepción, buscar la placa de la cita de prueba, guardar y sacar el PDF.
-14. Borrar la cita de prueba, su orden de servicio y su fila del registro de recepción: así el
+12. Inicio (hero, planes, motolavado, valoración, contacto), páginas Quiénes somos, Contacto y
+    Términos, en escritorio y celular. El fondo debe ser negro y no debe aparecer el diseño viejo.
+13. Agendamiento: una cita de prueba que llegue por correo.
+14. OT: entrar con un usuario de recepción, buscar la placa de la cita de prueba, guardar y sacar el PDF.
+15. Borrar la cita de prueba, su orden de servicio y su fila del registro de recepción: así el
     contador de clientes satisfechos vuelve a la base que dio el taller.
 
 **Si algo sale mal:** volver a activar el tema anterior desde **Apariencia → Temas** y, si es
