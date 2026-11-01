@@ -48,13 +48,26 @@ function bullracing_recursos(): void {
 		array( 'in_footer' => true, 'strategy' => 'defer' )
 	);
 
-	// En la página de agendamiento: precarga lo que el cliente escogió en la landing.
-	// No modifica el agendamiento, solo escoge sus opciones (ver el archivo).
+	// En la página de agendamiento: precarga lo que el cliente escogió en la landing y la capa
+	// visual del Diseño 1 (apariencia de la skin activa). Ninguno de los dos modifica el agendamiento.
 	if ( is_page( 'agendamiento' ) ) {
+		wp_enqueue_style(
+			'bullracing-agendamiento',
+			$uri . '/assets/css/skins/' . BULLRACING_SKIN . '-agendamiento.css',
+			array( 'bullracing-skin' ),
+			BULLRACING_TEMA_VERSION
+		);
 		wp_enqueue_script(
 			'bullracing-precarga-agendamiento',
 			$uri . '/assets/js/precarga-agendamiento.js',
 			array(),
+			BULLRACING_TEMA_VERSION,
+			array( 'in_footer' => true )
+		);
+		wp_enqueue_script(
+			'bullracing-agendamiento-capa',
+			$uri . '/assets/js/agendamiento-capa.js',
+			array( 'bullracing-main' ),
 			BULLRACING_TEMA_VERSION,
 			array( 'in_footer' => true )
 		);

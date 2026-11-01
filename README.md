@@ -50,9 +50,11 @@ el tema, los precios, los usuarios y la OT siguen funcionando.
 El **agendamiento** es el formulario de la página actual y no está en este repositorio: el tema
 solo le cambia la apariencia y le agrega que la placa acepte solo letras y números.
 
-> **Pendiente:** el tema todavía **no carga** `assets/js/agendamiento-capa.js` ni
-> `assets/css/taller-agendamiento.css` (solo los usa la página de prueba local). Antes del
-> despliegue hay que cargarlos en `inc/setup.php` y probarlos sobre una copia de la página real.
+El tema carga la capa visual (`assets/js/agendamiento-capa.js` y
+`assets/css/skins/taller-agendamiento.css`) **solo en la página de agendamiento** (`inc/setup.php`).
+Si la página no trae un contenedor `[data-br-agenda]` alrededor del formulario, la capa lo crea.
+Si el formulario no es el agendamiento definitivo (no tiene `#tipo_servicio`), la capa no actúa.
+El enlace de dudas usa el WhatsApp de `inc/datos-taller.php`.
 
 ## Dónde cambiar cada cosa
 
@@ -98,10 +100,35 @@ pendiente o la tarjeta queda solo con texto.
 - Sin caras de clientes ni placas legibles sin autorización (Ley 1581). Personas del taller: con su autorización.
 - Si falta una foto, la página no se rompe: se ve el recuadro pendiente o la tarjeta solo con texto.
 
-**Video** (`'video'` en `inc/datos-taller.php`)
-- Recomendado: el enlace del video en TikTok o Instagram. No pesa en el repositorio; el recuadro abre el video en la red.
-- O un archivo `.mp4` / `.webm` subido en **Medios → Añadir nuevo** de WordPress, pegando aquí su URL: se reproduce en la página. El video **no** se sube al repositorio.
-- Vacío: se ve "Video pendiente".
+**Video del taller**
+
+Se usa el **video original** que grabó el taller (el archivo del celular o de la cámara), **no** el que se
+descarga de TikTok o Instagram, para que no salga con la marca de agua de la red social.
+
+A diferencia de las fotos, el video **no se copia en ninguna carpeta del tema ni lleva un nombre fijo**:
+se sube a la **biblioteca de Medios de WordPress** (queda en `wp-content/uploads/`, que no está en el
+repositorio) y su dirección se escribe en el campo `'video'` de `inc/datos-taller.php`. Hay **un solo video**
+y aparece en **dos lugares** a la vez: la sección "Quiénes somos" del inicio (`template-parts/inicio/06-nosotros.php`)
+y la página Quiénes somos, junto a la historia (`template-parts/quienes-somos/01-historia.php`).
+Se reproduce dentro de la página, con play/pausa y barra de progreso. Vacío (`''`): se ve "Video pendiente".
+
+*Pasos*
+1. Pedirle al taller el **archivo original** del video (sin marca de agua) y su autorización de uso.
+2. Prepararlo: **MP4 (H.264)**, 720p, corto (menos de 1 minuto) y comprimido. Nombre del archivo en
+   minúscula, sin espacios ni tildes, por ejemplo `video-taller.mp4`, para que la dirección quede limpia.
+3. Subirlo en el WordPress **del sitio real**: **Medios → Añadir nuevo** → arrastrar el archivo. El hosting
+   pone un límite de subida, que se ve en esa misma pantalla ("Tamaño máximo de archivo"); si el video
+   no sube, es por ese límite: comprimirlo más.
+4. Abrir el video en **Medios → Biblioteca** → **Copiar URL al portapapeles**.
+5. Pegar esa URL entre las comillas, sin borrar la coma del final:
+   `'video'     => 'https://motosbullracing.com/wp-content/uploads/2026/11/video-taller.mp4',`
+6. Ojo: un video subido en el WordPress **local** queda con una dirección `localhost` que **no existe** en
+   el sitio real. Para probar en local se sube también en local y se usa esa URL; para el sitio real, la
+   URL del video subido allá.
+
+Mientras el video no se reproduce, el recuadro muestra de fondo la foto del hero (`assets/img/hero.jpg`).
+El archivo de video **nunca** se sube al repositorio. Después de cambiar `'video'`: verificar, revisar las dos
+páginas con **Ctrl + F5** y hacer commit de `inc/datos-taller.php`.
 
 **Textos** (`inc/datos-taller.php`)
 - `'historia'`: la historia del taller. Vacío: texto entre corchetes.
@@ -120,7 +147,7 @@ pendiente o la tarjeta queda solo con texto.
 **Pasos para integrar el material**
 1. Revisar que el material tenga autorización de uso.
 2. Preparar cada foto y copiarla con su nombre en `wp-content/themes/bullracing/assets/img/taller/`.
-3. Escribir en `inc/datos-taller.php` el video, la historia, el año y el equipo que se tengan.
+3. Escribir en `inc/datos-taller.php` la URL del video (ver "Video del taller"), la historia, el año y el equipo que se tengan.
 4. Subir la versión del tema en `style.css`.
 5. `.\dev\verificar.ps1 -ConServidor` en **TODO BIEN** y revisar en el navegador con **Ctrl + F5**,
    en escritorio y celular.
@@ -262,8 +289,8 @@ La OT original no tenía inicio de sesión. Se protege con el inicio de sesión 
 
 ## Despliegue
 
-> **Pasos previstos, a validar** en la prueba con una copia de la página real (Elementor y plugins
-> activos, versiones actualizadas). Nada se toca en el sitio real hasta la entrega oficial.
+> **Probado el 01-nov-2026** en la copia local del sitio real con Elementor 4.3.1 y Elementor Pro
+> activos. Nada se toca en el sitio real hasta la entrega oficial.
 
 **Quién lo instala** (lo decide el taller):
 - **Opción 1:** la persona que el taller tenga destinada para su página, siguiendo estos pasos.
@@ -285,17 +312,23 @@ La OT original no tenía inicio de sesión. Se protege con el inicio de sesión 
    Crear `ot/includes/config.php` con los datos de la base del servidor e importar
    `ot/bullracing_bd.sql` si las tablas de la OT no existen.
 7. **Apariencia → Temas → Añadir nuevo → Subir tema** → `bullracing.zip` → Activar.
-8. **Ajustes → Generales → Zona horaria:** Bogotá.
-9. Comprobar que WordPress envía correos (por ejemplo, "¿Has olvidado tu contraseña?").
-   Si no llegan, configurar un SMTP.
-10. Crear los usuarios con el rol **Recepción de motos**.
+8. En **Páginas**, abrir **Inicio** (HOME) con **Editar** (no "Editar con Elementor") → botón
+   **"Volver al editor de WordPress"** → **Plantilla: Plantilla por defecto** → **Guardar**.
+   Repetir con **Contacto**. No tocar la página de agendamiento.
+   Por qué: esas dos páginas están armadas en Elementor. Si no se hace, Elementor muestra el
+   diseño viejo en lugar del tema, y sus estilos globales ponen el fondo y los enlaces en blanco.
+   El contenido viejo no se borra: vuelve si alguien usa "Editar con Elementor".
+9. **Ajustes → Generales → Zona horaria:** Bogotá.
+10. Comprobar que WordPress envía correos (por ejemplo, "¿Has olvidado tu contraseña?").
+    Si no llegan, configurar un SMTP.
+11. Crear los usuarios con el rol **Recepción de motos**.
 
 **Probar**
-11. Inicio (hero, planes, motolavado, valoración, contacto), páginas Quiénes somos, Contacto y
-    Términos, en escritorio y celular.
-12. Agendamiento: una cita de prueba que llegue por correo.
-13. OT: entrar con un usuario de recepción, buscar la placa de la cita de prueba, guardar y sacar el PDF.
-14. Borrar la cita de prueba, su orden de servicio y su fila del registro de recepción: así el
+12. Inicio (hero, planes, motolavado, valoración, contacto), páginas Quiénes somos, Contacto y
+    Términos, en escritorio y celular. El fondo debe ser negro y no debe aparecer el diseño viejo.
+13. Agendamiento: una cita de prueba que llegue por correo.
+14. OT: entrar con un usuario de recepción, buscar la placa de la cita de prueba, guardar y sacar el PDF.
+15. Borrar la cita de prueba, su orden de servicio y su fila del registro de recepción: así el
     contador de clientes satisfechos vuelve a la base que dio el taller.
 
 **Si algo sale mal:** volver a activar el tema anterior desde **Apariencia → Temas** y, si es

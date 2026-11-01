@@ -91,56 +91,69 @@ $fila_0 = $precios['gasolina'][ $plan_0 ][0] ?? array( 'referencia' => '', 'prec
 				static fn( $nombre ) => ! empty( $precios[ $motor ][ $nombre ] )
 			);
 			?>
-			<div class="br-planes__tarjetas" data-br-grupo="<?php echo esc_attr( $motor ); ?>"
-				style="--columnas: <?php echo (int) count( $planes_motor ); ?>"
+			<div class="br-planes__grupo" data-br-grupo="<?php echo esc_attr( $motor ); ?>"
 				<?php echo 'gasolina' === $motor ? '' : 'hidden'; ?>>
-				<?php foreach ( array_values( $planes_motor ) as $i => $nombre ) : ?>
-					<?php
-					$plan        = $planes[ $nombre ];
-					$filas       = $precios[ $motor ][ $nombre ];
-					$recomendado = ! empty( $plan['recomendado'] );
-					$elegida     = 'gasolina' === $motor && $nombre === $plan_0;
-					$id_select   = sprintf( 'br-ref-%s-%d', $motor, $i + 1 );
-					$url_plan    = add_query_arg(
-						array(
-							'servicio'   => 'mantenimiento',
-							'motor'      => $motor,
-							'plan'       => $nombre,
-							'referencia' => $filas[0]['referencia'],
-						),
-						$url_agendar
-					);
-					?>
-					<article class="br-plan<?php echo $recomendado ? ' br-plan--recomendado' : ''; ?>"
-						data-br-plan="<?php echo esc_attr( $nombre ); ?>" data-motor="<?php echo esc_attr( $motor ); ?>"
-						aria-current="<?php echo $elegida ? 'true' : 'false'; ?>">
-						<?php if ( $recomendado ) : ?>
-							<span class="br-plan__sello"><?php esc_html_e( 'Recomendado', 'bullracing' ); ?></span>
-						<?php endif; ?>
-						<p class="br-plan__codigo"><span>OT</span><span><?php echo esc_html( sprintf( 'N.º %03d', $i + 1 ) ); ?></span></p>
-						<h3 class="br-plan__nombre"><?php echo esc_html( $nombre ); ?></h3>
-						<p class="br-plan__precio">
-							<span class="br-plan__desde" data-br-desde><?php esc_html_e( 'Desde', 'bullracing' ); ?></span>
-							<span class="br-plan__valor" data-br-valor><?php echo esc_html( $formato( (int) $filas[0]['precio'] ) ); ?></span>
-						</p>
-						<label class="br-plan__etiqueta" for="<?php echo esc_attr( $id_select ); ?>"><?php esc_html_e( 'Tu moto', 'bullracing' ); ?></label>
-						<select class="br-plan__referencia" id="<?php echo esc_attr( $id_select ); ?>" data-br-referencia>
-							<?php foreach ( $filas as $fila ) : ?>
-								<option value="<?php echo esc_attr( $fila['referencia'] ); ?>" data-precio="<?php echo esc_attr( (string) $fila['precio'] ); ?>">
-									<?php echo esc_html( $fila['referencia'] ); ?>
-								</option>
-							<?php endforeach; ?>
-						</select>
-						<ul class="br-plan__lista">
-							<?php foreach ( $plan['incluye'][ $motor ] ?? array() as $item ) : ?>
-								<li><span class="br-plan__check" aria-hidden="true">✓</span><?php echo esc_html( $item ); ?></li>
-							<?php endforeach; ?>
-						</ul>
-						<a class="br-plan__agendar" data-br-agendar href="<?php echo esc_url( $url_plan ); ?>">
-							<?php esc_html_e( 'Agendar', 'bullracing' ); ?>
-						</a>
-					</article>
-				<?php endforeach; ?>
+				<div class="br-planes__tarjetas" data-br-fila
+					style="--columnas: <?php echo (int) count( $planes_motor ); ?>">
+					<?php foreach ( array_values( $planes_motor ) as $i => $nombre ) : ?>
+						<?php
+						$plan        = $planes[ $nombre ];
+						$filas       = $precios[ $motor ][ $nombre ];
+						$recomendado = ! empty( $plan['recomendado'] );
+						$elegida     = 'gasolina' === $motor && $nombre === $plan_0;
+						$id_select   = sprintf( 'br-ref-%s-%d', $motor, $i + 1 );
+						$url_plan    = add_query_arg(
+							array(
+								'servicio'   => 'mantenimiento',
+								'motor'      => $motor,
+								'plan'       => $nombre,
+								'referencia' => $filas[0]['referencia'],
+							),
+							$url_agendar
+						);
+						?>
+						<article class="br-plan<?php echo $recomendado ? ' br-plan--recomendado' : ''; ?>"
+							data-br-plan="<?php echo esc_attr( $nombre ); ?>" data-motor="<?php echo esc_attr( $motor ); ?>"
+							aria-current="<?php echo $elegida ? 'true' : 'false'; ?>">
+							<?php if ( $recomendado ) : ?>
+								<span class="br-plan__sello"><?php esc_html_e( 'Recomendado', 'bullracing' ); ?></span>
+							<?php endif; ?>
+							<p class="br-plan__codigo"><span>OT</span><span><?php echo esc_html( sprintf( 'N.º %03d', $i + 1 ) ); ?></span></p>
+							<h3 class="br-plan__nombre"><?php echo esc_html( $nombre ); ?></h3>
+							<p class="br-plan__precio">
+								<span class="br-plan__desde" data-br-desde><?php esc_html_e( 'Desde', 'bullracing' ); ?></span>
+								<span class="br-plan__valor" data-br-valor><?php echo esc_html( $formato( (int) $filas[0]['precio'] ) ); ?></span>
+							</p>
+							<label class="br-plan__etiqueta" for="<?php echo esc_attr( $id_select ); ?>"><?php esc_html_e( 'Tu moto', 'bullracing' ); ?></label>
+							<select class="br-plan__referencia" id="<?php echo esc_attr( $id_select ); ?>" data-br-referencia>
+								<?php foreach ( $filas as $fila ) : ?>
+									<option value="<?php echo esc_attr( $fila['referencia'] ); ?>" data-precio="<?php echo esc_attr( (string) $fila['precio'] ); ?>">
+										<?php echo esc_html( $fila['referencia'] ); ?>
+									</option>
+								<?php endforeach; ?>
+							</select>
+							<ul class="br-plan__lista">
+								<?php foreach ( $plan['incluye'][ $motor ] ?? array() as $item ) : ?>
+									<li><span class="br-plan__check" aria-hidden="true">✓</span><?php echo esc_html( $item ); ?></li>
+								<?php endforeach; ?>
+							</ul>
+							<a class="br-plan__agendar" data-br-agendar href="<?php echo esc_url( $url_plan ); ?>">
+								<?php esc_html_e( 'Agendar', 'bullracing' ); ?>
+							</a>
+						</article>
+					<?php endforeach; ?>
+				</div>
+
+				<?php /* Solo en celular: pista para deslizar y un punto por plan. */ ?>
+				<div class="br-planes__navegacion">
+					<p class="br-planes__desliza"><?php esc_html_e( 'Desliza para ver todos los planes →', 'bullracing' ); ?></p>
+					<div class="br-planes__puntos" role="group" aria-label="<?php esc_attr_e( 'Planes', 'bullracing' ); ?>">
+						<?php foreach ( array_values( $planes_motor ) as $i => $nombre ) : ?>
+							<button type="button" class="br-planes__punto" data-br-punto="<?php echo (int) $i; ?>"
+								aria-label="<?php echo esc_attr( sprintf( /* translators: %s: nombre del plan */ __( 'Ver plan %s', 'bullracing' ), $nombre ) ); ?>"></button>
+						<?php endforeach; ?>
+					</div>
+				</div>
 			</div>
 		<?php endforeach; ?>
 	</div>
