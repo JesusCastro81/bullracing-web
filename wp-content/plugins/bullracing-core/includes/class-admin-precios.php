@@ -1,7 +1,6 @@
 <?php
 /**
- * Pantalla "Bull Racing → Precios" dentro del escritorio de WordPress.
- * Pendiente: formulario de edición (con nonce y validación) según lo que apruebe el taller.
+ * Pantalla "Bull Racing → Precios" dentro del escritorio de WordPress: muestra la tabla de precios (solo lectura).
  *
  * @package BullRacingCore
  */

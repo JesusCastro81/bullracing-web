@@ -1,6 +1,6 @@
 <?php
 /**
- * Rol "Taller": usuarios del taller que solo administran precios (y más adelante agendamientos).
+ * Rol "Taller": usuarios del taller que pueden ver la tabla de precios en el escritorio de WordPress.
  *
  * @package BullRacingCore
  */

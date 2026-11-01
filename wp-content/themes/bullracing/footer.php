@@ -1,6 +1,9 @@
 <?php
 /**
- * Pie de página: datos del taller, redes, menú del pie y TecnoParque como asesor técnico.
+ * Pie de página (diseño 1): logo, lema y correo del taller en recuadro punteado.
+ *
+ * - El pie de página muestra el correo del taller.
+ * - Segunda línea: © y enlace a Términos y condiciones (la página legal debe poder abrirse).
  *
  * @package BullRacing
  */
@@ -8,55 +11,34 @@
 defined( 'ABSPATH' ) || exit;
 
 $taller = bullracing_datos_taller();
-$redes  = array_filter( $taller['redes'] );
+
+$correo = (string) $taller['correo'];
 ?>
 </main>
 
 <footer class="br-footer">
-	<div class="br-contenedor br-footer__columnas">
-		<div class="br-footer__marca">
-			<p class="br-footer__nombre"><?php echo esc_html( $taller['nombre'] ); ?></p>
-			<p class="br-footer__lema"><?php echo esc_html( $taller['lema'] ); ?></p>
-			<?php bullracing_componente( 'estrellas', array( 'valor' => $taller['calificacion'], 'total' => $taller['clientes'] ) ); ?>
-		</div>
+	<div class="br-contenedor br-footer__fila">
+		<a class="br-footer__marca" href="<?php echo esc_url( home_url( '/' ) ); ?>">
+			<img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/logo.png' ); ?>"
+				alt="<?php echo esc_attr( $taller['nombre'] ); ?>" width="52" height="52" loading="lazy">
+			<span class="br-footer__lema"><?php echo esc_html( $taller['lema'] ); ?></span>
+		</a>
 
-		<div class="br-footer__contacto">
-			<p class="br-footer__titulo"><?php esc_html_e( 'Contacto', 'bullracing' ); ?></p>
-			<ul>
-				<li><?php echo esc_html( $taller['direccion'] ); ?></li>
-				<li><?php echo esc_html( $taller['horario'] ); ?></li>
-				<li><a href="<?php echo esc_url( bullracing_whatsapp_url() ); ?>" target="_blank" rel="noopener">WhatsApp <?php echo esc_html( $taller['telefono'] ); ?></a></li>
-			</ul>
-		</div>
-
-		<div class="br-footer__enlaces">
-			<p class="br-footer__titulo"><?php esc_html_e( 'Enlaces', 'bullracing' ); ?></p>
-			<?php
-			wp_nav_menu(
-				array(
-					'theme_location' => 'pie',
-					'container'      => false,
-					'fallback_cb'    => 'bullracing_menu_respaldo',
-				)
-			);
-			?>
-			<?php if ( $redes ) : ?>
-				<ul class="br-footer__redes">
-					<?php foreach ( $redes as $red => $url ) : ?>
-						<li><a href="<?php echo esc_url( $url ); ?>" target="_blank" rel="noopener"><?php echo esc_html( $red ); ?></a></li>
-					<?php endforeach; ?>
-				</ul>
-			<?php endif; ?>
-		</div>
+		<?php if ( $correo ) : ?>
+			<p class="br-footer__contacto">
+				<?php esc_html_e( 'Correo', 'bullracing' ); ?>
+				<a class="br-footer__correo" href="<?php echo esc_url( 'mailto:' . $correo ); ?>"><?php echo esc_html( $correo ); ?></a>
+			</p>
+		<?php endif; ?>
 	</div>
 
 	<div class="br-contenedor br-footer__base">
-		<p class="br-footer__asesor"><?php esc_html_e( 'Asesor técnico: TecnoParque SENA', 'bullracing' ); ?></p>
-		<p class="br-footer__copy">&copy; <?php echo esc_html( gmdate( 'Y' ) ); ?> <?php echo esc_html( $taller['nombre'] ); ?></p>
+		<p>&copy; <?php echo esc_html( gmdate( 'Y' ) . ' ' . $taller['nombre'] ); ?></p>
+		<a href="<?php echo esc_url( bullracing_url_pagina( 'terminos', '' ) ); ?>"><?php esc_html_e( 'Términos y condiciones', 'bullracing' ); ?></a>
 	</div>
 </footer>
 
-<?php get_template_part( 'template-parts/boton-whatsapp' ); ?>
+<?php bullracing_componente( 'boton-whatsapp' ); ?>
 
 <?php wp_footer(); ?>
 </body>

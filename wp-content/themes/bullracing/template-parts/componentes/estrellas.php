@@ -2,7 +2,7 @@
 /**
  * Componente: calificación con estrellas.
  *
- * Uso: bullracing_componente( 'estrellas', array( 'valor' => 5, 'total' => 166 ) );
+ * Uso: bullracing_componente( 'estrellas', array( 'valor' => 4, 'total' => 3763, 'texto' => 'Clientes satisfechos' ) );
  *
  * @package BullRacing
  */
@@ -14,15 +14,15 @@ $args = wp_parse_args(
 	array(
 		'valor' => 5,
 		'total' => 0,
-		'texto' => __( 'clientes satisfechos', 'bullracing' ),
+		'texto' => '',
 	)
 );
 
-$valor = max( 0, min( 5, (int) $args['valor'] ) );
+$valor = min( 5, max( 0, (int) $args['valor'] ) ); // También lo usa el texto para lectores de pantalla.
 ?>
 <div class="br-estrellas">
 	<span class="br-estrellas__iconos" aria-hidden="true">
-		<?php echo esc_html( str_repeat( '★', $valor ) . str_repeat( '☆', 5 - $valor ) ); ?>
+		<?php echo esc_html( bullracing_estrellas( $valor ) ); ?>
 	</span>
 	<span class="br-estrellas__texto">
 		<?php if ( $args['total'] ) : ?>
