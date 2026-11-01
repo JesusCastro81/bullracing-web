@@ -1167,11 +1167,12 @@ body:has(.br-banner) .br-header .br-menu li:first-child a:not([aria-current]) {
   outline-offset: 2px;
 }
 
-/* "Agendar →" aparece al pasar el mouse */
+/* "Agendar →" aparece al pasar el mouse. Es el último renglón de la tarjeta (no flota encima):
+   así siempre tiene su propio espacio y nunca tapa el precio, en cualquier ancho de pantalla. */
 .br-paquete__agendar {
-  position: absolute;
-  right: 18px;
-  bottom: 18px;
+  align-self: flex-end;
+  margin-top: auto;
+  padding-top: 10px;
   font: 700 12px var(--fuente-mono);
   letter-spacing: 1px;
   text-transform: uppercase;
