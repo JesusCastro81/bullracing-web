@@ -98,10 +98,35 @@ pendiente o la tarjeta queda solo con texto.
 - Sin caras de clientes ni placas legibles sin autorización (Ley 1581). Personas del taller: con su autorización.
 - Si falta una foto, la página no se rompe: se ve el recuadro pendiente o la tarjeta solo con texto.
 
-**Video** (`'video'` en `inc/datos-taller.php`)
-- Recomendado: el enlace del video en TikTok o Instagram. No pesa en el repositorio; el recuadro abre el video en la red.
-- O un archivo `.mp4` / `.webm` subido en **Medios → Añadir nuevo** de WordPress, pegando aquí su URL: se reproduce en la página. El video **no** se sube al repositorio.
-- Vacío: se ve "Video pendiente".
+**Video del taller**
+
+Se usa el **video original** que grabó el taller (el archivo del celular o de la cámara), **no** el que se
+descarga de TikTok o Instagram, para que no salga con la marca de agua de la red social.
+
+A diferencia de las fotos, el video **no se copia en ninguna carpeta del tema ni lleva un nombre fijo**:
+se sube a la **biblioteca de Medios de WordPress** (queda en `wp-content/uploads/`, que no está en el
+repositorio) y su dirección se escribe en el campo `'video'` de `inc/datos-taller.php`. Hay **un solo video**
+y aparece en **dos lugares** a la vez: la sección "Quiénes somos" del inicio (`template-parts/inicio/06-nosotros.php`)
+y la página Quiénes somos, junto a la historia (`template-parts/quienes-somos/01-historia.php`).
+Se reproduce dentro de la página, con play/pausa y barra de progreso. Vacío (`''`): se ve "Video pendiente".
+
+*Pasos*
+1. Pedirle al taller el **archivo original** del video (sin marca de agua) y su autorización de uso.
+2. Prepararlo: **MP4 (H.264)**, 720p, corto (menos de 1 minuto) y comprimido. Nombre del archivo en
+   minúscula, sin espacios ni tildes, por ejemplo `video-taller.mp4`, para que la dirección quede limpia.
+3. Subirlo en el WordPress **del sitio real**: **Medios → Añadir nuevo** → arrastrar el archivo. El hosting
+   pone un límite de subida, que se ve en esa misma pantalla ("Tamaño máximo de archivo"); si el video
+   no sube, es por ese límite: comprimirlo más.
+4. Abrir el video en **Medios → Biblioteca** → **Copiar URL al portapapeles**.
+5. Pegar esa URL entre las comillas, sin borrar la coma del final:
+   `'video'     => 'https://motosbullracing.com/wp-content/uploads/2026/11/video-taller.mp4',`
+6. Ojo: un video subido en el WordPress **local** queda con una dirección `localhost` que **no existe** en
+   el sitio real. Para probar en local se sube también en local y se usa esa URL; para el sitio real, la
+   URL del video subido allá.
+
+Mientras el video no se reproduce, el recuadro muestra de fondo la foto del hero (`assets/img/hero.jpg`).
+El archivo de video **nunca** se sube al repositorio. Después de cambiar `'video'`: verificar, revisar las dos
+páginas con **Ctrl + F5** y hacer commit de `inc/datos-taller.php`.
 
 **Textos** (`inc/datos-taller.php`)
 - `'historia'`: la historia del taller. Vacío: texto entre corchetes.
@@ -120,7 +145,7 @@ pendiente o la tarjeta queda solo con texto.
 **Pasos para integrar el material**
 1. Revisar que el material tenga autorización de uso.
 2. Preparar cada foto y copiarla con su nombre en `wp-content/themes/bullracing/assets/img/taller/`.
-3. Escribir en `inc/datos-taller.php` el video, la historia, el año y el equipo que se tengan.
+3. Escribir en `inc/datos-taller.php` la URL del video (ver "Video del taller"), la historia, el año y el equipo que se tengan.
 4. Subir la versión del tema en `style.css`.
 5. `.\dev\verificar.ps1 -ConServidor` en **TODO BIEN** y revisar en el navegador con **Ctrl + F5**,
    en escritorio y celular.
