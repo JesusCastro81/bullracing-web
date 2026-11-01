@@ -9,15 +9,29 @@
  *  - Las casillas de hora LEEN las horas que el agendamiento ya marca como completas.
  *  - El resumen solo lee lo que hay en el formulario. No calcula precios: muestra el del agendamiento.
  *
- * La página debe tener un contenedor [data-br-agenda] que envuelva el formulario.
- * Opcional: data-whatsapp="https://wa.me/..." para el enlace de dudas.
+ * Si la página no trae un contenedor [data-br-agenda] alrededor del formulario, la capa lo crea:
+ * así se monta sola sobre el agendamiento sin editarlo. El enlace de dudas usa el WhatsApp del
+ * taller (window.bullracingDatos, inc/setup.php) o data-whatsapp del contenedor si lo trae.
+ * Si el formulario no es el agendamiento definitivo (sin #tipo_servicio), la capa no hace nada.
  */
 (() => {
   'use strict';
 
-  const caja = document.querySelector('[data-br-agenda]');
   const form = document.getElementById('form-motos-bull');
-  if (!caja || !form) return;
+  if (!form || !document.getElementById('tipo_servicio')) return;
+
+  // Contenedor de la capa: el que trae la página o uno nuevo alrededor del formulario.
+  let caja = form.closest('[data-br-agenda]');
+  if (!caja) {
+    caja = document.createElement('div');
+    caja.className = 'br-contenedor br-agenda';
+    caja.setAttribute('data-br-agenda', '');
+    form.before(caja);
+    caja.append(form);
+  }
+  if (!caja.dataset.whatsapp && window.bullracingDatos && window.bullracingDatos.whatsapp) {
+    caja.dataset.whatsapp = window.bullracingDatos.whatsapp;
+  }
 
   const $ = (id) => document.getElementById(id);
   const crear = (etiqueta, clase, texto) => {
