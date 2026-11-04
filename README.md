@@ -301,38 +301,75 @@ La OT original no tenía inicio de sesión. Se protege con el inicio de sesión 
 2. Confirmar con el hosting que la página corre en una versión de PHP con soporte y con el parche
    del 21-oct-2026, y que la extensión GD está activa.
 3. Confirmar que la página tiene HTTPS.
+4. Confirmar que en el `wp-config.php` del sitio real `WP_DEBUG` está en `false`. Si queda en
+   `true`, los errores técnicos se le muestran al público.
 
 **Instalar**
-4. Subir la versión en `wp-content/themes/bullracing/style.css` (`Version`), para que los
+5. Subir la versión en `wp-content/themes/bullracing/style.css` (`Version`), para que los
    navegadores descarguen el CSS y el JS nuevos. Comprimir `wp-content/themes/bullracing` → `bullracing.zip` y `wp-content/plugins/bullracing-core`
    → `bullracing-core.zip`.
-5. **Plugins → Añadir nuevo → Subir plugin** → `bullracing-core.zip` → Activar
+6. **Plugins → Añadir nuevo → Subir plugin** → `bullracing-core.zip` → Activar
    (crea la tabla de tarifas, los roles y el registro de recepción).
-6. Subir la carpeta `ot/` a la raíz de WordPress (administrador de archivos del hosting o FTP).
+7. Subir la carpeta `ot/` a la raíz de WordPress (administrador de archivos del hosting o FTP).
    Crear `ot/includes/config.php` con los datos de la base del servidor e importar
    `ot/bullracing_bd.sql` si las tablas de la OT no existen.
-7. **Apariencia → Temas → Añadir nuevo → Subir tema** → `bullracing.zip` → Activar.
-8. En **Páginas**, abrir **Inicio** (HOME) con **Editar** (no "Editar con Elementor") → botón
+8. **Apariencia → Temas → Añadir nuevo → Subir tema** → `bullracing.zip` → Activar.
+9. En **Páginas**, abrir **Inicio** (HOME) con **Editar** (no "Editar con Elementor") → botón
    **"Volver al editor de WordPress"** → **Plantilla: Plantilla por defecto** → **Guardar**.
    Repetir con **Contacto**. No tocar la página de agendamiento.
    Por qué: esas dos páginas están armadas en Elementor. Si no se hace, Elementor muestra el
    diseño viejo en lugar del tema, y sus estilos globales ponen el fondo y los enlaces en blanco.
    El contenido viejo no se borra: vuelve si alguien usa "Editar con Elementor".
-9. **Ajustes → Generales → Zona horaria:** Bogotá.
-10. Comprobar que WordPress envía correos (por ejemplo, "¿Has olvidado tu contraseña?").
+10. **Páginas y menú.** Revisar en **Páginas** que existan y estén publicadas `contacto`,
+    `quienes-somos`, `terminos` y `agendamiento` (con esas direcciones exactas). Si falta alguna,
+    el enlace no se rompe: lleva a la sección del inicio. En **Apariencia → Menús**, si el sitio
+    tiene asignado un menú viejo (con tienda o carrito), quitarlo: sin menú asignado, el tema usa
+    el suyo (Planes, Motolavado, El taller, Quiénes somos y Contacto).
+11. **Ajustes → Generales → Zona horaria:** Bogotá.
+12. Comprobar que WordPress envía correos (por ejemplo, "¿Has olvidado tu contraseña?").
     Si no llegan, configurar un SMTP.
-11. Crear los usuarios con el rol **Recepción de motos**.
+13. Crear los usuarios con el rol **Recepción de motos**.
 
 **Probar**
-12. Inicio (hero, planes, motolavado, valoración, contacto), páginas Quiénes somos, Contacto y
+14. Inicio (hero, planes, motolavado, valoración, contacto), páginas Quiénes somos, Contacto y
     Términos, en escritorio y celular. El fondo debe ser negro y no debe aparecer el diseño viejo.
-13. Agendamiento: una cita de prueba que llegue por correo.
-14. OT: entrar con un usuario de recepción, buscar la placa de la cita de prueba, guardar y sacar el PDF.
-15. Borrar la cita de prueba, su orden de servicio y su fila del registro de recepción: así el
+15. Agendamiento: una cita de prueba que llegue por correo.
+16. OT: entrar con un usuario de recepción, buscar la placa de la cita de prueba, guardar y sacar el PDF.
+17. Borrar la cita de prueba, su orden de servicio y su fila del registro de recepción: así el
     contador de clientes satisfechos vuelve a la base que dio el taller.
 
 **Si algo sale mal:** volver a activar el tema anterior desde **Apariencia → Temas** y, si es
 necesario, restaurar el respaldo del paso 1.
+
+## Después de publicar
+
+Todo cambio se hace primero en local y en el repositorio (con su verificación y su commit), y
+después se lleva al sitio real. Antes de tocar el sitio real, respaldo.
+
+**Fotos, video y textos del taller**
+1. Integrarlos en local según "Material del taller" y hacer commit.
+2. En el sitio real, con el administrador de archivos del hosting o FTP, subir las fotos a
+   `wp-content/themes/bullracing/assets/img/taller/` **con el mismo nombre**, y el
+   `inc/datos-taller.php` cambiado al mismo lugar.
+3. El video no se sube por FTP: va en **Medios** del WordPress real (ver "Video del taller").
+4. Si el sitio usa caché (plugin del hosting o de WordPress), vaciarla. Revisar con **Ctrl + F5**.
+
+**Precios**
+
+Los precios están en **dos lugares** y un cambio se hace en los dos:
+- En la tabla `{prefijo}bullracing_tarifas` de WordPress, que usan la página de inicio y la
+  pantalla **Bull Racing → Precios**. Esa pantalla es **solo de lectura**: el precio se cambia en
+  la base de datos (phpMyAdmin del hosting → tabla de tarifas → editar la fila del servicio, tipo
+  de moto, plan y referencia).
+- En la lista `TARIFAS_2026` del agendamiento (`js/ba-agendamiento.js`, del paquete del
+  agendamiento, que no está en este repositorio).
+
+Si solo se cambia en uno, la página muestra un precio y el formulario otro. `tarifas-2026.php`
+del plugin solo se usa para llenar la tabla la primera vez; cambiarlo no actualiza los precios.
+
+**Código del tema o del plugin:** rama `feature/<nombre>` desde `develop`, verificar, subir la
+versión en `style.css` (o la del plugin), Pull Request y luego subir el tema o el plugin al sitio
+real (pasos de "Instalar").
 
 ## Datos personales (Ley 1581 de 2012)
 
