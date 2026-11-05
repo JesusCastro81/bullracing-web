@@ -278,6 +278,17 @@ La OT original no tenía inicio de sesión. Se protege con el inicio de sesión 
   `ot/.htaccess` no deja descargar el `.sql` ni `includes/`.
 - La OT debe estar en la carpeta `ot/` dentro de la raíz de WordPress (usa `wp-load.php`).
 
+**Crear un usuario para la OT** (lo hace un administrador):
+1. Entrar a `https://motosbullracing.com/wp-admin/user-new.php` (en local:
+   `http://localhost/bullracing-real/wp-admin/user-new.php`), o en el escritorio
+   **Usuarios → Añadir nuevo usuario**.
+2. Llenar **Nombre de usuario**, **Correo electrónico**, nombre y apellido. El nombre es el que
+   queda registrado en cada orden que guarde.
+3. **Contraseña:** dejar la que propone WordPress o escribir una segura, y entregársela a la
+   persona en privado.
+4. En **Perfil**, escoger **Recepción de motos**.
+5. Clic en **Añadir nuevo usuario**.
+
 **Cómo entra el personal a la OT** (no hay botón en la página pública, a propósito):
 
 1. Abrir `https://motosbullracing.com/ot/` (en local: `http://localhost/bullracing-real/ot/`).
