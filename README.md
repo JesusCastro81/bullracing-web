@@ -154,6 +154,33 @@ páginas con **Ctrl + F5** y hacer commit de `inc/datos-taller.php`.
 6. Commit **agregando cada archivo por su nombre**, nunca `git add -A` (así no se cuela ningún archivo de prueba):
    `git add wp-content/themes/bullracing/assets/img/taller/paso-01.jpg …`
 
+### Calificación y reseñas de Google
+
+La sección Valoración **no se conecta sola con Google**: los datos se copian a mano del perfil
+del taller en `inc/datos-taller.php`.
+
+**Lo que sí está enlazado:** el botón **Calificar** abre la ventana de Google para dejar una
+reseña (`'url_calificar'`) y **Ver reseñas** abre todas las reseñas del perfil (`'url_resenas'`).
+Los dos usan el identificador del perfil (`placeid`), así que no hay que cambiarlos.
+
+**Para actualizar** (por ejemplo, cada mes):
+1. Abrir el perfil del taller en Google y mirar la calificación y el número de reseñas.
+2. En `inc/datos-taller.php`, cambiar `'promedio'` (con coma, por ejemplo `'4,3'`) y
+   `'total_resenas'` (número, sin comillas). Las estrellas se calculan solas.
+3. Para cambiar las 3 reseñas que se muestran, reemplazar en `'resenas'` el `'texto'` exacto de
+   Google y el `'nombre'` con **solo la inicial del apellido** (por ejemplo `'Sergio C.'`), para
+   cuidar los datos del cliente (Ley 1581).
+4. Verificar, revisar con **Ctrl + F5**, hacer commit de `inc/datos-taller.php` y subirlo al sitio
+   real (ver "Después de publicar").
+
+La página muestra 3 reseñas escogidas; el promedio y el total incluyen todas, buenas y malas,
+igual que en Google.
+
+**Por qué es manual:** para que se actualice sola se necesita la API de Google Places, que se
+activa en una cuenta de Google Cloud del taller y **tiene costo según el uso**, o un plugin de
+terceros (que suele pedir la misma clave o una suscripción). Por eso se dejó manual, sin costo.
+Si el taller decide asumir ese costo, queda como mejora para una siguiente fase.
+
 ### Cómo se cambia de diseño
 
 El diseño visual se separa en capas para que cambiarlo cueste poco:
