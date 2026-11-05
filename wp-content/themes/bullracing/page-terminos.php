@@ -1,7 +1,7 @@
 <?php
 /**
- * Página: Términos y condiciones (slug "terminos").
- * WordPress la usa automáticamente para la página con ese slug.
+ * Página: Términos y condiciones (slug "terminos"), diseño 1. Orquestador.
+ * Las partes viven en template-parts/terminos/; el texto legal sale de inc/datos-terminos.php.
  *
  * @package BullRacing
  */
@@ -10,14 +10,20 @@ defined( 'ABSPATH' ) || exit;
 
 get_header();
 
-while ( have_posts() ) {
-	the_post();
-	?>
-	<article class="br-pagina br-pagina--terminos">
-		<?php the_title( '<h1 class="br-pagina__titulo">', '</h1>' ); ?>
-		<div class="br-pagina__contenido"><?php the_content(); ?></div>
-	</article>
-	<?php
-}
-
+bullracing_componente(
+	'banner-pagina',
+	array(
+		'ruta'      => __( 'Términos y condiciones', 'bullracing' ),
+		'etiqueta'  => __( 'Legal', 'bullracing' ),
+		'titulo'    => __( 'Términos y', 'bullracing' ),
+		'resaltado' => __( 'condiciones', 'bullracing' ),
+		'subtitulo' => __( 'Condiciones de uso del sitio web de Motos Bull Racing. Aplican únicamente para Colombia.', 'bullracing' ),
+	)
+);
+?>
+<div class="br-contenedor br-legal" data-br-legal>
+	<?php get_template_part( 'template-parts/terminos/01-indice' ); ?>
+	<?php get_template_part( 'template-parts/terminos/02-texto' ); ?>
+</div>
+<?php
 get_footer();

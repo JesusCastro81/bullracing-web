@@ -1,0 +1,3133 @@
+/* =========================================================
+   Skin TALLER INDUSTRIAL (Diseño 1)
+   Negro dominante, rojo de acento, letras tipo esténcil y
+   detalles "de taller" (rejilla, rayas, datos en mono).
+   Solo redefine tokens del nivel 2 y detalles visuales.
+   Los colores salen de la paleta de marca (tokens.css).
+   ========================================================= */
+
+/* Índice (orden de la página):
+   00 Global: fuentes y colores de la piel, header y footer
+   01 Hero (incluye el aviso del horario)
+   02 El taller
+   03 Planes
+   04 Motolavado
+   05 Valoración
+   06 Quiénes somos (resumen en el inicio)
+   07 Contacto (mosaico y carrusel)
+   08 Páginas internas: banda superior, Quiénes somos, Contacto, Términos
+   09 Compartido: mapa y tarjetas con foto. Van de últimos a propósito: ajustan reglas
+      de secciones anteriores y en CSS gana la regla que va después. */
+
+/* Fuentes de esta piel, alojadas en el tema (licencia SIL OFL 1.1, sin internet).
+   Son fuentes variables: un solo archivo cubre varios grosores. */
+@font-face {
+  font-family: "Big Shoulders Stencil Display";
+  font-style: normal;
+  font-weight: 700 900;
+  font-display: swap;
+  src: url("../../fonts/big-shoulders-stencil.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("../../fonts/jetbrains-mono.woff2") format("woff2");
+}
+
+:root {
+  /* Colores: misma marca, más proporción de negro */
+  --color-fondo: var(--paleta-negro);
+  --color-superficie: var(--paleta-gris-900);
+  --color-texto: var(--paleta-gris-100);
+  --color-texto-suave: var(--paleta-gris-400);
+  --color-borde: var(--paleta-gris-800);
+  --color-acento: var(--paleta-rojo);
+  --color-acento-hover: var(--paleta-rojo-oscuro);
+  --color-sobre-acento: var(--paleta-blanco);
+
+  --color-header-fondo: var(--paleta-negro);
+  --color-header-texto: var(--paleta-blanco);
+  --color-footer-fondo: var(--paleta-negro);
+  --color-footer-texto: var(--paleta-gris-400);
+
+  /* Tipografía: títulos esténcil, datos en mono */
+  --fuente-titulos: "Big Shoulders Stencil Display", var(--fuente-base);
+  --fuente-mono: "JetBrains Mono", ui-monospace, monospace;
+  --texto-xl: clamp(2.5rem, 5vw, 4.75rem);
+  --texto-xxl: clamp(3.5rem, 9vw, 7rem);
+
+  /* Bordes rectos, estilo industrial */
+  --radio-s: 0;
+  --radio-m: 0;
+  --radio-l: 0;
+  --radio-boton: 0;
+  --sombra-tarjeta: 0 20px 40px rgb(0 0 0 / 0.45);
+}
+
+/* ---------- Detalles propios de esta piel ---------- */
+
+/* Títulos grandes en mayúscula, como placas del taller */
+h1,
+h2 {
+  font-weight: 900;
+  line-height: 0.9;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Menú en mayúscula con espaciado */
+.br-header .br-menu a {
+  font-size: var(--texto-s);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.br-header {
+  border-bottom: 1px solid var(--color-borde);
+}
+
+/* =========================================================
+   00 · GLOBAL: HEADER del inicio: va encima de la foto del hero.
+   En las páginas internas se queda con su fondo negro.
+   ========================================================= */
+.home .br-header,
+body:has(.br-banner) .br-header {
+  position: absolute;
+  inset: 0 0 auto;
+  border-bottom: 0;
+  background: transparent;
+}
+
+.br-header__fila {
+  justify-content: flex-start;
+}
+
+.br-header__logo img,
+.br-header__logo .custom-logo {
+  height: 68px;
+  max-height: 68px;
+}
+
+.br-header__nav {
+  margin-left: var(--espacio-l);
+}
+
+.br-header .br-menu {
+  gap: 32px;
+}
+
+.br-header .br-menu a {
+  color: var(--paleta-gris-200);
+}
+
+.br-header .br-menu li:first-child a {
+  color: var(--paleta-blanco);
+}
+
+.br-header .br-menu a:hover {
+  color: var(--color-acento);
+}
+
+/* Página actual en el menú: blanca y subrayada en rojo */
+.br-header .br-menu a[aria-current="page"] {
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--color-acento);
+  color: var(--paleta-blanco);
+}
+
+body:has(.br-banner) .br-header .br-menu li:first-child a:not([aria-current]) {
+  color: var(--paleta-gris-200);
+}
+
+/* Botón flotante de WhatsApp: círculo verde con el ícono */
+.br-whatsapp {
+  --taller-verde-whatsapp: #16a34a; /* Verde del botón en el diseño */
+  right: 28px;
+  bottom: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  border-radius: 50%;
+  background: var(--taller-verde-whatsapp);
+  color: var(--paleta-blanco);
+  box-shadow: 0 10px 30px rgb(0 0 0 / 0.4);
+}
+
+/* Fondo con rayas diagonales para secciones "de taller" */
+.br-skin-rayas {
+  background-color: var(--color-superficie);
+  background-image: repeating-linear-gradient(45deg, rgb(255 255 255 / 0.018) 0 2px, transparent 2px 14px);
+  border-block: 1px solid var(--color-borde);
+}
+
+/* Etiqueta tipo código: // PLANES DE MANTENIMIENTO */
+.br-skin-etiqueta {
+  --taller-rojo-claro: #ff4d45; /* Rojo del diseño para texto pequeño sobre negro (se lee mejor) */
+  margin: 0 0 10px;
+  font-family: var(--fuente-mono);
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: var(--taller-rojo-claro);
+  text-transform: uppercase;
+}
+
+.br-skin-etiqueta::before {
+  content: "// ";
+}
+
+/* =========================================================
+   00 · GLOBAL: FOOTER (diseño 1)
+   ========================================================= */
+.br-footer {
+  margin-top: 0;
+  padding-block: 36px 20px;
+  border-top: 2px solid var(--color-acento);
+  background: #070708;
+  color: var(--paleta-gris-400);
+}
+
+.br-footer p {
+  margin: 0;
+}
+
+.br-footer__fila {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+
+.br-footer .br-footer__marca {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--paleta-blanco);
+  text-decoration: none;
+}
+
+.br-footer .br-footer__marca:hover {
+  color: var(--paleta-blanco);
+}
+
+.br-footer__marca img {
+  width: 52px;
+  height: 52px;
+}
+
+.br-footer__lema {
+  font: 900 26px var(--fuente-titulos);
+  text-transform: uppercase;
+}
+
+.br-footer__contacto {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  font-size: 13px;
+}
+
+/* Recuadro punteado con el correo del taller */
+.br-footer .br-footer__correo {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 10px 14px;
+  border: 1px dashed #52525b;
+  color: var(--paleta-gris-200);
+  text-decoration: none;
+}
+
+.br-footer .br-footer__correo:hover {
+  border-color: var(--color-acento);
+  color: var(--paleta-blanco);
+}
+
+.br-footer__base {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 24px;
+  margin-top: 24px;
+  padding-top: 14px;
+  border-top: 1px solid var(--paleta-gris-800);
+  font-size: 12px;
+  color: var(--paleta-gris-500);
+}
+
+.br-footer__base a {
+  color: var(--paleta-gris-400);
+}
+
+.br-footer__base a:hover {
+  color: var(--paleta-blanco);
+}
+
+@media (max-width: 640px) {
+  .br-footer__lema {
+    font-size: 22px;
+  }
+}
+
+/* =========================================================
+   01 · Sección: HERO
+   ========================================================= */
+.br-hero {
+  --taller-verde-abierto: #22c55e; /* Punto de "taller abierto" del diseño */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--espacio-xl);
+  min-height: min(900px, 100svh);
+  padding-block: 148px 40px; /* 112px del header encima + 36px del diseño */
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.br-hero__imagen {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 75% 50%;
+}
+
+/* Oscurecido parejo + rejilla de "plano técnico" */
+.br-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    repeating-linear-gradient(0deg, rgb(255 255 255 / 0.035) 0 1px, transparent 1px 64px),
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 0.035) 0 1px, transparent 1px 64px),
+    rgb(8 8 10 / 0.45);
+}
+
+.br-hero__contenido {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+.br-hero__estado {
+  display: inline-block;
+  margin: 0;
+  padding: 8px 14px;
+  border: 1px solid rgb(255 255 255 / 0.25);
+  font-family: var(--fuente-mono);
+  font-size: 13px;
+  color: var(--paleta-gris-200);
+}
+
+.br-hero__punto {
+  display: inline-block;
+  margin-right: 10px;
+  vertical-align: 1px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--taller-verde-abierto);
+}
+
+.br-hero__estado.is-cerrado .br-hero__punto {
+  background: var(--color-acento);
+}
+
+.br-hero__titulo {
+  margin: 0;
+  font-size: clamp(3.5rem, 9vw, 7rem);
+  line-height: 0.86;
+  letter-spacing: 1px;
+}
+
+.br-hero__titulo span {
+  color: var(--color-acento);
+}
+
+.br-hero__texto {
+  max-width: 520px;
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--paleta-gris-200);
+}
+
+.br-hero .br-estrellas__iconos {
+  font-size: 24px;
+  letter-spacing: 3px;
+}
+
+.br-hero .br-estrellas__texto {
+  font-family: var(--fuente-mono);
+  font-size: 15px;
+  color: var(--paleta-blanco);
+}
+
+.br-hero__cotizar {
+  --taller-verde-cotizar: #15803d; /* Verde WhatsApp oscuro: texto blanco legible (contraste AA) */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 22px;
+  border: 2px solid var(--taller-verde-cotizar);
+  background: var(--taller-verde-cotizar);
+  color: var(--paleta-blanco);
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color var(--transicion), border-color var(--transicion);
+}
+
+.br-hero__cotizar:hover {
+  border-color: var(--paleta-blanco);
+  color: var(--paleta-blanco);
+}
+
+/* Barra blanca: ver el precio antes de agendar */
+/* Marco "de taller": punteado alrededor + esquinas rojas.
+   Lo usan la barra de agendar y el botón de cotizar por WhatsApp. */
+.br-cotizador,
+.br-hero__cotizar {
+  --marco-rojo: var(--color-acento);
+  --marco-largo: 22px;
+  --marco-grosor: 3px;
+  --marco-separacion: 8px;
+  position: relative;
+  outline: 2px dashed var(--paleta-gris-400);
+  outline-offset: var(--marco-separacion);
+}
+
+.br-hero__cotizar {
+  --marco-largo: 14px;
+  --marco-separacion: 6px;
+}
+
+.br-cotizador {
+  display: grid;
+  grid-template-columns: 1.1fr 1.1fr 1fr auto;
+  width: min(100% - 2 * var(--espacio-m), 1200px);
+  margin-inline: auto;
+  background: var(--paleta-gris-100);
+  color: var(--paleta-negro);
+  box-shadow: 0 30px 60px rgb(0 0 0 / 0.5);
+}
+
+.br-cotizador::before,
+.br-hero__cotizar::before {
+  content: "";
+  position: absolute;
+  inset: calc(-2px - var(--marco-separacion) - 2px); /* sobre la línea punteada (borde + separación + grosor) */
+  pointer-events: none;
+  background:
+    linear-gradient(var(--marco-rojo), var(--marco-rojo)) top left / var(--marco-largo) var(--marco-grosor),
+    linear-gradient(var(--marco-rojo), var(--marco-rojo)) top left / var(--marco-grosor) var(--marco-largo),
+    linear-gradient(var(--marco-rojo), var(--marco-rojo)) top right / var(--marco-largo) var(--marco-grosor),
+    linear-gradient(var(--marco-rojo), var(--marco-rojo)) top right / var(--marco-grosor) var(--marco-largo),
+    linear-gradient(var(--marco-rojo), var(--marco-rojo)) bottom left / var(--marco-largo) var(--marco-grosor),
+    linear-gradient(var(--marco-rojo), var(--marco-rojo)) bottom left / var(--marco-grosor) var(--marco-largo),
+    linear-gradient(var(--marco-rojo), var(--marco-rojo)) bottom right / var(--marco-largo) var(--marco-grosor),
+    linear-gradient(var(--marco-rojo), var(--marco-rojo)) bottom right / var(--marco-grosor) var(--marco-largo);
+  background-repeat: no-repeat;
+}
+
+.br-cotizador__campo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 18px 24px;
+  border-right: 1px solid var(--paleta-gris-200);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--paleta-gris-500);
+}
+
+.br-cotizador__campo select,
+.br-cotizador__fecha span {
+  width: 100%;
+  margin-top: 6px;
+  padding: 8px 0 0;
+  border: 0;
+  border-top: 2px dashed var(--paleta-gris-400); /* Línea punteada como en las fichas de planes */
+  background: transparent;
+  font: 600 17px var(--fuente-base);
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--paleta-negro);
+}
+
+.br-cotizador__campo select {
+  cursor: pointer;
+}
+
+.br-cotizador__fecha {
+  border-right: 0;
+  text-decoration: none;
+}
+
+.br-cotizador__fecha:hover span {
+  color: var(--color-acento);
+}
+
+.br-cotizador__campo select:focus-visible,
+.br-cotizador a:focus-visible {
+  outline: 2px solid var(--color-acento);
+  outline-offset: 4px;
+}
+
+.br-cotizador__agendar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 34px;
+  background: var(--color-acento);
+  color: var(--color-sobre-acento);
+  font: 800 26px var(--fuente-titulos);
+  letter-spacing: 1px;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background var(--transicion);
+}
+
+.br-cotizador__agendar:hover {
+  background: var(--color-acento-hover);
+  color: var(--color-sobre-acento);
+}
+
+.br-cotizador__precio:not(:empty) {
+  padding: 6px 10px;
+  background: var(--paleta-negro);
+  font: 400 15px var(--fuente-mono);
+}
+
+@media (max-width: 860px) {
+  .br-hero {
+    min-height: 0;
+    padding-top: 112px;
+  }
+
+  .br-header__nav {
+    margin-left: 0;
+  }
+
+  .br-header__logo img,
+  .br-header__logo .custom-logo {
+    height: 48px;
+  }
+
+  .br-cotizador {
+    grid-template-columns: 1fr;
+  }
+
+  .br-cotizador__campo {
+    border-right: 0;
+    border-bottom: 1px solid var(--paleta-gris-200);
+  }
+
+  .br-cotizador__agendar {
+    justify-content: center;
+    padding: 16px 24px;
+  }
+}
+
+/* Aviso del hero: cada trozo (ciudad, cada día con sus horas) no se parte en dos líneas */
+.br-hero__aviso {
+  white-space: nowrap;
+}
+
+/* =========================================================
+   02 · Sección: EL TALLER (así entra tu moto)
+   ========================================================= */
+.br-taller {
+  padding-block: 110px 90px;
+}
+
+.br-taller__cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 40px;
+  margin-bottom: 52px;
+}
+
+.br-taller__titulo {
+  margin: 0;
+  font-size: clamp(3rem, 6vw, 4.75rem);
+}
+
+.br-taller__titulo span {
+  color: var(--color-acento);
+}
+
+.br-taller__intro {
+  max-width: 420px;
+  margin: 0;
+  color: var(--color-texto-suave);
+  line-height: 1.7;
+}
+
+.br-taller__pasos {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 2px dashed var(--paleta-gris-800);
+}
+
+.br-taller__paso {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 28px 28px 0 0;
+}
+
+.br-taller__paso:last-child {
+  padding-right: 0;
+}
+
+/* Números en contorno rojo; el último relleno (moto entregada) */
+.br-taller__numero {
+  font: 900 88px/0.8 var(--fuente-titulos);
+  color: transparent;
+  -webkit-text-stroke: 2px var(--color-acento);
+}
+
+.br-taller__paso:last-child .br-taller__numero {
+  color: var(--color-acento);
+}
+
+.br-taller__paso-titulo {
+  margin: 0;
+  font-family: var(--fuente-base);
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.br-taller__paso-texto {
+  margin: 0;
+  color: var(--color-texto-suave);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+@media (max-width: 860px) {
+  .br-taller {
+    padding-block: var(--espacio-xl);
+  }
+
+  .br-taller__pasos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: var(--espacio-l);
+  }
+}
+
+@media (max-width: 520px) {
+  .br-taller__pasos {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================================
+   03 · Sección: PLANES (tarjetas como la página oficial + tacómetro)
+   ========================================================= */
+.br-planes {
+  padding-block: 100px;
+}
+
+/* Arriba: título y pestañas a la izquierda, tacómetro a la derecha */
+.br-planes__arriba {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 380px;
+  gap: 32px;
+  align-items: end;
+  margin-bottom: 40px;
+}
+
+.br-planes__titulo {
+  margin: 0;
+  font-size: clamp(3rem, 6vw, 4.75rem);
+}
+
+.br-planes__sub {
+  margin: 14px 0 22px;
+  font-size: 15px;
+  color: var(--paleta-gris-400);
+}
+
+.br-planes__motores {
+  display: inline-flex;
+  border: 2px solid var(--paleta-gris-800);
+  border-radius: 8px; /* curvas como la página oficial */
+  overflow: hidden;
+}
+
+.br-planes__motor {
+  min-height: 44px;
+  padding: 12px 22px;
+  border: 0;
+  background: transparent;
+  color: var(--paleta-gris-400);
+  font: 700 14px var(--fuente-base);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.br-planes__motor[aria-pressed="true"] {
+  background: var(--color-acento);
+  color: var(--paleta-blanco);
+}
+
+/* Tacómetro */
+.br-tacometro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 22px 24px;
+  border: 2px solid var(--paleta-gris-800);
+  border-radius: 12px;
+  background: var(--paleta-negro);
+  text-align: center;
+}
+
+.br-tacometro p {
+  margin: 0;
+}
+
+.br-tacometro__etiqueta {
+  font: 12px var(--fuente-mono);
+  letter-spacing: 2px;
+  color: var(--paleta-gris-400);
+  text-transform: uppercase;
+}
+
+.br-tacometro__svg {
+  width: 240px;
+  max-width: 100%;
+  height: auto;
+}
+
+.br-tacometro__fondo { stroke: var(--paleta-gris-800); }
+.br-tacometro__zona { stroke: var(--color-acento); }
+.br-tacometro__marcas { stroke: var(--paleta-gris-500); }
+.br-tacometro__aguja { stroke: var(--paleta-blanco); }
+.br-tacometro__centro { fill: var(--color-acento); }
+
+.br-tacometro__aguja {
+  transform-origin: 150px 160px;
+  transform: rotate(-90deg);
+  transition: transform 0.6s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+
+.br-tacometro__precio {
+  font: 900 56px/1 var(--fuente-titulos);
+  color: var(--paleta-blanco);
+}
+
+.br-tacometro__detalle {
+  font-size: 14px;
+  color: var(--paleta-gris-400);
+}
+
+/* Aviso pedido por el taller: el precio es solo mano de obra */
+.br-tacometro__aviso {
+  --taller-rojo-claro: #ff4d45;
+  margin-top: 10px !important;
+  padding-top: 10px;
+  border-top: 1px dashed var(--paleta-gris-800);
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--taller-rojo-claro);
+}
+
+/* Tarjetas: una por plan (5 a gasolina, 4 eléctricas) */
+.br-planes__tarjetas {
+  display: grid;
+  grid-template-columns: repeat(var(--columnas, 5), minmax(0, 1fr));
+  gap: 14px;
+  padding-top: 14px; /* espacio para el sello "Recomendado" y la tarjeta que sube */
+}
+
+.br-planes__navegacion {
+  display: none;
+}
+
+.br-plan {
+  --taller-rojo-claro: #ff4d45;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 22px 18px 18px;
+  border: 2px solid var(--paleta-gris-800);
+  border-radius: 12px; /* curvas como la página oficial */
+  background: var(--paleta-negro);
+  cursor: pointer;
+  transition: border-color var(--transicion), transform var(--transicion), box-shadow var(--transicion);
+}
+
+.br-plan--recomendado {
+  border-color: var(--color-acento);
+}
+
+/* Marco blanco al pasar el mouse; también con teclado */
+.br-plan:hover,
+.br-plan:focus-within {
+  border-color: var(--paleta-blanco);
+  box-shadow: 0 0 0 1px var(--paleta-blanco);
+}
+
+/* La tarjeta que está en el tacómetro sube y lleva una raya roja arriba */
+.br-plan[aria-current="true"] {
+  transform: translateY(-8px);
+  box-shadow: inset 0 4px 0 var(--color-acento);
+}
+
+.br-plan[aria-current="true"]:hover,
+.br-plan[aria-current="true"]:focus-within {
+  box-shadow: inset 0 4px 0 var(--color-acento), 0 0 0 1px var(--paleta-blanco);
+}
+
+.br-plan p {
+  margin: 0;
+}
+
+.br-plan__sello {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px 12px;
+  border-radius: 10px;
+  background: var(--color-acento);
+  color: var(--paleta-blanco);
+  font: 700 11px var(--fuente-mono);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.br-plan__codigo {
+  display: flex;
+  justify-content: space-between;
+  font: 11px var(--fuente-mono);
+  color: var(--paleta-gris-500);
+}
+
+.br-plan__nombre {
+  margin: 0;
+  font: 900 30px/1 var(--fuente-titulos);
+  color: var(--paleta-blanco);
+  text-transform: uppercase;
+}
+
+.br-plan__precio {
+  display: flex;
+  flex-direction: column;
+}
+
+.br-plan__desde,
+.br-plan__etiqueta {
+  font: 11px var(--fuente-mono);
+  letter-spacing: 1px;
+  color: var(--paleta-gris-400);
+  text-transform: uppercase;
+}
+
+.br-plan__valor {
+  font: 700 24px var(--fuente-mono);
+  color: var(--taller-rojo-claro);
+}
+
+.br-plan__referencia {
+  width: 100%;
+  min-height: 42px;
+  padding: 8px 10px;
+  border: 2px solid var(--paleta-gris-800);
+  border-radius: 6px;
+  background: var(--paleta-gris-900);
+  color: var(--paleta-blanco);
+  font: 14px var(--fuente-base);
+  cursor: pointer;
+}
+
+.br-plan__referencia:focus-visible {
+  outline: 2px solid var(--paleta-blanco);
+  outline-offset: 2px;
+}
+
+.br-plan__lista {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 4px 0 0;
+  padding: 12px 0 0;
+  border-top: 2px dashed var(--paleta-gris-800);
+  list-style: none;
+}
+
+.br-plan__lista li {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  font-size: 13px;
+  line-height: 1.35;
+  color: var(--paleta-gris-200);
+}
+
+.br-plan__check {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  margin-top: 1px;
+  border: 2px solid var(--paleta-gris-500);
+  color: var(--taller-rojo-claro);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.br-plan__agendar {
+  margin-top: auto;
+  padding: 12px;
+  border: 2px solid var(--paleta-gris-500);
+  border-radius: 6px;
+  color: var(--paleta-blanco);
+  font: 800 20px var(--fuente-titulos);
+  letter-spacing: 1px;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background var(--transicion), border-color var(--transicion);
+}
+
+.br-plan__agendar:hover {
+  border-color: var(--paleta-blanco);
+  background: var(--paleta-gris-800);
+  color: var(--paleta-blanco);
+}
+
+.br-plan--recomendado .br-plan__agendar {
+  border-color: var(--color-acento);
+  background: var(--color-acento);
+}
+
+.br-plan--recomendado .br-plan__agendar:hover {
+  border-color: var(--color-acento-hover);
+  background: var(--color-acento-hover);
+}
+
+@media (max-width: 1100px) {
+  .br-planes__arriba {
+    grid-template-columns: 1fr;
+  }
+
+  .br-tacometro {
+    width: 100%;
+    max-width: 420px;
+  }
+}
+
+@media (max-width: 860px) {
+  .br-planes {
+    padding-block: var(--espacio-xl);
+  }
+
+  /* En celular las tarjetas se deslizan de lado */
+  .br-planes__tarjetas {
+    grid-template-columns: repeat(var(--columnas, 5), minmax(230px, 1fr));
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: var(--espacio-s);
+  }
+
+  .br-plan {
+    scroll-snap-align: start;
+  }
+
+  /* Pista y un punto por plan: muestran que hay más tarjetas y en cuál va el cliente */
+  .br-planes__navegacion {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--espacio-s);
+    margin-top: var(--espacio-s);
+  }
+
+  .br-planes__desliza {
+    margin: 0;
+    color: var(--color-texto-suave);
+    font: 12px var(--fuente-mono);
+  }
+
+  .br-planes__puntos {
+    display: flex;
+    gap: 4px;
+  }
+
+  /* Botón de 24 px para tocarlo con el dedo; el punto visible es de 10 px */
+  .br-planes__punto {
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+
+  .br-planes__punto::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--paleta-gris-800);
+  }
+
+  .br-planes__punto[aria-current="true"]::before {
+    background: var(--color-acento);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .br-tacometro__aguja,
+  .br-plan {
+    transition: none;
+  }
+}
+
+/* =========================================================
+   04 · Sección: MOTOLAVADO (antes y después + paquetes)
+   ========================================================= */
+.br-lavado {
+  padding-block: 110px;
+}
+
+.br-lavado__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: center;
+}
+
+/* Antes / después con deslizador */
+.br-comparar {
+  position: relative;
+  height: 520px;
+  overflow: hidden;
+  border: 2px solid var(--paleta-gris-800);
+  user-select: none;
+}
+
+.br-comparar__capa {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  padding: 20px;
+}
+
+.br-comparar__capa img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.br-comparar__capa--antes {
+  background: #1c1c1f; /* Recuadro de foto pendiente, como en el diseño */
+  color: var(--paleta-gris-500);
+}
+
+.br-comparar__capa--despues {
+  justify-content: flex-end;
+  background: #26262a;
+  color: var(--paleta-gris-400);
+  clip-path: inset(0 0 0 var(--corte));
+}
+
+.br-comparar__pendiente {
+  position: relative;
+  font-size: 13px;
+}
+
+.br-comparar__linea {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--corte);
+  width: 4px;
+  margin-left: -2px;
+  background: var(--paleta-blanco);
+  pointer-events: none;
+}
+
+.br-comparar__manija {
+  position: absolute;
+  top: 50%;
+  left: var(--corte);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  margin: -26px 0 0 -26px;
+  border: 3px solid var(--paleta-blanco);
+  border-radius: 50%;
+  background: var(--color-acento);
+  color: var(--paleta-blanco);
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.br-comparar__marca {
+  position: absolute;
+  top: 16px;
+  padding: 6px 10px;
+  font: 12px var(--fuente-mono);
+  color: var(--paleta-blanco);
+  pointer-events: none;
+}
+
+.br-comparar__marca--antes {
+  left: 16px;
+  background: var(--paleta-negro);
+}
+
+.br-comparar__marca--despues {
+  right: 16px;
+  background: var(--color-acento);
+}
+
+/* El rango cubre toda la foto y es invisible: se arrastra en cualquier parte */
+.br-comparar__rango {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: ew-resize;
+}
+
+.br-comparar:has(.br-comparar__rango:focus-visible) {
+  outline: 3px solid var(--color-acento);
+  outline-offset: 4px;
+}
+
+/* Texto y paquetes */
+.br-lavado__texto {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.br-lavado__texto .br-skin-etiqueta {
+  margin: 0;
+}
+
+.br-lavado__titulo {
+  margin: 0;
+  font-size: clamp(3.5rem, 7vw, 5.75rem);
+  line-height: 0.85;
+}
+
+.br-lavado__intro {
+  margin: 0;
+  color: var(--color-texto-suave);
+  line-height: 1.7;
+}
+
+.br-lavado__intro strong {
+  color: var(--paleta-blanco);
+}
+
+.br-lavado__paquetes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Paquete con forma de etiqueta (punta a la izquierda). Es un enlace al agendamiento. */
+.br-paquete {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  text-decoration: none;
+  transition: transform var(--transicion), background var(--transicion);
+  padding: 18px 20px 18px 28px;
+  background: var(--paleta-gris-100);
+  color: var(--paleta-negro);
+  clip-path: polygon(14px 0, 100% 0, 100% 100%, 14px 100%, 0 50%);
+}
+
+/* Al pasar el mouse (o con teclado) el paquete se pone rojo y aparece "Agendar →".
+   Mientras se señala otro paquete, Full Shine vuelve a blanco: solo hay un rojo a la vez. */
+.br-paquete:hover,
+.br-paquete:focus-visible,
+.br-paquete--destacado {
+  background: var(--color-acento);
+  color: var(--paleta-blanco);
+}
+
+.br-paquete:hover,
+.br-paquete:focus-visible {
+  transform: translateX(4px);
+}
+
+.br-lavado__paquetes:has(.br-paquete:hover, .br-paquete:focus-visible) .br-paquete--destacado:not(:hover, :focus-visible) {
+  background: var(--paleta-gris-100);
+  color: var(--paleta-negro);
+}
+
+.br-paquete:focus-visible {
+  outline: 3px solid var(--paleta-blanco);
+  outline-offset: 2px;
+}
+
+/* "Agendar →" aparece al pasar el mouse. Es el último renglón de la tarjeta (no flota encima):
+   así siempre tiene su propio espacio y nunca tapa el precio, en cualquier ancho de pantalla. */
+.br-paquete__agendar {
+  align-self: flex-end;
+  margin-top: auto;
+  padding-top: 10px;
+  font: 700 12px var(--fuente-mono);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity var(--transicion);
+}
+
+.br-paquete:hover .br-paquete__agendar,
+.br-paquete:focus-visible .br-paquete__agendar {
+  opacity: 1;
+}
+
+/* En pantallas táctiles (sin mouse) la flecha se ve siempre */
+@media (hover: none) {
+  .br-paquete__agendar {
+    opacity: 1;
+  }
+}
+
+.br-paquete__nombre {
+  font: 900 26px var(--fuente-titulos);
+  text-transform: uppercase;
+}
+
+.br-paquete__precio {
+  font: 14px var(--fuente-mono);
+}
+
+@media (max-width: 960px) {
+  .br-lavado {
+    padding-block: var(--espacio-xl);
+  }
+
+  .br-lavado__grid {
+    grid-template-columns: 1fr;
+    gap: var(--espacio-l);
+  }
+
+  .br-comparar {
+    height: 380px;
+  }
+}
+
+/* =========================================================
+   05 · Sección: VALORACIÓN
+   ========================================================= */
+.br-valoracion__grid {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 24px;
+  align-items: stretch;
+  padding-block: 100px 60px;
+}
+
+.br-valoracion__nota {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 32px;
+  background: var(--paleta-gris-100);
+  color: var(--paleta-negro);
+}
+
+.br-valoracion__nota p {
+  margin: 0;
+}
+
+.br-valoracion__etiqueta {
+  font: 12px var(--fuente-mono);
+  letter-spacing: 2px;
+  color: #52525b;
+  text-transform: uppercase;
+}
+
+.br-valoracion__promedio {
+  font: 900 96px/0.85 var(--fuente-titulos);
+}
+
+.br-valoracion__estrellas {
+  width: fit-content;
+  color: #b45309; /* Ámbar oscuro: se lee sobre fondo claro */
+  font-size: 26px;
+  letter-spacing: 4px;
+}
+
+/* Estrellas proporcionales a la calificación real (--relleno lo pone la plantilla: 4,2 = 84 %). */
+.br-valoracion__estrellas[style] {
+  background: linear-gradient(90deg, #b45309 var(--relleno, 100%), #d4d4d8 var(--relleno, 100%));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.br-valoracion__total {
+  font-size: 14px;
+  color: #3f3f46;
+}
+
+.br-valoracion__calificar {
+  margin-top: auto;
+  color: var(--paleta-negro);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+a.br-valoracion__calificar:hover {
+  color: var(--color-acento);
+}
+
+.br-valoracion__ver {
+  color: #3f3f46;
+  font-size: 13px;
+}
+
+.br-valoracion__ver:hover {
+  color: var(--color-acento);
+}
+
+.br-valoracion__resenas {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.br-resena {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 24px;
+  border: 1px solid var(--paleta-gris-800);
+  background: var(--paleta-gris-900);
+}
+
+.br-resena p {
+  margin: 0;
+}
+
+.br-resena__cabecera {
+  display: flex;
+  justify-content: space-between;
+}
+
+.br-resena__estrellas {
+  color: var(--color-estrellas);
+  letter-spacing: 2px;
+}
+
+.br-resena__fuente {
+  font: 11px var(--fuente-mono);
+  color: var(--paleta-gris-400);
+}
+
+.br-resena__texto {
+  margin: 0;
+  color: var(--paleta-gris-200);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.br-resena__cliente {
+  display: flex;
+  flex-direction: column;
+  margin-top: auto !important;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.br-resena__cliente span {
+  color: var(--paleta-gris-400);
+  font-size: 13px;
+  font-weight: 400;
+}
+
+@media (max-width: 1100px) {
+  .br-valoracion__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 860px) {
+  .br-valoracion__grid {
+    padding-block: var(--espacio-xl) var(--espacio-l);
+  }
+
+  .br-valoracion__resenas {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================================
+   06 · Sección: QUIÉNES SOMOS (resumen en el inicio)
+   ========================================================= */
+.br-nosotros {
+  background: #141416; /* Banda un poco más clara, como en el diseño */
+  border-block: 1px solid var(--paleta-gris-800);
+}
+
+.br-nosotros__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: center;
+  padding-block: 100px;
+}
+
+.br-nosotros__video {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  height: 420px;
+  padding: 20px;
+  border: 2px solid var(--paleta-gris-800);
+  background: #1c1c1f;
+  color: var(--paleta-gris-400);
+  font-size: 14px;
+  text-align: center;
+  text-decoration: none;
+}
+
+a.br-nosotros__video:hover {
+  color: var(--paleta-blanco);
+}
+
+.br-nosotros__play {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--color-acento);
+  color: var(--paleta-blanco);
+}
+
+.br-nosotros__texto {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.br-nosotros__texto .br-skin-etiqueta {
+  margin: 0;
+}
+
+.br-nosotros__titulo {
+  margin: 0;
+  font-size: clamp(3rem, 6vw, 4.75rem);
+}
+
+.br-nosotros__titulo span {
+  color: var(--color-acento);
+}
+
+.br-nosotros__historia {
+  margin: 0;
+  color: var(--color-texto-suave);
+  line-height: 1.7;
+}
+
+.br-nosotros__datos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 32px;
+  margin: 0;
+  font: 13px var(--fuente-mono);
+  color: var(--paleta-gris-200);
+}
+
+@media (max-width: 960px) {
+  .br-nosotros__grid {
+    grid-template-columns: 1fr;
+    gap: var(--espacio-l);
+    padding-block: var(--espacio-xl);
+  }
+
+  .br-nosotros__video {
+    height: 300px;
+  }
+}
+
+/* =========================================================
+   07 · Sección: CONTACTO (mosaico)
+   ========================================================= */
+.br-contacto__mosaico {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-rows: 210px;
+  gap: 12px;
+  padding-block: 40px 110px;
+}
+
+.br-contacto__mosaico p {
+  margin: 0;
+}
+
+.br-contacto__etiqueta {
+  font: 12px var(--fuente-mono);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.br-contacto__grande {
+  font: 900 34px/1 var(--fuente-titulos);
+  text-transform: uppercase;
+}
+
+/* Fotos (o recuadros de foto pendiente, como en el diseño) */
+.br-contacto__foto {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  margin: 0;
+  padding: 18px;
+  overflow: hidden;
+  border: 1px dashed var(--paleta-gris-800);
+  background: #1c1c1f;
+  color: var(--paleta-gris-400);
+  font-size: 13px;
+}
+
+.br-contacto__foto img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.br-contacto__foto--rampa {
+  grid-column: span 2;
+  grid-row: span 2;
+  padding: 22px;
+  font-size: 14px;
+}
+
+.br-contacto__clientes {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px;
+  background: var(--color-acento);
+  color: var(--paleta-blanco);
+}
+
+.br-contacto__estrellas {
+  font-size: 22px;
+  letter-spacing: 3px;
+}
+
+.br-contacto__clientes strong {
+  display: block;
+  font: 900 84px/0.85 var(--fuente-titulos);
+}
+
+.br-contacto__clientes p span {
+  display: block;
+  margin-top: 6px;
+  font: 12px var(--fuente-mono);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.br-contacto__redes {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px;
+  background: var(--paleta-gris-100);
+  color: var(--paleta-negro);
+}
+
+.br-contacto__redes ul {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.br-contacto__redes a {
+  color: var(--paleta-negro);
+  font: 800 26px var(--fuente-titulos);
+  text-decoration: none;
+}
+
+.br-contacto__redes a:hover {
+  color: var(--color-acento);
+}
+
+.br-contacto__horario {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px;
+  border: 2px solid var(--paleta-gris-800);
+  background: #1c1c1f;
+}
+
+.br-contacto__horario .br-contacto__etiqueta,
+.br-contacto__direccion .br-contacto__etiqueta {
+  color: var(--paleta-gris-400);
+}
+
+/* Mapa de Google del taller */
+.br-contacto__mapa {
+  grid-column: span 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  overflow: hidden;
+  border: 1px dashed var(--paleta-gris-800);
+  background: #1c1c1f;
+  text-align: center;
+}
+
+.br-contacto__ver-mapa {
+  padding: 12px 26px;
+  border: 0;
+  background: var(--color-acento);
+  color: var(--paleta-blanco);
+  font: 800 20px var(--fuente-titulos);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background var(--transicion);
+}
+
+.br-contacto__ver-mapa:hover {
+  background: var(--color-acento-hover);
+}
+
+.br-contacto__mapa-nota {
+  color: var(--paleta-gris-500);
+  font-size: 13px;
+}
+
+.br-contacto__mapa-nota a {
+  color: var(--paleta-gris-200);
+}
+
+.br-contacto__iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.br-contacto__direccion {
+  grid-column: span 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  padding: 24px;
+  border: 2px solid var(--paleta-gris-800);
+  background: var(--paleta-negro);
+}
+
+.br-contacto__horario .br-contacto__grande {
+  font-size: clamp(20px, 1.8vw, 26px);
+}
+
+/* Cada parte del horario en su línea, sin partirse por la mitad */
+.br-contacto__horario .br-contacto__grande span {
+  display: block;
+  white-space: nowrap;
+}
+
+/* Las horas, más pequeñas que los días, para que quepan los dos turnos */
+.br-contacto__horario .br-contacto__grande .br-contacto__horas {
+  margin-bottom: 8px;
+  color: var(--paleta-gris-400);
+  font-size: 0.7em;
+}
+
+.br-contacto__direccion .br-contacto__grande {
+  font-size: clamp(28px, 3vw, 40px);
+}
+
+.br-contacto__datos {
+  color: var(--paleta-gris-400);
+  font-size: 14px;
+}
+
+.br-contacto__datos a {
+  color: inherit;
+}
+
+.br-contacto__datos a:hover {
+  color: var(--paleta-blanco);
+}
+
+@media (max-width: 960px) {
+  .br-contacto__mosaico {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: minmax(180px, auto);
+    padding-block: var(--espacio-l) var(--espacio-xl);
+  }
+}
+
+@media (max-width: 560px) {
+  .br-contacto__mosaico {
+    grid-template-columns: 1fr;
+  }
+
+  .br-contacto__foto--rampa,
+  .br-contacto__mapa,
+  .br-contacto__direccion {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
+  .br-contacto__foto--rampa {
+    min-height: 260px;
+  }
+}
+
+/* =========================================================
+   07 · Carrusel de fotos del taller (recuadro grande de contacto en el inicio).
+   Las fotos se encadenan al pasar el mouse; en celular, con cada toque.
+   ========================================================= */
+.br-carrusel {
+  padding: 0;
+  border-style: solid;
+  cursor: pointer;
+}
+
+.br-carrusel__foto {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.br-carrusel__foto.is-activa {
+  opacity: 1;
+}
+
+.br-carrusel__pie {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 40px 18px 16px;
+  background: linear-gradient(transparent, rgb(8 8 10 / 0.85));
+  color: var(--paleta-blanco);
+}
+
+.br-carrusel__texto {
+  font: 12px var(--fuente-mono);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.br-carrusel__puntos {
+  display: flex;
+  gap: 6px;
+}
+
+.br-carrusel__puntos span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.35);
+}
+
+.br-carrusel__puntos span.is-activo {
+  background: var(--color-acento);
+}
+
+.br-carrusel:focus-visible {
+  outline: 2px solid var(--paleta-blanco);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .br-carrusel__foto {
+    transition: none;
+  }
+}
+
+/* =========================================================
+   08 · PÁGINAS INTERNAS: banda superior con foto
+   ========================================================= */
+.br-banner {
+  position: relative;
+  min-height: 350px;
+  padding-block: 130px 0;
+  overflow: hidden;
+  isolation: isolate;
+  border-bottom: 2px solid var(--color-acento);
+}
+
+.br-banner__imagen {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 75% 50%;
+}
+
+.br-banner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    repeating-linear-gradient(0deg, rgb(255 255 255 / 0.035) 0 1px, transparent 1px 64px),
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 0.035) 0 1px, transparent 1px 64px),
+    linear-gradient(90deg, rgb(8 8 10 / 0.92) 0%, rgb(8 8 10 / 0.7) 45%, rgb(8 8 10 / 0.35) 100%);
+}
+
+.br-banner__fila {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px 40px;
+  padding-bottom: 28px;
+}
+
+.br-banner__contenido {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+
+/* Recuadro de cifras a la derecha (Quiénes somos) */
+.br-banner__cifras {
+  display: flex;
+  margin: 0 0 6px;
+  border: 1px solid rgb(255 255 255 / 0.25);
+  background: rgb(8 8 10 / 0.55);
+}
+
+.br-banner__cifra {
+  display: flex;
+  flex-direction: column-reverse;
+  padding: 14px 20px;
+  border-right: 1px solid rgb(255 255 255 / 0.18);
+}
+
+.br-banner__cifra:last-child {
+  border-right: 0;
+}
+
+.br-banner__cifra dd {
+  margin: 0;
+  font: 900 40px/1 var(--fuente-titulos);
+}
+
+.br-banner__cifra.is-destacada dd {
+  color: var(--color-acento);
+}
+
+.br-banner__cifra dt {
+  margin-top: 4px;
+  font: 11px var(--fuente-mono);
+  letter-spacing: 2px;
+  color: var(--paleta-gris-400);
+  text-transform: uppercase;
+}
+
+.br-banner__contenido .br-skin-etiqueta {
+  margin: 0;
+}
+
+.br-banner__ruta {
+  font: 12px var(--fuente-mono);
+  letter-spacing: 2px;
+  color: var(--paleta-gris-400);
+  text-transform: uppercase;
+}
+
+.br-banner__ruta a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.br-banner__ruta > span[aria-hidden] {
+  margin-inline: 6px;
+  color: var(--paleta-gris-500);
+}
+
+.br-banner__ruta [aria-current] {
+  color: var(--paleta-blanco);
+}
+
+.br-banner__titulo {
+  margin: 0;
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  line-height: 0.92;
+  letter-spacing: 1px;
+}
+
+.br-banner__titulo span {
+  color: var(--color-acento);
+}
+
+.br-banner__subtitulo {
+  max-width: 560px;
+  margin: 4px 0 0;
+  font-size: 17px;
+  color: var(--paleta-gris-200);
+}
+
+/* =========================================================
+   08 · PÁGINA QUIÉNES SOMOS
+   ========================================================= */
+.br-historia {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: center;
+  padding-block: 64px 60px;
+}
+
+.br-historia__texto {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+}
+
+.br-historia__texto p {
+  margin: 0;
+}
+
+.br-historia__titulo {
+  margin: 0;
+  font-size: clamp(3rem, 5.5vw, 4.5rem);
+}
+
+.br-historia__titulo span {
+  color: var(--color-acento);
+}
+
+.br-historia__parrafo {
+  color: var(--paleta-gris-200);
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.br-historia__parrafo--suave {
+  color: var(--color-texto-suave);
+  font-size: 16px;
+}
+
+.br-historia__datos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 32px;
+  padding-top: 18px;
+  border-top: 2px dashed var(--paleta-gris-800);
+  font: 13px var(--fuente-mono);
+  color: var(--paleta-gris-200);
+}
+
+/* Video del taller */
+.br-video {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 350px;
+  overflow: hidden;
+  border: 2px solid var(--paleta-gris-800);
+  background: #1c1c1f;
+  color: var(--paleta-gris-200);
+  text-decoration: none;
+}
+
+.br-video__archivo,
+.br-video__fondo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.br-video__fondo {
+  object-position: 70% 50%;
+  opacity: 0.45;
+}
+
+.br-video--pendiente::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgb(8 8 10 / 0.55);
+}
+
+.br-video__etiqueta {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 2;
+  padding: 6px 10px;
+  background: var(--color-acento);
+  color: var(--paleta-blanco);
+  font: 12px var(--fuente-mono);
+}
+
+.br-video__centro {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.br-video__centro small {
+  color: var(--paleta-gris-400);
+  font-size: 12px;
+}
+
+.br-video__boton {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--color-acento);
+  color: var(--paleta-blanco);
+  box-shadow: 0 10px 30px rgb(0 0 0 / 0.5);
+  cursor: pointer;
+  transition: transform var(--transicion);
+}
+
+.br-video:hover .br-video__boton {
+  transform: scale(1.06);
+}
+
+/* Ícono play (triángulo) y pausa (dos barras) dibujados con CSS */
+.br-video__icono {
+  width: 0;
+  height: 0;
+  margin-left: 6px;
+  border-top: 13px solid transparent;
+  border-bottom: 13px solid transparent;
+  border-left: 22px solid currentColor;
+}
+
+.br-video.is-reproduciendo .br-video__icono {
+  width: 22px;
+  height: 26px;
+  margin-left: 0;
+  border: 0;
+  background: linear-gradient(90deg, currentColor 0 8px, transparent 8px 14px, currentColor 14px 22px);
+}
+
+.br-video.is-reproduciendo .br-video__boton {
+  opacity: 0;
+}
+
+.br-video.is-reproduciendo:hover .br-video__boton,
+.br-video.is-reproduciendo .br-video__boton:focus-visible {
+  opacity: 1;
+}
+
+.br-video__progreso {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 2;
+  height: 4px;
+  background: rgb(255 255 255 / 0.15);
+}
+
+.br-video__progreso span {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: var(--color-acento);
+}
+
+/* Lo que hacemos */
+.br-hacemos {
+  display: grid;
+  grid-template-columns: 330px minmax(0, 1fr);
+  gap: 32px;
+  align-items: stretch;
+  padding-block: 60px;
+}
+
+.br-hacemos__intro {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 18px;
+}
+
+.br-hacemos__intro p:not(.br-skin-etiqueta) {
+  margin: 0;
+  color: var(--color-texto-suave);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.br-hacemos__intro .br-skin-etiqueta {
+  margin: 0 0 -8px;
+}
+
+.br-hacemos__titulo {
+  margin: 0;
+  font-size: 48px;
+}
+
+.br-hacemos__tarjetas {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Tarjetas que se elevan y se marcan en rojo al pasar el cursor */
+.br-servicio {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px;
+  border: 2px solid var(--paleta-gris-800);
+  background: var(--paleta-negro);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.br-servicio:hover {
+  border-color: var(--color-acento);
+  box-shadow: 0 16px 34px rgb(0 0 0 / 0.45);
+  transform: translateY(-6px);
+}
+
+.br-servicio p {
+  margin: 0;
+  color: var(--color-texto-suave);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.br-servicio__numero {
+  font: 900 64px/0.8 var(--fuente-titulos);
+  color: transparent;
+  -webkit-text-stroke: 2px var(--color-acento);
+}
+
+.br-servicio:last-child .br-servicio__numero {
+  color: var(--color-acento);
+}
+
+.br-servicio__nombre {
+  margin: 0;
+  font-size: 30px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+/* Taller, equipo y valoración */
+.br-equipo {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) 270px;
+  gap: 16px;
+  align-items: stretch;
+  padding-block: 60px 64px;
+}
+
+.br-equipo figure {
+  margin: 0;
+}
+
+.br-equipo__taller {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px;
+  border: 1px dashed #52525b;
+  background-color: #1c1c1f;
+  background-image: repeating-linear-gradient(45deg, rgb(255 255 255 / 0.025) 0 2px, transparent 2px 14px);
+}
+
+/* Con la foto real: la foto ocupa todo el recuadro */
+.br-equipo__taller--foto {
+  position: relative;
+  min-height: 220px;
+  padding: 0;
+  overflow: hidden;
+  border-style: solid;
+}
+
+.br-equipo__taller--foto img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.br-equipo__pendiente {
+  align-self: flex-start;
+  padding: 5px 8px;
+  border: 1px solid var(--paleta-gris-800);
+  background: var(--paleta-negro);
+  color: var(--paleta-gris-200);
+  font: 11px var(--fuente-mono);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.br-equipo__taller figcaption,
+.br-persona figcaption {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.br-equipo__taller strong {
+  font-size: 14px;
+}
+
+.br-equipo__taller figcaption span {
+  color: var(--paleta-gris-400);
+  font-size: 12px;
+}
+
+.br-persona {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.br-persona img,
+.br-persona__foto {
+  display: flex;
+  align-items: flex-end;
+  height: 160px;
+  padding: 16px;
+  border: 1px dashed var(--paleta-gris-800);
+  background-color: #1c1c1f;
+  background-image: repeating-linear-gradient(45deg, rgb(255 255 255 / 0.02) 0 2px, transparent 2px 14px);
+  color: var(--paleta-gris-400);
+  font-size: 13px;
+}
+
+.br-persona img {
+  width: 100%;
+  padding: 0;
+  object-fit: cover;
+}
+
+.br-persona strong {
+  font-size: 17px;
+}
+
+.br-persona figcaption span {
+  color: var(--paleta-gris-400);
+  font: 12px var(--fuente-mono);
+  letter-spacing: 1px;
+}
+
+.br-equipo__valoracion {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 26px;
+  background: var(--color-acento);
+  color: var(--paleta-blanco);
+}
+
+.br-equipo__valoracion p {
+  margin: 0;
+}
+
+.br-equipo__etiqueta {
+  font: 12px var(--fuente-mono);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.br-equipo__estrellas {
+  font-size: 24px;
+  letter-spacing: 4px;
+}
+
+.br-equipo__cifra {
+  margin-top: 6px !important;
+  font: 900 88px/0.85 var(--fuente-titulos);
+}
+
+.br-equipo__nota {
+  color: #fee2e2;
+  font-size: 13px;
+}
+
+@media (max-width: 1100px) {
+  .br-hacemos {
+    grid-template-columns: 1fr;
+  }
+
+  .br-equipo {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 860px) {
+  .br-historia {
+    grid-template-columns: 1fr;
+    gap: var(--espacio-l);
+  }
+
+  .br-hacemos__tarjetas {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .br-equipo {
+    grid-template-columns: 1fr;
+  }
+
+  .br-banner__cifra {
+    padding: 10px 14px;
+  }
+
+  .br-banner__cifra dd {
+    font-size: 30px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .br-servicio {
+    transition: none;
+  }
+}
+
+/* =========================================================
+   08 · PÁGINA CONTACTO
+   ========================================================= */
+.br-pcontacto {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-block: 64px 72px;
+}
+
+.br-pcontacto p {
+  margin: 0;
+}
+
+.br-pcontacto__fila {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: stretch;
+}
+
+.br-pcontacto__fila--baja {
+  min-height: 270px;
+}
+
+/* Recuadro verde: canal oficial (WhatsApp) */
+.br-chat {
+  --taller-verde-chat: #16a34a;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 34px 40px;
+  overflow: hidden;
+  background-color: var(--taller-verde-chat);
+  background-image: repeating-linear-gradient(45deg, rgb(255 255 255 / 0.04) 0 2px, transparent 2px 16px);
+  color: var(--paleta-blanco);
+}
+
+.br-chat > * {
+  position: relative;
+}
+
+.br-chat__fondo {
+  position: absolute !important;
+  right: -40px;
+  bottom: -60px;
+  opacity: 0.14;
+}
+
+.br-chat__fondo svg {
+  width: 360px;
+  height: 360px;
+}
+
+.br-chat__canal {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  border: 1px solid rgb(255 255 255 / 0.5);
+  font: 13px var(--fuente-mono);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.br-chat__canal span {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--paleta-blanco);
+}
+
+.br-chat__titulo {
+  margin: 0;
+  padding-top: 10px;
+  font-size: clamp(3.5rem, 7vw, 6rem);
+  line-height: 0.85;
+}
+
+.br-chat__numero {
+  font: 700 30px var(--fuente-mono);
+  letter-spacing: 1px;
+}
+
+.br-chat__temas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+}
+
+.br-chat__temas li {
+  padding: 7px 12px;
+  background: rgb(8 8 10 / 0.25);
+}
+
+.br-chat__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.br-chat__abrir {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 26px;
+  background: var(--paleta-blanco);
+  color: var(--paleta-negro);
+  font: 800 26px var(--fuente-titulos);
+  letter-spacing: 1px;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.br-chat__abrir svg {
+  color: var(--taller-verde-chat);
+}
+
+.br-chat__abrir:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgb(0 0 0 / 0.35);
+  color: var(--paleta-negro);
+}
+
+.br-chat__copiar {
+  padding: 0 22px;
+  border: 2px solid rgb(255 255 255 / 0.55);
+  background: transparent;
+  color: var(--paleta-blanco);
+  font: 600 14px var(--fuente-base);
+  cursor: pointer;
+  transition: border-color var(--transicion);
+}
+
+.br-chat__copiar:hover,
+.br-chat__copiar.is-copiado {
+  border-color: var(--paleta-blanco);
+}
+
+/* Dirección, teléfono y horario */
+.br-pcontacto__datos {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.br-dato {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 22px 26px;
+  border: 2px solid var(--paleta-gris-800);
+  background: #141416;
+}
+
+.br-dato__cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font: 12px var(--fuente-mono);
+  letter-spacing: 2px;
+  color: var(--paleta-gris-400);
+  text-transform: uppercase;
+}
+
+.br-dato__confirmar {
+  padding: 3px 6px;
+  border: 1px dashed var(--paleta-amarillo);
+  color: var(--paleta-amarillo);
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+.br-dato__valor {
+  font: 900 36px/1 var(--fuente-titulos);
+  text-transform: uppercase;
+}
+
+.br-dato__nota {
+  color: var(--paleta-gris-400);
+  font-size: 14px;
+}
+
+/* Plano con pin que late */
+@keyframes br-onda {
+  0% { transform: scale(0.6); opacity: 0.8; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+.br-plano {
+  position: relative;
+  min-height: 270px;
+  overflow: hidden;
+  border: 1px dashed var(--paleta-gris-800);
+  background-color: #141416;
+  background-image:
+    repeating-linear-gradient(0deg, rgb(255 255 255 / 0.04) 0 1px, transparent 1px 40px),
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 0.04) 0 1px, transparent 1px 40px);
+}
+
+.br-plano__calle {
+  position: absolute;
+  background: #1f1f23;
+}
+
+.br-plano__calle--a {
+  left: -40px;
+  top: 120px;
+  width: 1000px;
+  height: 22px;
+  transform: rotate(-8deg);
+}
+
+.br-plano__calle--b {
+  left: 45%;
+  top: -40px;
+  width: 22px;
+  height: 420px;
+  transform: rotate(12deg);
+}
+
+.br-plano__pin {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  color: var(--color-acento);
+}
+
+.br-plano__pin svg {
+  position: absolute;
+  left: -18px;
+  top: -44px;
+}
+
+.br-plano__onda {
+  position: absolute;
+  left: -22px;
+  top: -22px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgb(217 30 24 / 0.5);
+  animation: br-onda 1.8s ease-out infinite;
+}
+
+.br-plano__etiqueta {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 14px;
+  background: var(--paleta-gris-100);
+  color: var(--paleta-negro);
+  box-shadow: 0 10px 24px rgb(0 0 0 / 0.4);
+  transform: translate(24px, -40px);
+}
+
+.br-plano__etiqueta strong {
+  font: 900 20px/1 var(--fuente-titulos);
+  text-transform: uppercase;
+}
+
+.br-plano__etiqueta span {
+  margin-top: 3px;
+  color: #52525b;
+  font-size: 12px;
+}
+
+.br-plano__ver {
+  position: absolute;
+  left: 18px;
+  bottom: 16px;
+  padding: 6px 10px;
+  border: 1px solid var(--paleta-gris-800);
+  background: var(--paleta-negro);
+  color: var(--paleta-gris-200);
+  font: 12px var(--fuente-mono);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.br-plano__ver:hover {
+  border-color: var(--paleta-blanco);
+  color: var(--paleta-blanco);
+}
+
+.br-plano__llegar {
+  position: absolute;
+  right: 18px;
+  bottom: 16px;
+  padding: 8px 14px;
+  background: var(--color-acento);
+  color: var(--paleta-blanco);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.br-plano__llegar:hover {
+  background: var(--color-acento-hover);
+  color: var(--paleta-blanco);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .br-plano__onda {
+    animation: none;
+  }
+}
+
+/* Redes */
+.br-sociales {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 26px 28px;
+  background: var(--paleta-gris-100);
+  color: var(--paleta-negro);
+}
+
+.br-sociales__cabecera {
+  display: flex;
+  justify-content: space-between;
+  font: 12px var(--fuente-mono);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.br-sociales__usuario {
+  color: var(--paleta-gris-500);
+  text-transform: none;
+}
+
+.br-sociales__lista {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.br-sociales__lista a {
+  display: inline-block;
+  color: var(--paleta-negro);
+  font: 800 34px/1.05 var(--fuente-titulos);
+  text-decoration: none;
+  transition: padding-left 0.2s ease, color 0.2s ease;
+}
+
+.br-sociales__lista a:hover {
+  padding-left: 10px;
+  color: var(--color-acento);
+}
+
+.br-sociales__lema {
+  padding-top: 12px;
+  border-top: 2px dashed var(--paleta-gris-400);
+  color: var(--color-acento);
+  font: 900 26px var(--fuente-titulos);
+}
+
+@media (max-width: 960px) {
+  .br-pcontacto__fila {
+    grid-template-columns: 1fr;
+  }
+
+  .br-chat {
+    padding: 28px 24px;
+  }
+
+  .br-banner {
+    padding-top: 110px;
+  }
+}
+
+/* =========================================================
+   08 · PÁGINA TÉRMINOS Y CONDICIONES
+   ========================================================= */
+.br-legal {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 64px;
+  align-items: start;
+  padding-block: 64px 80px;
+}
+
+/* El índice queda fijo al hacer scroll */
+.br-legal__lateral {
+  position: sticky;
+  top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.br-indice {
+  border: 2px solid var(--paleta-gris-800);
+  background: var(--color-superficie);
+}
+
+.br-indice__titulo {
+  margin: 0;
+  padding: 22px 22px 14px;
+  font: 12px var(--fuente-mono);
+  letter-spacing: 3px;
+  color: var(--paleta-gris-400);
+  text-transform: uppercase;
+}
+
+.br-indice__lista {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.br-indice__enlace {
+  display: flex;
+  gap: 12px;
+  padding: 11px 20px;
+  border-left: 3px solid transparent;
+  color: var(--paleta-gris-200);
+  font-size: 14px;
+  line-height: 1.45;
+  text-decoration: none;
+  transition: background-color var(--transicion), color var(--transicion);
+}
+
+.br-indice__enlace span {
+  padding-top: 1px;
+  font: 12px var(--fuente-mono);
+  color: var(--color-acento);
+}
+
+.br-indice__enlace:hover {
+  color: var(--paleta-blanco);
+  background: rgb(255 255 255 / 0.04);
+}
+
+.br-indice__enlace.is-activo {
+  border-left-color: var(--color-acento);
+  background: rgb(220 38 38 / 0.12);
+  color: var(--paleta-blanco);
+  font-weight: 600;
+}
+
+.br-indice__avance {
+  padding: 16px 22px 18px;
+}
+
+.br-indice__barra {
+  height: 4px;
+  background: var(--paleta-gris-800);
+}
+
+.br-indice__barra span {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: var(--color-acento);
+  transition: width 0.15s linear;
+}
+
+.br-indice__avance p {
+  margin: 10px 0 0;
+  font: 11px var(--fuente-mono);
+  letter-spacing: 1px;
+  color: var(--paleta-gris-400);
+  text-transform: uppercase;
+}
+
+.br-legal__empresa {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 22px;
+  background: var(--paleta-gris-100);
+  color: var(--paleta-negro);
+}
+
+.br-legal__empresa-titulo {
+  margin: 0 0 4px;
+  font: 11px var(--fuente-mono);
+  letter-spacing: 3px;
+  color: #3f3f46;
+  text-transform: uppercase;
+}
+
+.br-legal__empresa dt {
+  color: #52525b;
+  font-size: 13px;
+}
+
+.br-legal__empresa dd {
+  margin: 0;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+/* Texto legal */
+.br-legal__meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 24px;
+  padding-bottom: 22px;
+  border-bottom: 2px dashed var(--paleta-gris-800);
+  font: 12px var(--fuente-mono);
+  letter-spacing: 1.5px;
+  color: var(--paleta-gris-400);
+  text-transform: uppercase;
+}
+
+.br-legal__meta strong {
+  color: var(--paleta-amarillo);
+}
+
+.br-legal__seccion {
+  padding-block: 34px;
+  border-bottom: 2px dashed var(--paleta-gris-800);
+  scroll-margin-top: 24px;
+}
+
+.br-legal__seccion:last-child {
+  border-bottom: 0;
+}
+
+.br-legal__titulo {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin: 0 0 20px;
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  line-height: 1;
+}
+
+.br-legal__titulo span {
+  flex: none;
+  font-size: 1.3em;
+  color: transparent;
+  -webkit-text-stroke: 2px var(--color-acento);
+}
+
+.br-legal__seccion p {
+  margin: 0 0 18px;
+  color: var(--paleta-gris-200);
+  font-size: 16px;
+  line-height: 1.85;
+}
+
+.br-legal__seccion p:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 900px) {
+  .br-legal {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding-block: 40px 56px;
+  }
+
+  /* En celular el índice no se queda fijo: ocuparía media pantalla */
+  .br-legal__lateral {
+    position: static;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html:has(.br-legal) {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Inicio: el reproductor del video ocupa el mismo recuadro del diseño */
+.br-video.br-nosotros__video {
+  height: 420px;
+  padding: 0;
+}
+
+@media (max-width: 860px) {
+  .br-video.br-nosotros__video {
+    height: 300px;
+  }
+}
+
+/* =========================================================
+   09 · COMPARTIDO: Mapa de Google visible (inicio y página Contacto).
+   El iframe tiene loading="lazy": solo se carga al llegar a esta parte.
+   ========================================================= */
+.br-contacto__mapa--vivo {
+  position: relative;
+  min-height: 260px;
+  padding: 0;
+  border-style: solid;
+}
+
+.br-contacto__mapa--vivo .br-contacto__iframe {
+  position: absolute;
+  inset: 0;
+}
+
+.br-contacto__abrir-mapa {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  z-index: 1;
+  padding: 6px 10px;
+  background: var(--paleta-negro);
+  color: var(--paleta-gris-200);
+  font: 12px var(--fuente-mono);
+  text-decoration: none;
+}
+
+.br-contacto__abrir-mapa:hover {
+  color: var(--paleta-blanco);
+}
+
+.br-plano--vivo {
+  background: #1c1c1f;
+  border-style: solid;
+}
+
+.br-plano__mapa {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* Sobre el mapa real, la etiqueta va arriba a la izquierda para no tapar el marcador de Google */
+.br-plano--vivo .br-plano__etiqueta {
+  top: 16px;
+  left: 16px;
+  z-index: 1;
+  transform: none;
+}
+
+.br-plano--vivo .br-plano__llegar {
+  z-index: 1;
+}
+
+/* Aviso abierto / cerrado en el recuadro de horario (mismo cálculo del hero) */
+.br-estado {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 12px 0 0;
+  font: 12px var(--fuente-mono);
+  letter-spacing: 1px;
+  color: var(--paleta-gris-200);
+  text-transform: uppercase;
+}
+
+.br-estado__punto {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #22c55e; /* Mismo verde del punto "taller abierto" del hero */
+}
+
+.br-estado.is-cerrado .br-estado__punto {
+  background: var(--color-acento);
+}
+
+/* =========================================================
+   09 · COMPARTIDO: Tarjetas con foto: pasos del taller (inicio) y servicios (Quiénes somos)
+   La foto llega desde el PHP en la variable --fondo; sin foto, la tarjeta queda solo con texto.
+   En reposo la foto se ve al 35 %; al pasar el cursor se ve completa y el texto se oculta.
+   ========================================================= */
+.br-taller__paso,
+.br-servicio {
+  position: relative;
+  overflow: hidden;
+  min-height: 240px;
+  border: 1px solid var(--color-borde);
+  background-color: var(--paleta-negro);
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.br-taller__paso:hover,
+.br-servicio:hover {
+  border-color: var(--color-acento);
+}
+
+.br-taller__paso-fondo,
+.br-servicio__fondo {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-image: var(--fondo);
+  background-position: center;
+  background-size: cover;
+  opacity: 0.35;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+/* Capa oscura para que el texto se lea sobre la foto */
+.br-taller__paso-fondo::after,
+.br-servicio__fondo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgb(0 0 0 / 0.4);
+  transition: opacity 0.4s ease;
+}
+
+.br-taller__paso-contenido,
+.br-servicio__contenido {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+  padding: 1.5rem;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.br-taller__paso:hover .br-taller__paso-fondo,
+.br-servicio:hover .br-servicio__fondo {
+  opacity: 1;
+  transform: scale(1.03);
+}
+
+.br-taller__paso:hover .br-taller__paso-fondo::after,
+.br-servicio:hover .br-servicio__fondo::after {
+  opacity: 0;
+}
+
+/* El texto solo se oculta si hay foto que mostrar */
+.br-taller__paso:hover .br-taller__paso-fondo + .br-taller__paso-contenido,
+.br-servicio:hover .br-servicio__fondo + .br-servicio__contenido {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .br-taller__paso,
+  .br-servicio,
+  .br-taller__paso-fondo,
+  .br-servicio__fondo,
+  .br-taller__paso-contenido,
+  .br-servicio__contenido {
+    transition: none;
+  }
+}

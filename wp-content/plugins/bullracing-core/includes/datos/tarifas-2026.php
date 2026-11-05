@@ -1,8 +1,7 @@
 <?php
 /**
- * Tarifas oficiales 2026 (tomadas del módulo de agendamiento de la fase TecnoParque).
+ * Tarifas oficiales 2026 (tomadas del módulo de agendamiento de la fase anterior).
  * Solo se usan para llenar la tabla la primera vez que se activa el plugin.
- * Después, los precios se cambian desde el panel del taller.
  *
  * Formato: [ servicio, tipo_motor, plan, referencia, precio ].
  *

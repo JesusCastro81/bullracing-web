@@ -1,19 +1,10 @@
 /* =========================================================
-   Bull Racing · Estilos base
-   Colores de marca: rojo, negro y blanco.
+   Bull Racing · Estilos base (estructura y componentes)
+   Solo usa tokens de assets/css/tokens.css: nada de colores
+   escritos a mano. La apariencia de cada diseño va en skins/.
    ========================================================= */
 
-:root {
-  --br-rojo: #d91e18;
-  --br-rojo-oscuro: #b3140f;
-  --br-negro: #09090b;
-  --br-gris-900: #18181b;
-  --br-gris-800: #27272a;
-  --br-gris-100: #f4f4f5;
-  --br-blanco: #ffffff;
-  --br-fuente: "Poppins", system-ui, sans-serif;
-}
-
+/* ---------- Base ---------- */
 *,
 *::before,
 *::after {
@@ -22,9 +13,18 @@
 
 body {
   margin: 0;
-  font-family: var(--br-fuente);
-  color: var(--br-gris-900);
-  background: var(--br-blanco);
+  font-family: var(--fuente-base);
+  font-size: var(--texto-m);
+  line-height: 1.6;
+  color: var(--color-texto);
+  background: var(--color-fondo);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--fuente-titulos);
+  line-height: 1.15;
 }
 
 img {
@@ -32,15 +32,258 @@ img {
   height: auto;
 }
 
+a {
+  color: var(--color-acento);
+}
+
+a:hover {
+  color: var(--color-acento-hover);
+}
+
+.br-contenedor {
+  width: min(100% - 2 * var(--espacio-m), var(--ancho-contenido));
+  margin-inline: auto;
+}
+
+.screen-reader-text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.br-saltar:focus {
+  position: fixed;
+  top: var(--espacio-s);
+  left: var(--espacio-s);
+  z-index: 100;
+  width: auto;
+  height: auto;
+  padding: var(--espacio-s) var(--espacio-m);
+  clip: auto;
+  background: var(--color-fondo);
+}
+
+.br-main {
+  min-height: 50vh;
+}
+
+/* ---------- Componente: estrellas ---------- */
+.br-estrellas {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espacio-s);
+}
+
+.br-estrellas__iconos {
+  color: var(--color-estrellas);
+  font-size: var(--texto-l);
+  letter-spacing: 2px;
+}
+
+/* ---------- Header ---------- */
+.br-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: var(--color-header-fondo);
+  color: var(--color-header-texto);
+}
+
+.br-header__fila {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-l);
+  min-height: 80px;
+}
+
+.br-header__logo {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+.br-header__logo a {
+  display: flex;
+}
+
+.br-header__logo img,
+.br-header__logo .custom-logo {
+  width: auto;
+  height: 56px;
+  max-height: 56px;
+}
+
+.br-header__nav {
+  margin-left: auto;
+}
+
+/* Menú para celular sin JavaScript: el checkbox abre y cierra el menú. */
+.br-header__toggle {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.br-header__hamburguesa {
+  display: none;
+  margin-left: auto;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.br-header__toggle:focus-visible + .br-header__hamburguesa {
+  outline: 2px solid var(--color-acento);
+  outline-offset: 4px;
+}
+
+.br-menu {
+  display: flex;
+  gap: var(--espacio-l);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.br-header .br-menu a {
+  color: inherit;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.br-header .br-menu a:hover {
+  color: var(--color-acento);
+}
+
+@media (max-width: 860px) {
+  .br-header__fila {
+    gap: var(--espacio-m);
+    min-height: 72px;
+  }
+
+  .br-header__logo img,
+  .br-header__logo .custom-logo {
+    height: 44px;
+  }
+
+  .br-header__nombre {
+    display: none;
+  }
+
+  .br-header__hamburguesa {
+    display: block;
+  }
+
+  .br-header__nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    padding: var(--espacio-m);
+    background: var(--color-header-fondo);
+  }
+
+  .br-header__toggle:checked ~ .br-header__nav {
+    display: block;
+  }
+
+  .br-header__nav .br-menu {
+    flex-direction: column;
+    gap: var(--espacio-m);
+  }
+
+  .br-header__agendar {
+    padding: 8px 16px;
+  }
+}
+
+/* ---------- Footer ---------- */
+.br-footer {
+  margin-top: var(--espacio-xl);
+  padding-block: var(--espacio-xl) var(--espacio-l);
+  background: var(--color-footer-fondo);
+  color: var(--color-footer-texto);
+}
+
+.br-footer a {
+  color: inherit;
+}
+
+.br-footer a:hover {
+  color: var(--color-acento);
+}
+
+.br-footer__columnas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--espacio-l);
+}
+
+.br-footer__nombre,
+.br-footer__titulo {
+  margin: 0 0 var(--espacio-s);
+  color: var(--color-header-texto);
+  font-weight: 700;
+}
+
+.br-footer ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.br-footer .br-menu {
+  flex-direction: column;
+  gap: var(--espacio-xs);
+}
+
+.br-footer__redes {
+  display: flex;
+  gap: var(--espacio-m);
+  margin-top: var(--espacio-m) !important;
+}
+
+.br-footer__base {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--espacio-m);
+  margin-top: var(--espacio-l);
+  padding-top: var(--espacio-m);
+  border-top: 1px solid var(--color-borde);
+  font-size: var(--texto-s);
+}
+
+/* ---------- Botón flotante de WhatsApp ---------- */
 .br-whatsapp {
   position: fixed;
   right: 24px;
   bottom: 24px;
   z-index: 50;
   padding: 14px 18px;
-  border-radius: 999px;
-  background: #25d366;
-  color: var(--br-blanco);
+  border-radius: var(--radio-boton);
+  background: var(--color-whatsapp);
+  color: var(--color-sobre-acento);
   font-weight: 700;
   text-decoration: none;
+  box-shadow: var(--sombra-tarjeta);
+  transition: transform var(--transicion);
+}
+
+.br-whatsapp:hover {
+  color: var(--color-sobre-acento);
+  transform: scale(1.05);
+}
+
+/* ---------- Páginas ---------- */
+.br-pagina {
+  width: min(100% - 2 * var(--espacio-m), 860px);
+  margin: var(--espacio-xl) auto;
+}
+
+.br-pagina__titulo {
+  font-size: var(--texto-xl);
 }
