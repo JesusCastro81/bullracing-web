@@ -69,7 +69,7 @@ Cada dato se escribe en un solo lugar; todo lo demás lo lee de ahí.
 | Servicios de Quiénes somos (y áreas del equipo) | `inc/datos-taller.php` → `servicios` |
 | Qué incluye cada plan y cuál es el recomendado | `inc/datos-planes.php` |
 | Nombres de los motores y referencia inicial de la barra del hero | `inc/datos-planes.php` |
-| Precios | Panel de precios de `bullracing-core` (el tema no tiene precios) |
+| Precios | Tabla de tarifas y `TARIFAS_2026` del agendamiento: un cambio va en los dos (ver "Después de publicar → Precios"). El panel Bull Racing → Precios solo los muestra |
 | Texto legal | `inc/datos-terminos.php` |
 | Una sección del inicio | `template-parts/inicio/0N-….php` |
 | Estilo de una sección | `assets/css/skins/taller.css`, bloque con el número de la sección (ver índice) |
