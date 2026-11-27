@@ -1,6 +1,6 @@
 <?php
 /**
- * Control de acceso de la OT (agregado al proyecto; no es parte de la OT original de John).
+ * Control de acceso de la OT (agregado al proyecto; no es parte de la OT original).
  *
  * Solo entran usuarios de WordPress con el permiso "usar la OT":
  * rol "Recepción de motos" o administrador. El permiso se revisa en CADA acción
