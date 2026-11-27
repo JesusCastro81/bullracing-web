@@ -275,7 +275,7 @@ agendamiento sin cambios. Esa página de prueba vive **fuera** de la carpeta del
 ## Orden de servicio (OT)
 
 La carpeta `ot/` es la orden de servicio que el taller llena al recibir la moto.
-La programó **John Garzón** para el proyecto Motos Bull Racing, a partir del formato de orden que suministró don Franz.
+Se programó para el proyecto Motos Bull Racing, a partir del formato de orden que suministró el taller.
 
 - Busca el agendamiento por placa y lo marca como atendido al guardar la orden.
 - **Número de orden:** lo asigna el servidor al guardar (`ajax/guardarDatos.php`), no al abrir la
